@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Housing.Forecast.Library\Housing.Forecast.Library.csproj" />
+    <ProjectReference Include="..\Housing.Selection.Library\Housing.Selection.Library.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace Housing.Forecast.Testing.Service
+namespace Housing.Selection.Testing.Service
 {
   public class TestSuite
   {

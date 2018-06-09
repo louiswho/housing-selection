@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Housing.Forecast.Service
+namespace Housing.Selection.Service
 {
   public class Startup
   {
