@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Housing.Forecast.Service
+namespace Housing.Selection.Service
 {
   public static class Program
   {

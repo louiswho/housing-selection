@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Logging;
 
-namespace Housing.Forecast.Service.Controllers
+namespace Housing.Selection.Service.Controllers
 {
   [Route("api/[controller]")]
-  public class ForecastController : BaseController
+  public class SelectionController : BaseController
   {
-    public ForecastController(ILoggerFactory loggerFactory, IQueueClient queueClientSingleton)
+    public SelectionController(ILoggerFactory loggerFactory, IQueueClient queueClientSingleton)
       : base(loggerFactory, queueClientSingleton) {}
     
     public async Task<IActionResult> Get()

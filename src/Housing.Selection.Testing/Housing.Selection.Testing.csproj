@@ -14,9 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Housing.Forecast.Context\Housing.Forecast.Context.csproj" />
-    <ProjectReference Include="..\Housing.Forecast.Library\Housing.Forecast.Library.csproj" />
-    <ProjectReference Include="..\Housing.Forecast.Service\Housing.Forecast.Service.csproj" />
+    <ProjectReference Include="..\Housing.Selection.Context\Housing.Selection.Context.csproj" />
+    <ProjectReference Include="..\Housing.Selection.Library\Housing.Selection.Library.csproj" />
+    <ProjectReference Include="..\Housing.Selection.Service\Housing.Selection.Service.csproj" />
   </ItemGroup>
 
 </Project>
