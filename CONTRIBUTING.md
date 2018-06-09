@@ -1,4 +1,4 @@
-# housing-forecast://contributing
+# housing-selection://contributing
 
 ## issue
 thank you for submitting your issue! 
@@ -7,4 +7,4 @@ we ask that you follow these simple rules:
 + add a detailed summary of your issue.
 
 ## license
-__housing-forecast__ is licensed under the terms of the [MIT License](https://github.com/revaturecloud/housing-forecast/blob/master/LICENSE).
+__housing-selection__ is licensed under the terms of the [MIT License](https://github.com/revaturecloud/housing-selection/blob/master/LICENSE).

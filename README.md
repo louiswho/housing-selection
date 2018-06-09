@@ -1,6 +1,6 @@
-# housing-forecast://readme
+# housing-selection://readme
 
-![VSTS Build](https://revaturecloud.visualstudio.com/_apis/public/build/definitions/d855526e-9383-4083-b98f-6db0f33ff138/10/badge)
+![VSTS Build](https://revaturecloud.visualstudio.com/_apis/public/build/definitions/d855526e-9383-4083-b98f-6db0f33ff138/11/badge)
 
 ## instructions
 1. download and install VirtualBox 5.2+.
@@ -22,4 +22,4 @@
 + [Pushpinder Kaur](https://github.com/kaurrevature)
 
 ## license
-__housing-forecast__ is licensed under the terms of the [MIT License](https://github.com/revaturecloud/housing-forecast/blob/master/LICENSE).
+__housing-selection__ is licensed under the terms of the [MIT License](https://github.com/revaturecloud/housing-selection/blob/master/LICENSE).
