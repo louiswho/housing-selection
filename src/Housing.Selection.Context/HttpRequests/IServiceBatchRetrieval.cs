@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Collections.Generic;
 using Housing.Selection.Library;
+using Housing.Selection.Library.ServiceHubModels;
 using System.Threading.Tasks;
 
 namespace Housing.Selection.Context.HttpRequests
@@ -17,7 +18,7 @@ namespace Housing.Selection.Context.HttpRequests
         /// <returns>
         /// A single batch object is returned, or if not found, null is returned.
         /// </returns>
-        Task<Batch> RetrieveBatchAsync(Guid guid);
+        Task<ApiBatch> RetrieveBatchAsync(Guid guid);
 
         /// <summary>
         /// RetrieveAllBatches will asynchronously retrieve all batches from the service api.
@@ -25,6 +26,6 @@ namespace Housing.Selection.Context.HttpRequests
         /// <returns>
         /// Returns a list of Batches.
         /// </returns>
-        Task<List<Batch>> RetrieveAllBatchesAsync();
+        Task<List<ApiBatch>> RetrieveAllBatchesAsync();
     }
 }
