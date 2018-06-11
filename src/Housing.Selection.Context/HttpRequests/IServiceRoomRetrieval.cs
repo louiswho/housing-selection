@@ -1,7 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Collections.Generic;
-using Housing.Selection.Library;
+using Housing.Selection.Library.ServiceHubModels;
 using System.Threading.Tasks;
 
 namespace Housing.Selection.Context.HttpRequests
@@ -17,7 +17,7 @@ namespace Housing.Selection.Context.HttpRequests
         /// <returns>
         /// A single room object is returned, or if not found, null is returned.
         /// </returns>
-        Task<Room> RetrieveRoomAsync(Guid guid);
+        Task<ApiRoom> RetrieveRoomAsync(Guid guid);
 
         /// <summary>
         /// Asynchronously etrieves all rooms from the service api.
@@ -25,6 +25,6 @@ namespace Housing.Selection.Context.HttpRequests
         /// <returns>
         /// Returns a list of Rooms.
         /// </returns>
-        Task<List<Room>> RetrieveAllRoomsAsync();
+        Task<List<ApiRoom>> RetrieveAllRoomsAsync();
     }
 }
