@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Housing.Selection.Library;
 using System.Threading.Tasks;
 
-namespace Housing.Selection.Context.Interfaces
+namespace Housing.Selection.Context.HttpRequests
 {
     /// <summary>
     /// This interface defines the methods for retrieving Users from the service hub.
