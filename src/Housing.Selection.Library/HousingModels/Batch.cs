@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace Housing.Selection.Library
 {
     public class Batch
@@ -37,5 +38,18 @@ namespace Housing.Selection.Library
 
         [Required]
         public Address Address { get; set; }
+        public Batch ConvertFromServiceModel(ApiBatch apiBatch)
+        {
+            Batch housingBatch = new Batch();            
+            housingBatch.BatchId = apiBatch.BatchId;
+            housingBatch.StartDate = apiBatch.StartDate;
+            housingBatch.EndDate = apiBatch.EndDate;            
+            housingBatch.BatchName = apiBatch.BatchName;
+            housingBatch.BatchOccupancy = apiBatch.BatchOccupancy;
+            housingBatch.BatchSkill = apiBatch.BatchSkill;
+            housingBatch.Address = apiBatch.Address;
+            //TODO - Figure out how to handle apiBatch userIds
+            return housingBatch;
+        }
     }
 }
