@@ -13,6 +13,7 @@ namespace Housing.Selection.Context.DataAccess
         {
 
         }
+
         public DbSet<User> Users { get; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Address> Addresses { get; set; }

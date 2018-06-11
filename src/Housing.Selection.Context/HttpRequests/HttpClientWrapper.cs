@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Housing.Selection.Context.Interfaces;
+﻿
 using System.Net.Http;
 
 namespace Housing.Selection.Context.HttpRequests

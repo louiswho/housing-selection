@@ -1,6 +1,5 @@
-using System.Collections.Generic;
 using Housing.Selection.Context.HttpRequests;
-using Housing.Selection.Library;
+
 
 namespace Housing.Selection.Context.Polling
 {
