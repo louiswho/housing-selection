@@ -4,10 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Housing.Selection.Library.Models
 {
-    /// <summary>
-    /// The Name class.
-    /// Contains the properties of Revature associate Names.
-    /// </summary>
+
+   
    public  class Name
     {
         /// <summary>The Id property represents the Primary Key of the associate  for the Housing-Selection database Table.</summary>
