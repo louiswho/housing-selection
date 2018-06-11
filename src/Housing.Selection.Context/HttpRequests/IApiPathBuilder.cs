@@ -1,7 +1,7 @@
 using System;
 
 
-namespace Housing.Selection.Context.Interfaces
+namespace Housing.Selection.Context.HttpRequests
 {
     public interface IApiPathBuilder
     {

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Housing.Selection.Context.Interfaces
+namespace Housing.Selection.Context.DataAccess
 {
     /// <summary>
     /// Creates, reads and updates  Revature users from Housing-Selection database.
