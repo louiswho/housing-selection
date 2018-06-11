@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Housing.Selection.Context.Interfaces;
 using System.Net.Http;
+using System.Net.Http.Formatting;
+using System.Threading.Tasks;
 
 namespace Housing.Selection.Context.HttpRequests
 {
@@ -16,6 +17,11 @@ namespace Housing.Selection.Context.HttpRequests
         public HttpClientWrapper()
         {
             Client = new HttpClient();
+        }
+
+        public async Task<HttpResponseMessage> GetAsync(string requestUri)
+        {
+            return await Client.GetAsync(requestUri);
         }
     }
 }
