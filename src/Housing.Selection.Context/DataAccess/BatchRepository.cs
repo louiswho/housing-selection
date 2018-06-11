@@ -5,7 +5,7 @@ using System.Linq;
 using Housing.Selection.Context.Interfaces;
 using Housing.Selection.Library;
 
-namespace Housing.Selection.Context.Repositories
+namespace Housing.Selection.Context.DataAccess
 {
     /// <summary>
     /// Add, read, update and get by Id Revature batches from Housing-Selection database.

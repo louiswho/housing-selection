@@ -1,19 +1,17 @@
 ﻿using Housing.Selection.Context.Interfaces;
-using Housing.Selection.Library.Models;
+using Housing.Selection.Library;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
-using Housing.Selection.Library;
 
-namespace Housing.Selection.Context.Repositories
+namespace Housing.Selection.Context.DataAccess
 {
 
     /// <summary>
     /// Create, read, update and get by Id Revature rooms from Housing-Selection database.
     /// </summary>
     /// 
-
 
    public class RoomRepository : IRoomRepository
     {

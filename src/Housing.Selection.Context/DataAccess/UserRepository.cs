@@ -1,12 +1,11 @@
-﻿using Housing.Selection.Context.Interfaces;
-using Housing.Selection.Library.Models;
+﻿
+using Housing.Selection.Library;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using Housing.Selection.Library;
+using Microsoft.EntityFrameworkCore;
 
-namespace Housing.Selection.Context.Repositories
+namespace Housing.Selection.Context.DataAccess
 {
 
     /// <summary>
@@ -16,6 +15,7 @@ namespace Housing.Selection.Context.Repositories
     public class UserRepository : IUserRepository
     {
 
+   
         private List<User> users = new List<User>();
 
         public UserRepository()

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Housing.Selection.Context
+namespace Housing.Selection.Context.DataAccess
 {
    public class HousingSelectionDbContext : DbContext
     {
