@@ -1,8 +1,6 @@
-using System.Collections.Generic;
 using Housing.Selection.Context.HttpRequests;
-using Housing.Selection.Library;
 using Housing.Selection.Context.DataAccess;
-using Housing.Selection.Context.HttpRequests;
+using Housing.Selection.Library.ServiceHubModels;
 
 namespace Housing.Selection.Context.Polling
 {
@@ -26,7 +24,7 @@ namespace Housing.Selection.Context.Polling
             var batches = httpClient.GetBatches();
             foreach (var batch in batches)
             {
-                UpdateBatch(batch)
+                UpdateBatch(batch);
             }
             var rooms = httpClient.GetRooms();
             var users = httpClient.GetUsers();
