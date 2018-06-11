@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Housing.Selection.Library.Models
+namespace Housing.Selection.Library
 {
     public class Room
     {
+        /// <summary>
+        /// Our primary key.
+        /// </summary>
         [Required]
         public Guid Id { get; set; }
 
+        /// <summary>
+        /// Service hub primary key.
+        /// </summary>
         [Required]
-        public Guid RoomID { get; set; }
+        public Guid RoomId { get; set; }
 
         [Required]
         public string Location { get; set; }
