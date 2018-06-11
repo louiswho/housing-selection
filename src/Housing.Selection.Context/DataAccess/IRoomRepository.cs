@@ -12,10 +12,8 @@ namespace Housing.Selection.Context.DataAccess
     {
         IEnumerable<Room> GetRooms();
         Room GetRoomById(Guid id);
+        Room GetRoomByRoomId(Guid roomId);
         void AddRoom(Room room);
         void SaveChanges();
-
-
-
     }
 }

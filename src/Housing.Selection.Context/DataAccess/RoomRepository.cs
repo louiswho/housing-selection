@@ -1,5 +1,4 @@
-﻿using Housing.Selection.Context.Interfaces;
-using Housing.Selection.Library;
+﻿using Housing.Selection.Library;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,7 +29,12 @@ namespace Housing.Selection.Context.DataAccess
 
         public Room GetRoomById(Guid id)
         {
-            return rooms.First(x => x.RoomId == id);
+            return rooms.First(x => x.Id == id);
+        }
+
+        public Room GetRoomByRoomId(Guid roomId)
+        {
+            return rooms.First(x => x.RoomId == roomId);
         }
 
         public IEnumerable<Room> GetRooms()

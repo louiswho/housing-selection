@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
-using Housing.Selection.Context.Interfaces;
 using Housing.Selection.Library;
 
 namespace Housing.Selection.Context.DataAccess
@@ -36,8 +34,14 @@ namespace Housing.Selection.Context.DataAccess
 
         public Batch GetBatchById(Guid id)
         {
-            return batches.First(x => x.BatchId == id);
+            return batches.First(x => x.Id == id);
         }
+
+        public Batch GetBatchByBatchId(Guid batchId)
+        {
+            return batches.First(x => x.BatchId == batchId);
+        }
+
 
         public void SaveChanges()
         {

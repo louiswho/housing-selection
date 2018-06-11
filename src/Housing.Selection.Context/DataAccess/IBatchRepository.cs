@@ -12,6 +12,7 @@ namespace Housing.Selection.Context.DataAccess
     {
         IEnumerable<Batch> GetBatches();
         Batch GetBatchById(Guid id);
+        Batch GetBatchByBatchId(Guid batchId);
         void AddBatch(Batch batch);
         void SaveChanges();
     }
