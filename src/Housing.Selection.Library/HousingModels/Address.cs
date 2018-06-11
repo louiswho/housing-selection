@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Housing.Selection.Library
+namespace Housing.Selection.Library.HousingModels
 {
     public class Address
     {
