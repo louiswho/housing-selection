@@ -12,7 +12,7 @@ namespace Housing.Selection.Library.Models
         /// <value>The Id property gets/sets the value of the Guid field, Id.</value>
         public Guid Id { get; set; }
 
-        /// <summary>The NameId property represents the Primary Key  of the associate  for the Housing-Selection database Table.</summary>
+        /// <summary>The NameId property represents the Primary Key  of the associate  for the ServiceHub database Table.</summary>
         /// <value>The NameId property gets/sets the value of the Guid field, NameId.</value>
         public Guid NameId { get; set; }
 
