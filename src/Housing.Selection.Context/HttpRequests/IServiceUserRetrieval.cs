@@ -1,7 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Collections.Generic;
-using Housing.Selection.Library;
+using Housing.Selection.Library.ServiceHubModels;
 using System.Threading.Tasks;
 
 namespace Housing.Selection.Context.HttpRequests
@@ -17,7 +17,7 @@ namespace Housing.Selection.Context.HttpRequests
         /// <returns>
         /// A single user object is returned, or if not found, null is returned.
         /// </returns>
-        Task<User> RetrieveUserAsync(Guid guid);
+        Task<ApiUser> RetrieveUserAsync(Guid guid);
 
         /// <summary>
         /// This will asynchronously retrieve all users from the service api.
@@ -25,6 +25,6 @@ namespace Housing.Selection.Context.HttpRequests
         /// <returns>
         /// Returns a list of users.
         /// </returns>
-        Task<List<User>> RetrieveAllUsersAsync();
+        Task<List<ApiUser>> RetrieveAllUsersAsync();
     }
 }
