@@ -13,8 +13,8 @@ namespace Housing.Selection.Context.DataAccess
     {
         IEnumerable<User> GetUsers();
         User GetUserById(Guid id);
+        User GetUserByUserId(Guid userId);
         void AddUser(User user);
         void SaveChanges();
-
     }
 }

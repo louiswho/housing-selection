@@ -29,7 +29,12 @@ namespace Housing.Selection.Context.DataAccess
 
         public User GetUserById(Guid id)
         {
-            return users.First(x => x.UserId == id);
+            return users.First(x => x.Id == id);
+        }
+
+        public User GetUserByUserId(Guid userId)
+        {
+            return users.First(x => x.UserId == userId);
         }
 
         public IEnumerable<User> GetUsers()
