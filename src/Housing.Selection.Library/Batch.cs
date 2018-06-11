@@ -24,6 +24,7 @@ namespace Housing.Selection.Library
 
         public ICollection<User> Users { get; set; }
 
+        [Required]
         public Address Address { get; set; }
     }
 }
