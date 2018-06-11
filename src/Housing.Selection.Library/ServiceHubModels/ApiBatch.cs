@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Housing.Selection.Context.HttpRequests.ApiModels
+namespace Housing.Selection.Library.ServiceHubModels
 {
     public class ApiBatch
     {

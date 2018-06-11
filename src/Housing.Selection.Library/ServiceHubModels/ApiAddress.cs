@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Housing.Selection.Context.HttpRequests.ApiModels
+namespace Housing.Selection.Library.ServiceHubModels
 {
     public class ApiAddress
     {
