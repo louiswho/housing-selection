@@ -1,10 +1,17 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Housing.Selection.Context
 {
-   public class HousingSelectionDbContext 
+   public class HousingSelectionDbContext : DbContext
     {
+
+        public HousingSelectionDbContext() : base()
+        {
+
+        }
+
     }
 }
