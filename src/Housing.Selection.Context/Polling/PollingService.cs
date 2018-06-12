@@ -16,24 +16,24 @@ namespace Housing.Selection.Context.Polling
             this.httpClient = httpClient;
             this.batchRepository = batchRepository;
         }
-        /// <summary>
-        ///  Poll all Service Hub databases through their respective API's and updates our databases with the new data 
-        /// </summary>
-        //public void PollAll()
-        //{
-        //    var batches = httpClient.GetBatches();
-        //    foreach (var batch in batches)
-        //    {
-        //        UpdateBatch(batch);
-        //    }
-        //    var rooms = httpClient.GetRooms();
-        //    var users = httpClient.GetUsers();
-        //}
-        //private void UpdateBatch(ApiBatch batch)
-        //{
-            
-        //    var housingBatch = batchRepository.GetByBatchId(batch.BatchId);
-        //    //TODO: Finish writing this method
-        //}
+        / <summary>
+        /  Poll all Service Hub databases through their respective API's and updates our databases with the new data 
+        / </summary>
+        public void PollAll()
+        {
+            var batches = httpClient.GetBatches();
+            foreach (var batch in batches)
+            {
+                UpdateBatch(batch);
+            }
+            var rooms = httpClient.GetRooms();
+            var users = httpClient.GetUsers();
+        }
+        private void UpdateBatch(ApiBatch batch)
+        {
+
+            var housingBatch = batchRepository.GetByBatchId(batch.BatchId);
+            //TODO: Finish writing this method
+        }
     }
 }
