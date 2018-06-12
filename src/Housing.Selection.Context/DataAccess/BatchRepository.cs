@@ -15,7 +15,7 @@ namespace Housing.Selection.Context.DataAccess
     {
         private readonly IDbContext _HousingSelectionDbContext;
     
-        List<Batch> batches;
+        
 
         public BatchRepository(IDbContext housingSelectionContext)
         {
@@ -53,7 +53,7 @@ namespace Housing.Selection.Context.DataAccess
 
         public void SaveChanges()
         {
-            throw new NotImplementedException();
+            _HousingSelectionDbContext.saveChanges();
         }
 
      
