@@ -50,7 +50,7 @@ namespace Housing.Selection.Context.Polling
         {
             var housingBatch = batchRepository.GetBatchByBatchId(batch.BatchId);
             housingBatch = housingBatch.ConvertFromServiceModel(apiBatch: batch);
-            batchRepository.UpdateBatch(housingBatch); //TODO: Fix this method call when the function gets added
+            batchRepository.SaveChanges(); 
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace Housing.Selection.Context.Polling
         {
             var housingRoom = roomRepository.GetRoomByRoomId(room.RoomId);
             housingRoom = housingRoom.ConvertFromServiceModel(apiRoom: room);
-            roomRepository.UpdateRoom(housingRoom); //TODO: Fix this method call when the function gets added
+            roomRepository.SaveChanges();
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Housing.Selection.Context.Polling
         {
             var housingUser = userRepository.GetUserByUserId(user.UserId);
             housingUser = housingUser.ConvertFromServiceModel(apiUser: user);
-            userRepository.UpdateUser(housingUser); //TODO: Fix this method call when the function gets added
+            userRepository.SaveChanges();
         }
     }
 }
