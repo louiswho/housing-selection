@@ -11,13 +11,7 @@ namespace Housing.Selection.Context.HttpRequests
     /// </summary>
     public interface IServiceRoomRetrieval
     {
-        /// <summary>
-        /// Asynchronously retrieves a single room from the service hub api.
-        /// </summary>
-        /// <returns>
-        /// A single room object is returned, or if not found, null is returned.
-        /// </returns>
-        Task<ApiRoom> RetrieveRoomAsync(Guid guid);
+
 
         /// <summary>
         /// Asynchronously etrieves all rooms from the service api.
