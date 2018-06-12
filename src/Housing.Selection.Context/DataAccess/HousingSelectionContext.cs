@@ -1,25 +1,20 @@
-﻿using Housing.Selection.Library;
-using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Housing.Selection.Library;
 using Housing.Selection.Library.HousingModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace Housing.Selection.Context.DataAccess
 {
-   public class HousingSelectionDbContext : DbContext, IHousingSelectionContext
+   public class HousingSelectionContext : IHousingSelectionContext
     {
 
-        public HousingSelectionDbContext() : base()
+        public HousingSelectionContext( IHousingSelectionContext housingSelectionDbContext)
         {
+          
 
         }
-
-        public DbSet<User> Users { get; }
-        public DbSet<Room> Rooms { get; set; }
-        public DbSet<Address> Addresses { get; set; }
-        public DbSet<Batch> Batches { get; set; }
-        public DbSet<Name> Names { get; set; }
 
         public DbSet<Address> GetAddress()
         {

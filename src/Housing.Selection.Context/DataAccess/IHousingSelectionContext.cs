@@ -8,13 +8,16 @@ using Housing.Selection.Library.HousingModels;
 
 namespace Housing.Selection.Context.DataAccess
 {
-    public interface IHousingSelectionDbContext
+    public interface IHousingSelectionContext
     {
         int saveChanges();
-        DbSet<Room> Rooms {get; set;}
-        DbSet<User> Users { get; set; }
-        DbSet<Batch> Batches { get; set; }
-        DbSet<Address> Addresses { get; set; }
-        DbSet<Name> Names { get; set; }
+        DbSet<Room> GetRooms();
+        DbSet<Batch> GetBatches();
+        DbSet<User> GetUsers();
+        DbSet<Address> GetAddress();
+        DbSet<Name> GetNames();
+
+
+
     }
 }
