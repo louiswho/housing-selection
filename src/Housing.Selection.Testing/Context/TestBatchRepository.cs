@@ -15,6 +15,7 @@ namespace Housing.Selection.Testing.Context
 
         public TestBatchRepository()
         {
+            Mock<IBatchRepository> mockBatchRepository = new Mock<IBatchRepository>();
 
             var guid = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019D");
             var guid1 = new Guid("62FA647C-AD54-4BCC-A867-R6Y2664B056");
@@ -44,7 +45,7 @@ namespace Housing.Selection.Testing.Context
             batch1
         };
            
-            Mock<IBatchRepository> mockBatchRepository = new Mock<IBatchRepository>();
+           
 
 
             mockBatchRepository.Setup(x => x.GetBatches()).Returns(BatchList);
@@ -52,7 +53,8 @@ namespace Housing.Selection.Testing.Context
             // return a batch by Id
             mockBatchRepository.Setup(mr => mr.GetBatchByBatchId(
                 It.IsAny<Guid>())).Returns((Guid id) => BatchList.Where(
-                x => x.BatchId == id).Single());   
+                x => x.BatchId == id).Single());
+            this.mockBatchRepository = mockBatchRepository.Object;
 
         }
 
