@@ -1,4 +1,5 @@
-﻿using Housing.Selection.Library;
+﻿using Housing.Selection.Context.Filters;
+using Housing.Selection.Library;
 using Housing.Selection.Library.HousingModels;
 using System.Collections.Generic;
 using Xunit;
@@ -7,26 +8,92 @@ namespace Housing.Selection.Testing.Context
 {
     public class ContextFilterTests
     {
-        Room TestRoom1;
-        Room TestRoom2;
-        Room TestRoom3;
-        Room TestRoom4;
-
         List<Room> TestRooms;
         RoomSearchViewModel SearchModel;
 
-        public ContextFilterTests()
+        [Fact]
+        public void LocationFilter_Reston_TampaFilteredOut()
         {
-            TestRoom1 = new Room
+            SearchModel = new RoomSearchViewModel
             {
-                Location = "Reston",
-                Vacancy = 1,
-                Occupancy = 4,
-                Gender = 'F',
-                Address = new Address()
+                Location = "Reston"
+            };
+            TestRooms = new List<Room>();
+
+            var room1 = new Room
+            {
+                Location = "Reston"
             };
 
-            TestRoom1.Users.Add(
+            var room2 = new Room
+            {
+                Location = "Tampa"
+            };
+
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
+
+            AFilter locationFilterTest = new LocationFilter();
+
+            locationFilterTest.FilterRequest(ref TestRooms, SearchModel);
+
+            Assert.Single(TestRooms);
+        }
+
+        [Fact]
+        public void LocationFilter_Tampa_RestonFilteredOut()
+        {
+            SearchModel = new RoomSearchViewModel
+            {
+                Location = "Tampa"
+            };
+            TestRooms = new List<Room>();
+
+            var room1 = new Room
+            {
+                Location = "Reston"
+            };
+
+            var room2 = new Room
+            {
+                Location = "Tampa"
+            };
+
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
+
+            AFilter locationFilterTest = new LocationFilter();
+
+            locationFilterTest.FilterRequest(ref TestRooms, SearchModel);
+
+            Assert.Single(TestRooms);
+        }
+
+        [Fact]
+        public void BatchFilter_Batch0_FiftyPercent_TestRoom1OnTop()
+        {
+            SearchModel = new RoomSearchViewModel
+            {
+                Batch = "Batch0",
+                BatchMinimumPercentage = .25
+            };
+            TestRooms = new List<Room>();
+
+            Room room1 = new Room
+            {
+                Vacancy = 1,
+                Occupancy = 4
+            };
+            Room room2 = new Room
+            {
+                Vacancy = 1,
+                Occupancy = 4
+            };
+
+            room1.Users = new List<User>();
+            room2.Users = new List<User>();
+
+            room1.Users.Add(
                 new User
                 {
                     Batch = new Batch
@@ -34,15 +101,16 @@ namespace Housing.Selection.Testing.Context
                         BatchName = "Batch0"
                     }
                 });
-            TestRoom1.Users.Add(
+            room1.Users.Add(
                 new User
                 {
                     Batch = new Batch
                     {
-                        BatchName = "Batch 0"
+                        BatchName = "Batch0"
                     }
                 });
-            TestRoom1.Users.Add(
+
+            room2.Users.Add(
                 new User
                 {
                     Batch = new Batch
@@ -50,17 +118,58 @@ namespace Housing.Selection.Testing.Context
                         BatchName = "Batch1"
                     }
                 });
+            room2.Users.Add(
+                new User
+                {
+                    Batch = new Batch
+                    {
+                        BatchName = "Batch2"
+                    }
+                });
 
-            TestRoom2 = new Room
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
+
+            AFilter batchFilterTest = new BatchFilter();
+
+            batchFilterTest.FilterRequest(ref TestRooms, SearchModel);
+
+            Assert.Single(TestRooms);
+        }
+
+        [Fact]
+        public void BatchFilter_Batch1_OneHundredPercent_AllRoomsFilteredOut()
+        {
+            SearchModel = new RoomSearchViewModel
             {
-                Location = "Reston",
-                Vacancy = 3,
-                Occupancy = 4,
-                Gender = 'M',
-                Address = new Address()
+                Batch = "Batch1",
+                BatchMinimumPercentage = 1
+            };
+            TestRooms = new List<Room>();
+
+            Room room1 = new Room
+            {
+                Vacancy = 1,
+                Occupancy = 4
+            };
+            Room room2 = new Room
+            {
+                Vacancy = 1,
+                Occupancy = 4
             };
 
-            TestRoom2.Users.Add(
+            room1.Users = new List<User>();
+            room2.Users = new List<User>();
+
+            room1.Users.Add(
+                new User
+                {
+                    Batch = new Batch
+                    {
+                        BatchName = "Batch0"
+                    }
+                });
+            room1.Users.Add(
                 new User
                 {
                     Batch = new Batch
@@ -69,16 +178,15 @@ namespace Housing.Selection.Testing.Context
                     }
                 });
 
-            TestRoom3 = new Room
-            {
-                Location = "Tampa",
-                Vacancy = 1,
-                Occupancy = 4,
-                Gender = 'F',
-                Address = new Address()
-            };
-
-            TestRoom3.Users.Add(
+            room2.Users.Add(
+                new User
+                {
+                    Batch = new Batch
+                    {
+                        BatchName = "Batch1"
+                    }
+                });
+            room2.Users.Add(
                 new User
                 {
                     Batch = new Batch
@@ -86,72 +194,69 @@ namespace Housing.Selection.Testing.Context
                         BatchName = "Batch2"
                     }
                 });
-            TestRoom3.Users.Add(
-                new User
-                {
-                    Batch = new Batch
-                    {
-                        BatchName = "Batch2"
-                    }
-                });
-            TestRoom3.Users.Add(
-                new User
-                {
-                    Batch = new Batch
-                    {
-                        BatchName = "Batch3"
-                    }
-                });
 
-            TestRoom4 = new Room
-            {
-                Location = "Tampa",
-                Vacancy = 4,
-                Occupancy = 4,
-                Gender = 'M',
-                Address = new Address()
-            };
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
 
-            TestRooms.Add(TestRoom1);
-            TestRooms.Add(TestRoom2);
-            TestRooms.Add(TestRoom3);
-            TestRooms.Add(TestRoom4);
-        }
+            AFilter batchFilterTest = new BatchFilter();
 
-        [Fact]
-        public void LocationFilter_Reston_TampaFilteredOut()
-        {
+            batchFilterTest.FilterRequest(ref TestRooms, SearchModel);
 
-        }
-
-        [Fact]
-        public void LocationFilter_Tampa_RestonFilteredOut()
-        {
-
-        }
-
-        [Fact]
-        public void BatchFilter_Batch0_FiftyPercent_TestRoom1OnTop()
-        {
-
-        }
-
-        [Fact]
-        public void BatchFilter_Batch1_OneHundredPercent_AllRoomsFilteredOut()
-        {
-
+            Assert.Empty(TestRooms);
         }
 
         [Fact]
         public void GenderFilter_Female_MaleRoomsFilteredOut()
         {
+            SearchModel = new RoomSearchViewModel
+            {
+                Gender = "F"
+            };
+            TestRooms = new List<Room>();
+            AFilter genderFilterTest = new GenderFilter();
 
+            Room room1 = new Room
+            {
+                Gender = "F"
+            };
+            Room room2 = new Room
+            {
+                Gender = "M"
+            };
+
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
+
+            genderFilterTest.FilterRequest(ref TestRooms, SearchModel);
+
+            Assert.Single(TestRooms);
         }
 
         [Fact]
         public void GenderFilter_Male_FemaleRoomsFilteredOut()
         {
+            SearchModel = new RoomSearchViewModel
+            {
+                Gender = "M"
+            };
+            TestRooms = new List<Room>();
+            AFilter genderFilterTest = new GenderFilter();
 
+            Room room1 = new Room
+            {
+                Gender = "F"
+            };
+            Room room2 = new Room
+            {
+                Gender = "M"
+            };
+
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
+
+            genderFilterTest.FilterRequest(ref TestRooms, SearchModel);
+
+            Assert.Single(TestRooms);
         }
 
         [Fact]

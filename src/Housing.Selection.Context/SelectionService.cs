@@ -34,7 +34,7 @@ namespace Housing.Selection.Context
             roomRepo.SaveChanges();
         }
 
-        public List<Room> CustomSearch(RoomSearchViewModel roomSearchViewModel)
+        public IEnumerable<Room> CustomSearch(RoomSearchViewModel roomSearchViewModel)
         {
             var returnedRooms = roomRepo.GetRooms().ToList();
 
@@ -47,7 +47,7 @@ namespace Housing.Selection.Context
             locationFilter.SetSuccessor(batchFilter);
             batchFilter.SetSuccessor(isCompletelyUnassignedFilter);
 
-            genderFilter.FilterRequest(returnedRooms, roomSearchViewModel);
+            genderFilter.FilterRequest(ref returnedRooms, roomSearchViewModel);
 
             return returnedRooms;
         }
@@ -67,9 +67,16 @@ namespace Housing.Selection.Context
             return userRepo.GetUsers().ToList();
         }
 
-        public AddRemoveUserFromRoomModel RemoveUserFromRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel)
+        public void RemoveUserFromRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel)
         {
-            throw new NotImplementedException();
+            var removeUser = userRepo.GetUserByUserId(addRemoveUserFromRoomModel.UserId);
+            var emptiedRoom = roomRepo.GetRoomByRoomId(addRemoveUserFromRoomModel.RoomId);
+
+            removeUser.Room = null;
+            emptiedRoom.Users.Remove(removeUser);
+
+            userRepo.SaveChanges();
+            roomRepo.SaveChanges();
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Housing.Selection.Library.HousingModels
         public int Occupancy { get; set; }
 
         [Required]
-        public char Gender { get; set; }
+        public string Gender { get; set; }
         
         [Required]
         public Address Address { get; set; }
@@ -38,8 +38,9 @@ namespace Housing.Selection.Library.HousingModels
 
         public double BatchPercentage(string batchName)
         {
-            var batchUsers = Users.Where(x => x.Batch.BatchName == batchName);
-            return batchUsers.Count() / Users.Count;
+            var batchUsers = Users.Where(x => x.Batch.BatchName.Equals(batchName));
+            double result = (double)batchUsers.Count() / Occupancy;
+            return result;
         }
     }
 }

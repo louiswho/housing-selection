@@ -14,47 +14,63 @@ namespace Housing.Selection.Context.Filters
             _successor = successor;
         }
 
-        public abstract void FilterRequest(List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel);
+        public abstract void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel);
     }
 
     public class LocationFilter : AFilter
     {
-        public override void FilterRequest(List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
+        public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
             if(roomSearchViewModel.Location != null)
             {
                 var result = filterRooms.Where(x => x.Location == roomSearchViewModel.Location);
                 filterRooms = result.ToList();
             }
-            _successor.FilterRequest(filterRooms, roomSearchViewModel);
+            if(_successor != null)
+            {
+                _successor.FilterRequest(ref filterRooms, roomSearchViewModel);
+            }
         }
     }
 
     public class BatchFilter : AFilter
     {
-        public override void FilterRequest(List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
+        public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
             if(roomSearchViewModel.Batch != null && roomSearchViewModel.BatchMinimumPercentage != 0)
             {
-                var batches = from x in filterRooms
-                             from y in x.Users
-                             select y.Batch;
-                
+                var result = from x in filterRooms
+                              where x.BatchPercentage(roomSearchViewModel.Batch) 
+                              >= roomSearchViewModel.BatchMinimumPercentage
+                              select x;
+                filterRooms = result.ToList();
+            }
+            if (_successor != null)
+            {
+                _successor.FilterRequest(ref filterRooms, roomSearchViewModel);
             }
         }
     }
 
     public class GenderFilter : AFilter
     {
-        public override void FilterRequest(List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
+        public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
-            throw new System.NotImplementedException();
+            if(roomSearchViewModel.Gender != null)
+            {
+                var result = filterRooms.Where(x => x.Gender.Equals(roomSearchViewModel.Gender));
+                filterRooms = result.ToList();
+            }
+            if (_successor != null)
+            {
+                _successor.FilterRequest(ref filterRooms, roomSearchViewModel);
+            }
         }
     }
 
     public class IsCompletelyUnassignedFilter : AFilter
     {
-        public override void FilterRequest(List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
+        public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
             throw new System.NotImplementedException();
         }
