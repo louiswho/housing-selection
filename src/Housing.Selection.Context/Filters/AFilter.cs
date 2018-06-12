@@ -72,7 +72,20 @@ namespace Housing.Selection.Context.Filters
     {
         public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
-            throw new System.NotImplementedException();
+            if(roomSearchViewModel.IsCompletelyUnassigned)
+            {
+                var result = filterRooms.Where(x => x.Vacancy == x.Occupancy);
+                filterRooms = result.ToList();
+            }
+            else
+            {
+                var result = filterRooms.Where(x => x.Vacancy < x.Occupancy);
+                filterRooms = result.ToList();
+            }
+            if (_successor != null)
+            {
+                _successor.FilterRequest(ref filterRooms, roomSearchViewModel);
+            }
         }
     }
 }

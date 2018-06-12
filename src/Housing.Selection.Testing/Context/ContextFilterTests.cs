@@ -262,13 +262,71 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public void IsCompletelyUnassignedFilter_True_TestRoom4Returned()
         {
+            SearchModel = new RoomSearchViewModel
+            {
+                IsCompletelyUnassigned = true
+            };
+            TestRooms = new List<Room>();
+            AFilter unassignedFilterTest = new IsCompletelyUnassignedFilter();
 
+            Room room1 = new Room
+            {
+                Vacancy = 4,
+                Occupancy = 4
+            };
+            Room room2 = new Room
+            {
+                Vacancy = 2,
+                Occupancy = 4
+            };
+            Room room3 = new Room
+            {
+                Vacancy = 0,
+                Occupancy = 4
+            };
+
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
+            TestRooms.Add(room3);
+
+            unassignedFilterTest.FilterRequest(ref TestRooms, SearchModel);
+
+            Assert.Single(TestRooms);
         }
 
         [Fact]
         public void IsCompletelyUnassignedFilter_False_TestRoom4FilteredOut()
         {
+            SearchModel = new RoomSearchViewModel
+            {
+                IsCompletelyUnassigned = false
+            };
+            TestRooms = new List<Room>();
+            AFilter unassignedFilterTest = new IsCompletelyUnassignedFilter();
 
+            Room room1 = new Room
+            {
+                Vacancy = 4,
+                Occupancy = 4
+            };
+            Room room2 = new Room
+            {
+                Vacancy = 2,
+                Occupancy = 4
+            };
+            Room room3 = new Room
+            {
+                Vacancy = 0,
+                Occupancy = 4
+            };
+
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
+            TestRooms.Add(room3);
+
+            unassignedFilterTest.FilterRequest(ref TestRooms, SearchModel);
+
+            Assert.Equal(2, TestRooms.Count);
         }
     }
 }
