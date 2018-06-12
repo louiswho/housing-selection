@@ -96,7 +96,7 @@ namespace Housing.Selection.Testing.Context
             mockHttpClient.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(mockHttpResponse.Object);
 
             var mockApiPath = new Mock<ApiPathBuilder>();
-            mockApiPath.Setup(x => x.GetBatchServicePath()).Returns("string");
+            mockApiPath.Setup(x => x.GetRoomServicePath()).Returns("string");
 
             ServiceRoomRetrieval sbr = new ServiceRoomRetrieval(mockHttpClient.Object, mockApiPath.Object);
 
@@ -118,7 +118,7 @@ namespace Housing.Selection.Testing.Context
             mockHttpClient.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(mockHttpResponse.Object);
 
             var mockApiPath = new Mock<ApiPathBuilder>();
-            mockApiPath.Setup(x => x.GetBatchServicePath()).Returns("string");
+            mockApiPath.Setup(x => x.GetRoomServicePath()).Returns("string");
 
             ServiceRoomRetrieval srr = new ServiceRoomRetrieval(mockHttpClient.Object, mockApiPath.Object);
 
@@ -137,7 +137,7 @@ namespace Housing.Selection.Testing.Context
             mockHttpClient.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(mockHttpResponse.Object);
 
             var mockApiPath = new Mock<ApiPathBuilder>();
-            mockApiPath.Setup(x => x.GetBatchServicePath()).Returns("string");
+            mockApiPath.Setup(x => x.GetRoomServicePath()).Returns("string");
 
             ServiceRoomRetrieval srr = new ServiceRoomRetrieval(mockHttpClient.Object, mockApiPath.Object);
 
@@ -162,7 +162,7 @@ namespace Housing.Selection.Testing.Context
             mockHttpClient.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(mockHttpResponse.Object);
 
             var mockApiPath = new Mock<ApiPathBuilder>();
-            mockApiPath.Setup(x => x.GetBatchServicePath()).Returns("string");
+            mockApiPath.Setup(x => x.GetUserServicePath()).Returns("string");
 
             ServiceUserRetrieval sur = new ServiceUserRetrieval(mockHttpClient.Object, mockApiPath.Object);
 
@@ -184,7 +184,7 @@ namespace Housing.Selection.Testing.Context
             mockHttpClient.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(mockHttpResponse.Object);
 
             var mockApiPath = new Mock<ApiPathBuilder>();
-            mockApiPath.Setup(x => x.GetBatchServicePath()).Returns("string");
+            mockApiPath.Setup(x => x.GetUserServicePath()).Returns("string");
 
             ServiceUserRetrieval sur = new ServiceUserRetrieval(mockHttpClient.Object, mockApiPath.Object);
 
@@ -203,7 +203,7 @@ namespace Housing.Selection.Testing.Context
             mockHttpClient.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(mockHttpResponse.Object);
 
             var mockApiPath = new Mock<ApiPathBuilder>();
-            mockApiPath.Setup(x => x.GetBatchServicePath()).Returns("string");
+            mockApiPath.Setup(x => x.GetUserServicePath()).Returns("string");
 
             ServiceUserRetrieval sur = new ServiceUserRetrieval(mockHttpClient.Object, mockApiPath.Object);
 
