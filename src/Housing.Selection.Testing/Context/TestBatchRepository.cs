@@ -15,8 +15,10 @@ namespace Housing.Selection.Testing.Context
 
         public TestBatchRepository()
         {
-        
+          // create a mock Db Context
             Mock<IDbContext> mockHousingContext = new Mock<IDbContext>();
+
+            // Add fake data to the context
             var guid = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019D");
             var guid1 = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019F");
             Batch batch = new Batch()
@@ -44,17 +46,9 @@ namespace Housing.Selection.Testing.Context
             batch,
             batch1
         };
-
-            ///<summary>
-            ///
-            /// </summary>
-            var dbSetAddress = new Mock<DbSet<Address>>();
-
             
-            DbSet<Batch> myDbSet = GetQueryableMockDbSet(BatchList);
-            myDbSet.Add(batch);
-                   
-            mockHousingContext.Setup(x => x.Addresses).Returns(dbSetAddress.Object);
+            DbSet<Batch> myDbSet =  TestingUtilities.GetQueryableMockDbSet(BatchList);
+         
             mockHousingContext.Setup(x => x.Batches).Returns(myDbSet);
 
             this.mockHousingContext = mockHousingContext.Object;
@@ -65,15 +59,12 @@ namespace Housing.Selection.Testing.Context
         public void CanReturnBatches()
         {
            
-
             BatchRepository batchRepository = new BatchRepository(mockHousingContext);
-            // Try finding a batch by id
-
+          
+            // Try finding all batches
             var testBatches = batchRepository.GetBatches();
           
             Assert.NotNull(testBatches); // Test if null
-            //Assert.IsType<Batch>(testBatch); // Test type
-            //Assert.Equal(".Net 2018 5", testBatch.BatchName); // Verify it is the right batch.
         }
 
         [Fact]
@@ -85,22 +76,6 @@ namespace Housing.Selection.Testing.Context
             // Try finding a batch by id
             var testBatch = batchRepository.GetBatchByBatchId(guid);
             Assert.Equal(".Net 2018 5", testBatch.BatchName); // Verify it is the right batch.
-        }
-
-
-
-        private static DbSet<T> GetQueryableMockDbSet<T>(List<T> sourceList) where T : class
-        {
-            var queryable = sourceList.AsQueryable();
-
-            var dbSet = new Mock<DbSet<T>>();
-            dbSet.As<IQueryable<T>>().Setup(m => m.Provider).Returns(queryable.Provider);
-            dbSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
-            dbSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
-            dbSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-            dbSet.Setup(d => d.Add(It.IsAny<T>())).Callback<T>((s) => sourceList.Add(s));
-
-            return dbSet.Object;
         }
     }
 }

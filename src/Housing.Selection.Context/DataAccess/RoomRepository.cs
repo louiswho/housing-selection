@@ -16,36 +16,46 @@ namespace Housing.Selection.Context.DataAccess
    public class RoomRepository : IRoomRepository
     {
 
-        private List<Room> rooms = new List<Room>();
+        private readonly IDbContext _HousingSelectionDbContext;
+
+        private List<User> users = new List<User>();
+
+        public RoomRepository(IDbContext housingSelectionContext)
+        {
+            _HousingSelectionDbContext = housingSelectionContext;
+        }
+
 
         public RoomRepository()
         {
            
 
         }
+
+        // Add room to Housing-Selection database 
         public void AddRoom(Room room)
         {
-            rooms.Add(room);
+            _HousingSelectionDbContext.Rooms.Add(room);
         }
 
         public Room GetRoomById(Guid id)
         {
-            return rooms.First(x => x.Id == id);
+            return _HousingSelectionDbContext.Rooms.First(x => x.Id == id);
         }
 
         public Room GetRoomByRoomId(Guid roomId)
         {
-            return rooms.First(x => x.RoomId == roomId);
+            return  _HousingSelectionDbContext.Rooms.First(x => x.RoomId == roomId);
         }
 
         public IEnumerable<Room> GetRooms()
         {
-            return rooms;
+            return _HousingSelectionDbContext.Rooms;
         }
 
-        public void SaveChanges()
+        public int SaveChanges()
         {
-            throw new NotImplementedException();
+          return _HousingSelectionDbContext.saveChanges();
         }
     }
 }
