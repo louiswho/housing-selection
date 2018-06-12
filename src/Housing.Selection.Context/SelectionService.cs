@@ -41,15 +41,15 @@ namespace Housing.Selection.Context
             AFilter genderFilter = new GenderFilter();
             AFilter locationFilter = new LocationFilter();
             AFilter batchFilter = new BatchFilter();
-            AFilter batchMinimumPercentageFilter = new BatchMinimumPercentageFilter();
             AFilter isCompletelyUnassignedFilter = new IsCompletelyUnassignedFilter();
 
             genderFilter.SetSuccessor(locationFilter);
             locationFilter.SetSuccessor(batchFilter);
-            batchFilter.SetSuccessor(batchMinimumPercentageFilter);
-            batchMinimumPercentageFilter.SetSuccessor(isCompletelyUnassignedFilter);
+            batchFilter.SetSuccessor(isCompletelyUnassignedFilter);
 
             genderFilter.FilterRequest(returnedRooms, roomSearchViewModel);
+
+            return returnedRooms;
         }
 
         public List<Batch> GetBatches()

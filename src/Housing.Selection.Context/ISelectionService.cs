@@ -10,7 +10,7 @@ namespace Housing.Selection.Context
         List<Room> GetRooms();
         List<User> GetUsers();
         List<Room> CustomSearch(RoomSearchViewModel roomSearchViewModel);
-        AddRemoveUserFromRoomModel AddUserToRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel);
+        void AddUserToRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel);
         AddRemoveUserFromRoomModel RemoveUserFromRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel);
     }
 }

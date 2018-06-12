@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Housing.Selection.Context.Filters
 {
-    abstract class AFilter
+    public abstract class AFilter
     {
         protected AFilter _successor;
 
@@ -17,7 +17,7 @@ namespace Housing.Selection.Context.Filters
         public abstract void FilterRequest(List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel);
     }
 
-    class LocationFilter : AFilter
+    public class LocationFilter : AFilter
     {
         public override void FilterRequest(List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
@@ -30,11 +30,11 @@ namespace Housing.Selection.Context.Filters
         }
     }
 
-    class BatchFilter : AFilter
+    public class BatchFilter : AFilter
     {
         public override void FilterRequest(List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
-            if(roomSearchViewModel.Batch != null)
+            if(roomSearchViewModel.Batch != null && roomSearchViewModel.BatchMinimumPercentage != 0)
             {
                 var batches = from x in filterRooms
                              from y in x.Users
@@ -44,7 +44,7 @@ namespace Housing.Selection.Context.Filters
         }
     }
 
-    class BatchMinimumPercentageFilter : AFilter
+    public class GenderFilter : AFilter
     {
         public override void FilterRequest(List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
@@ -52,15 +52,7 @@ namespace Housing.Selection.Context.Filters
         }
     }
 
-    class GenderFilter : AFilter
-    {
-        public override void FilterRequest(List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
-
-    class IsCompletelyUnassignedFilter : AFilter
+    public class IsCompletelyUnassignedFilter : AFilter
     {
         public override void FilterRequest(List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
