@@ -4,7 +4,9 @@ using System.Text;
 
 namespace Housing.Selection.Library
 {
-    class AddRemoveUserFromRoomModel
+    public class AddRemoveUserFromRoomModel
     {
+        public Guid UserId { get; set; }
+        public Guid RoomId { get; set; }
     }
 }
