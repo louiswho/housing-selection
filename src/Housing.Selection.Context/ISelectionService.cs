@@ -1,5 +1,6 @@
 ﻿using Housing.Selection.Library;
 using System.Collections.Generic;
+using Housing.Selection.Library.HousingModels;
 
 namespace Housing.Selection.Context
 {

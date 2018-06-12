@@ -1,6 +1,6 @@
 ﻿namespace Housing.Selection.Library
 {
-    class RoomSearchViewModel
+    public class RoomSearchViewModel
     {
         public string Location { get; set; }
         public string Batch { get; set; }

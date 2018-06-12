@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Housing.Selection.Library;
+using Housing.Selection.Library.HousingModels;
 
 namespace Housing.Selection.Context.DataAccess
 {
