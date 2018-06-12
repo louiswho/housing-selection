@@ -40,7 +40,7 @@ namespace Housing.Selection.Library.HousingModels
         public Address Address { get; set; }
         public Batch ConvertFromServiceModel(ApiBatch apiBatch)
         {
-            Batch housingBatch = new Batch();            
+            Batch housingBatch = this;            
             housingBatch.BatchId = apiBatch.BatchId;
             housingBatch.StartDate = (DateTime) apiBatch.StartDate;
             housingBatch.EndDate = (DateTime) apiBatch.EndDate;            
