@@ -3,6 +3,7 @@ using Housing.Selection.Library;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Housing.Selection.Library.HousingModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace Housing.Selection.Context.DataAccess
