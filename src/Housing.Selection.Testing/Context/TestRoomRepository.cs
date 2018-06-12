@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace Housing.Selection.Testing.Context
@@ -13,7 +12,7 @@ namespace Housing.Selection.Testing.Context
     {
 
         public readonly IDbContext mockHousingContext;
-     
+
 
         public TestRoomRepository()
         {
@@ -33,7 +32,7 @@ namespace Housing.Selection.Testing.Context
                 Occupancy = 3,
                 Vacancy = 2,
                 Address = address
-               
+
 
             };
             Room testRoom2 = new Room()
@@ -55,21 +54,12 @@ namespace Housing.Selection.Testing.Context
             testRoom2
         };
 
-            ///<summary>
-            ///
-            /// </summary>
-            var dbSetRoom = new Mock<DbSet<Room>>();
-
-
-            //DbSet<Room> myDbSet =  TestBatchRepository.GetQueryableMockDbSet(RoomList);
-
             DbSet<Room> myDbSet = TestingUtilities.GetQueryableMockDbSet(RoomList);
 
             mockHousingContext.Setup(x => x.Rooms).Returns(myDbSet);
-           
-
+            mockHousingContext.Setup(x => x.Rooms.Add(It.IsAny<Room>()));
+            //.Callback((Room item) => itemsInserted.Add(item));
             this.mockHousingContext = mockHousingContext.Object;
-
         }
 
         [Fact]
@@ -97,6 +87,56 @@ namespace Housing.Selection.Testing.Context
             Assert.Equal(guid1, testRoom.RoomId); // Verify it is the right room.
         }
 
+        [Fact]
+        public void CanSaveChanges()
+        {
+            
+            Mock<IDbContext> MockHousingContext = new Mock<IDbContext>();
+            MockHousingContext.Setup(x => x.saveChanges()).Returns(1);
 
+            RoomRepository roomRepository = new RoomRepository(MockHousingContext.Object);
+            roomRepository.SaveChanges();
+
+            MockHousingContext.Verify(m => m.saveChanges(), Times.Once());
+
+
+        }
+
+        [Fact]
+        public void CanAddRoom()
+        {
+            Mock<IDbContext> MockHousingContext = new Mock<IDbContext>();
+            
+
+            var guid = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1E");
+            Address address = new Address();
+            Room testRoom1 = new Room()
+            {
+                Id = guid,
+                RoomId = guid,
+                Gender = 'm',
+                Location = "Reston",
+                Occupancy = 3,
+                Vacancy = 2,
+                Address = address
+            };
+            List<Room> roomList = new List<Room>()
+            {
+                  testRoom1
+            };
+            DbSet<Room> myDbSet = TestingUtilities.GetQueryableMockDbSet(roomList);
+
+            MockHousingContext.Setup(x => x.Rooms).Returns(myDbSet);
+
+            MockHousingContext.Setup(x => x.Rooms.Add(It.IsAny<Room>()));
+   
+
+            RoomRepository roomRepository = new RoomRepository(MockHousingContext.Object);       
+
+           roomRepository.AddRoom(testRoom1);
+
+            MockHousingContext.Verify(m => m.Rooms.Add(It.IsAny<Room>()), Times.Once());
+
+        }
     }
 }

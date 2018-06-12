@@ -24,7 +24,7 @@ namespace Housing.Selection.Context.DataAccess
 
         public int saveChanges()
         {
-            throw new NotImplementedException();
+            return base.SaveChanges();
         }
     }
 }
