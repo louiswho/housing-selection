@@ -13,34 +13,41 @@ namespace Housing.Selection.Context.DataAccess
 
     public class BatchRepository : IBatchRepository
     {
-        private List<Batch> batches = new List<Batch>();
+        private readonly IDbContext _HousingSelectionDbContext;
+    
+        List<Batch> batches;
 
-        public BatchRepository()
+        public BatchRepository(IDbContext housingSelectionContext)
         {
-          
+            _HousingSelectionDbContext = housingSelectionContext;
+
+        }
+        public BatchRepository(HousingSelectionDbContext housingSelectionDbContext)
+        {
+            //housingSelectionDbContext = _HousingSelectionDbContext;
 
         }
 
         public void AddBatch(Batch batch)
         {
-            batches.Add(batch);
+             _HousingSelectionDbContext.Batches.Add(batch);
            
         }
 
         public IEnumerable<Batch> GetBatches()
         {
 
-            return batches;
+            return _HousingSelectionDbContext.Batches;
         }
 
         public Batch GetBatchById(Guid id)
         {
-            return batches.First(x => x.Id == id);
+            return _HousingSelectionDbContext.Batches.First(x => x.Id == id);
         }
 
         public Batch GetBatchByBatchId(Guid batchId)
         {
-            return batches.First(x => x.BatchId == batchId);
+            return _HousingSelectionDbContext.Batches.First(x => x.BatchId == batchId);
         }
 
 
