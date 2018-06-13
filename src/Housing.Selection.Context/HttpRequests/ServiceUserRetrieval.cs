@@ -23,7 +23,6 @@ namespace Housing.Selection.Context.HttpRequests
             ApiPath = apiPath;
         }
 
-
         /// <summary>
         /// Asynchronously retrieves all service hub users.
         /// </summary>

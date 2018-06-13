@@ -1,6 +1,5 @@
 using System;
 
-
 namespace Housing.Selection.Context.HttpRequests
 {
     public interface IApiPathBuilder
@@ -10,6 +9,7 @@ namespace Housing.Selection.Context.HttpRequests
 
         string GetRoomServicePath();
         string GetRoomServicePath(Guid id);
+
         string GetUserServicePath();
         string GetUserServicePath(Guid id);
     }    

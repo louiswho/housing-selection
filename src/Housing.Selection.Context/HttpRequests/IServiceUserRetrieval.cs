@@ -11,8 +11,6 @@ namespace Housing.Selection.Context.HttpRequests
     /// </summary>
     public interface IServiceUserRetrieval
     {
-
-
         /// <summary>
         /// This will asynchronously retrieve all users from the service api.
         /// </summary>
