@@ -15,6 +15,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
     {
         private Batch batch1, batch2, batch3;
         private ApiBatch apiBatch1, apiBatch2;
+        private List<Batch> mockBatchList;
         private Task<List<ApiBatch>> mockApiBatchList;
         private Mock<IBatchRepository> mockBatchRepo;
 
@@ -30,6 +31,29 @@ namespace Housing.Selection.Testing.Context.PollingTests
             mockBatchRetrieval.Setup(x => x.RetrieveAllBatchesAsync()).Returns(mockApiBatchList);
 
             pollBatch = new PollBatch(mockBatchRepo.Object, mockBatchRetrieval.Object);
+        }
+
+        [Fact]
+        public async void Test_Batch_Poll()
+        {
+            mockBatchList.Add(batch1);
+            mockBatchList.Add(batch1);
+            var expected = mockBatchList;
+            var result = await pollBatch.BatchPoll();
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async void Test_Batch_Poll_Fail()
+        {
+            mockBatchList.Add(batch1);
+            mockBatchList.Add(batch1);
+            mockBatchList.Add(batch2);
+            var expected = mockBatchList;
+            var result = await pollBatch.BatchPoll();
+
+            Assert.NotEqual(expected, result);
         }
 
         [Fact]
@@ -72,6 +96,26 @@ namespace Housing.Selection.Testing.Context.PollingTests
                     Country = "US"
                 }
             };
+            batch2 = new Batch()
+            {
+                Id = Guid.NewGuid(),
+                BatchId = Guid.NewGuid(),
+                StartDate = DateTime.Today,
+                EndDate = DateTime.Today,
+                BatchName = "Batch Two",
+                BatchOccupancy = 2,
+                BatchSkill = "None",
+                Address = new Address()
+                {
+                    Id = Guid.NewGuid(),
+                    AddressId = Guid.NewGuid(),
+                    Address1 = "222 Batch2 St",
+                    City = "Tampa",
+                    State = "FL",
+                    PostalCode = "22222",
+                    Country = "US"
+                }
+            };
             apiBatch1 = new ApiBatch()
             {
                 BatchId = Guid.NewGuid(),
@@ -108,6 +152,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
                     Country = "US"
                 }
             };
+            mockBatchList = new List<Batch>();            
             List<ApiBatch> apiBatchList = new List<ApiBatch>();
             apiBatchList.Add(apiBatch1);
             apiBatchList.Add(apiBatch2);
