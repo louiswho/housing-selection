@@ -11,13 +11,7 @@ namespace Housing.Selection.Context.HttpRequests
     /// </summary>
     public interface IServiceUserRetrieval
     {
-        /// <summary>
-        /// Asynchronously retrieves a single user from the service hub api.
-        /// </summary>
-        /// <returns>
-        /// A single user object is returned, or if not found, null is returned.
-        /// </returns>
-        Task<ApiUser> RetrieveUserAsync(Guid guid);
+
 
         /// <summary>
         /// This will asynchronously retrieve all users from the service api.
