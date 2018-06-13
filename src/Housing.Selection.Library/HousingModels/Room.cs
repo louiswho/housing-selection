@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using Housing.Selection.Library.ServiceHubModels;
 
 namespace Housing.Selection.Library.HousingModels
@@ -47,6 +48,12 @@ namespace Housing.Selection.Library.HousingModels
             housingRoom.Gender = apiRoom.Gender;          
             
             return housingRoom;
+        }
+
+        public double BatchPercentage(string batchName)
+        {
+            var batchUsers = Users.Where(x => x.Batch.BatchName == batchName);
+            return batchUsers.Count() / Users.Count;
         }
     }
 }
