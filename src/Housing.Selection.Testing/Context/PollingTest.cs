@@ -175,7 +175,7 @@ namespace Housing.Selection.Testing.Context
                 Location = "111",
                 Vacancy = 1,
                 Occupancy = 3,
-                Gender = 'M',
+                Gender = "M",
                 Address = new Address()
                 {
                     Id = Guid.NewGuid(),
@@ -194,7 +194,7 @@ namespace Housing.Selection.Testing.Context
                 Location = "222",
                 Vacancy = 2,
                 Occupancy = 3,
-                Gender = 'M',
+                Gender = "M",
                 Address = new Address()
                 {
                     Id = Guid.NewGuid(),
@@ -213,7 +213,7 @@ namespace Housing.Selection.Testing.Context
                 Location = "333",
                 Vacancy = 3,
                 Occupancy = 3,
-                Gender = 'M',
+                Gender = "M",
                 Address = new Address()
                 {
                     Id = Guid.NewGuid(),
@@ -236,7 +236,7 @@ namespace Housing.Selection.Testing.Context
                 Location = "111 API",
                 Vacancy = 1,
                 Occupancy = 3,
-                Gender = 'M',
+                Gender = "M",
                 Address = new ApiAddress()
                 {
                     AddressId = Guid.NewGuid(),
