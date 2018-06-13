@@ -26,9 +26,7 @@ namespace Housing.Selection.Context.Polling
             this.roomRetrieval = roomRetrieval;
             this.userRetrieval = userRetrieval;
         }
-        /// <summary>
-        ///  Poll all Service Hub databases through their respective API's and updates our database with the new data 
-        /// </summary>
+      
         public async void PollAll()
         {
             var batches = await batchRetrieval.RetrieveAllBatchesAsync();

@@ -15,27 +15,29 @@ namespace Housing.Selection.Context.DataAccess
     /// 
     public class UserRepository : IUserRepository
     {
+        private readonly IDbContext _HousingSelectionDbContext;
 
-   
         private List<User> users = new List<User>();
 
-        public UserRepository()
-        {         
-
+        public UserRepository(IDbContext housingSelectionContext)
+        {
+            _HousingSelectionDbContext = housingSelectionContext;
         }
+
+
         public void AddUser(User user)
         {
-            users.Add(user);
+               _HousingSelectionDbContext.Users.Add(user);
         }
 
         public User GetUserById(Guid id)
         {
-            return users.First(x => x.Id == id);
+            return _HousingSelectionDbContext.Users.First(x => x.Id == id);
         }
 
         public User GetUserByUserId(Guid userId)
         {
-            return users.First(x => x.UserId == userId);
+            return _HousingSelectionDbContext.Users.First(x => x.UserId == userId);
         }
 
         public IEnumerable<User> GetUsers()
@@ -43,9 +45,9 @@ namespace Housing.Selection.Context.DataAccess
             return users;
         }
 
-        public void SaveChanges()
+        public int SaveChanges()
         {
-            throw new NotImplementedException();
+          return  _HousingSelectionDbContext.saveChanges();
         }
     }
 }
