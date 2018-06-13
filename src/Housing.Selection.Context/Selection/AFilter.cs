@@ -1,14 +1,14 @@
-﻿using Housing.Selection.Library;
-using Housing.Selection.Library.HousingModels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Housing.Selection.Library.HousingModels;
+using Housing.Selection.Library.ViewModels;
 
-namespace Housing.Selection.Context.Filters
+namespace Housing.Selection.Context.Selection
 {
     public abstract class AFilter
     {
         protected AFilter _successor;
-
+        //Change to Successor
         public void SetSuccessor(AFilter successor)
         {
             _successor = successor;
@@ -26,7 +26,7 @@ namespace Housing.Selection.Context.Filters
                 var result = filterRooms.Where(x => x.Location == roomSearchViewModel.Location);
                 filterRooms = result.ToList();
             }
-            if(_successor != null)
+            if(_successor != null) //Change to null propagation, see me.
             {
                 _successor.FilterRequest(ref filterRooms, roomSearchViewModel);
             }
@@ -45,7 +45,7 @@ namespace Housing.Selection.Context.Filters
                               select x;
                 filterRooms = result.ToList();
             }
-            if (_successor != null)
+            if (_successor != null) //Null propagation
             {
                 _successor.FilterRequest(ref filterRooms, roomSearchViewModel);
             }
@@ -61,7 +61,7 @@ namespace Housing.Selection.Context.Filters
                 var result = filterRooms.Where(x => x.Gender.Equals(roomSearchViewModel.Gender));
                 filterRooms = result.ToList();
             }
-            if (_successor != null)
+            if (_successor != null) //Null propagation
             {
                 _successor.FilterRequest(ref filterRooms, roomSearchViewModel);
             }
@@ -82,7 +82,7 @@ namespace Housing.Selection.Context.Filters
                 var result = filterRooms.Where(x => x.Vacancy < x.Occupancy);
                 filterRooms = result.ToList();
             }
-            if (_successor != null)
+            if (_successor != null) //Null propagation
             {
                 _successor.FilterRequest(ref filterRooms, roomSearchViewModel);
             }

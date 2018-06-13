@@ -1,7 +1,7 @@
-﻿using Housing.Selection.Context.Filters;
-using Housing.Selection.Library;
-using Housing.Selection.Library.HousingModels;
+﻿using Housing.Selection.Library.HousingModels;
 using System.Collections.Generic;
+using Housing.Selection.Context.Selection;
+using Housing.Selection.Library.ViewModels;
 using Xunit;
 
 namespace Housing.Selection.Testing.Context
