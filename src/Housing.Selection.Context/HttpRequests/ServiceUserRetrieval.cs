@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Housing.Selection.Library.ServiceHubModels;
 
@@ -19,9 +17,9 @@ namespace Housing.Selection.Context.HttpRequests
         /// For IApiPathBuilder, you only need to pass a new ApiPathBuilder object.
         /// If any changes to paths need to be made, do it in the ApiPathBuilder base class.
         /// </remarks>
-        public ServiceUserRetrieval(HttpClient httpClient, IApiPathBuilder apiPath)
+        public ServiceUserRetrieval(IHttpClientWrapper httpClient, IApiPathBuilder apiPath)
         {
-            Client = new HttpClientWrapper(httpClient);
+            Client = httpClient;
             ApiPath = apiPath;
         }
 
@@ -37,10 +35,10 @@ namespace Housing.Selection.Context.HttpRequests
             try
             {
                 List<ApiUser> users = new List<ApiUser>();
-                HttpResponseMessage response = await Client.GetAsync(ApiPath.GetUserServicePath());
-                if (response.IsSuccessStatusCode)
+                IHttpResponseWrapper response = new HttpResponseWrapper(await Client.GetAsync(ApiPath.GetUserServicePath()));
+                if (response.IsSuccessStatusCode())
                 {
-                    users = await response.Content.ReadAsAsync<List<ApiUser>>();
+                    users = await response.ReadAsAsync<List<ApiUser>>();
                     if (users.Count <= 0) return null;
                     return users;
                 }
@@ -54,7 +52,5 @@ namespace Housing.Selection.Context.HttpRequests
                 throw ex;
             }
         }
-
-        
     }
 }

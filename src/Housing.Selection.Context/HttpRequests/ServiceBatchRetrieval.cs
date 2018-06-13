@@ -18,9 +18,9 @@ namespace Housing.Selection.Context.HttpRequests
         /// For IApiPathBuilder, you only need to pass a new ApiPathBuilder object.
         /// If any changes to paths need to be made, do it in the ApiPathBuilder base class.
         /// </remarks>
-        public ServiceBatchRetrieval(HttpClient httpClient, IApiPathBuilder apiPath)
+        public ServiceBatchRetrieval(IHttpClientWrapper client, IApiPathBuilder apiPath)
         {
-            Client = new HttpClientWrapper(httpClient);
+            Client = client;
             ApiPath = apiPath;
         }
 
@@ -35,10 +35,10 @@ namespace Housing.Selection.Context.HttpRequests
             try
             {
                 List<ApiBatch> batches = new List<ApiBatch>();
-                HttpResponseMessage response = await Client.GetAsync(ApiPath.GetBatchServicePath());
-                if (response.IsSuccessStatusCode)
+                IHttpResponseWrapper response = new HttpResponseWrapper(await Client.GetAsync(ApiPath.GetBatchServicePath()));
+                if (response.IsSuccessStatusCode())
                 {
-                    batches = await response.Content.ReadAsAsync<List<ApiBatch>>();
+                    batches = await response.ReadAsAsync<List<ApiBatch>>();
                     if (batches.Count <= 0) return null;
                     return batches;
                 }
@@ -51,7 +51,6 @@ namespace Housing.Selection.Context.HttpRequests
             {
                 throw ex;
             }
-
         }
     }
 }
