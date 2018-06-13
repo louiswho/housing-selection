@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Housing.Selection.Library.ServiceHubModels;
 
 namespace Housing.Selection.Library.HousingModels
 {
@@ -39,5 +40,19 @@ namespace Housing.Selection.Library.HousingModels
         public Name Name { get; set; }
 
         public Address Address { get; set; }
+
+        public User ConvertFromServiceModel(ApiUser apiUser)
+        {
+            User housingUser = this;            
+            housingUser.UserId = apiUser.UserId;
+            housingUser.Location = apiUser.Location;
+            housingUser.Address = (Address) apiUser.Address;            
+            housingUser.Email = apiUser.Email;
+            housingUser.Name = (Name) apiUser.Name;
+            housingUser.Gender = apiUser.Gender.ToString();   
+            housingUser.Type = apiUser.Type;       
+            
+            return housingUser;
+        }
     }
 }

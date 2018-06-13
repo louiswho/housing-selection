@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Housing.Selection.Library.ServiceHubModels;
 
 namespace Housing.Selection.Library.HousingModels
 {
@@ -43,5 +44,20 @@ namespace Housing.Selection.Library.HousingModels
         public ICollection<Batch> Batches { get; set; }
         public ICollection<User> Users { get; set; }
         public ICollection<Room> Rooms { get; set; }
+
+        public static explicit operator ApiAddress(Address address)
+        {
+            ApiAddress apiAdress = new ApiAddress()
+            {
+                AddressId = address.AddressId,
+                Address1 = address.Address1,
+                Address2 = address.Address2,
+                City = address.City,
+                State = address.State,
+                PostalCode = address.PostalCode,
+                Country = address.Country
+            };
+            return apiAdress;
+        }
     }
 }

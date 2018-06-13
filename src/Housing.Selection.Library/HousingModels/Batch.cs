@@ -40,14 +40,14 @@ namespace Housing.Selection.Library.HousingModels
         public Address Address { get; set; }
         public Batch ConvertFromServiceModel(ApiBatch apiBatch)
         {
-            Batch housingBatch = new Batch();            
+            Batch housingBatch = this;            
             housingBatch.BatchId = apiBatch.BatchId;
-            housingBatch.StartDate = apiBatch.StartDate;
-            housingBatch.EndDate = apiBatch.EndDate;            
+            housingBatch.StartDate = (DateTime) apiBatch.StartDate;
+            housingBatch.EndDate = (DateTime) apiBatch.EndDate;            
             housingBatch.BatchName = apiBatch.BatchName;
-            housingBatch.BatchOccupancy = apiBatch.BatchOccupancy;
+            housingBatch.BatchOccupancy = (int) apiBatch.BatchOccupancy;
             housingBatch.BatchSkill = apiBatch.BatchSkill;
-            housingBatch.Address = apiBatch.Address;
+            housingBatch.Address = (Address) apiBatch.Address;
             //TODO - Figure out how to handle apiBatch userIds
             return housingBatch;
         }
