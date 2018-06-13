@@ -7,7 +7,7 @@ using System.Net.Http;
 using Housing.Selection.Context.HttpRequests;
 using System.Threading.Tasks;
 using Housing.Selection.Library.ServiceHubModels;
-
+//Remove unused namespaces and Regions
 namespace Housing.Selection.Testing.Context
 {
     public class HttpRequestsTests

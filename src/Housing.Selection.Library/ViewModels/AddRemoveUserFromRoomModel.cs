@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Housing.Selection.Library
-{
+namespace Housing.Selection.Library.ViewModels
+{ //Change to AddRemoveUserRoomViewModel
     public class AddRemoveUserFromRoomModel
     {
         public Guid UserId { get; set; }

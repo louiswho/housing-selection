@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Housing.Selection.Library.HousingModels;
 using Microsoft.EntityFrameworkCore;
-
+//Clean up and collapse space around class and remove unncessary namespaces. 
 namespace Housing.Selection.Context.DataAccess
 {
 
@@ -16,15 +16,15 @@ namespace Housing.Selection.Context.DataAccess
     public class UserRepository : IUserRepository
     {
         private readonly IDbContext _HousingSelectionDbContext;
-
+        //Change name to _housingSelectionDbContext.
         private List<User> users = new List<User>();
-
+        //Remove inmemory list. 
         public UserRepository(IDbContext housingSelectionContext)
         {
             _HousingSelectionDbContext = housingSelectionContext;
         }
 
-
+        //Fix alignment.
         public void AddUser(User user)
         {
                _HousingSelectionDbContext.Users.Add(user);
@@ -44,7 +44,7 @@ namespace Housing.Selection.Context.DataAccess
         {
             return users;
         }
-
+        //Remove return statement.
         public int SaveChanges()
         {
           return  _HousingSelectionDbContext.saveChanges();
