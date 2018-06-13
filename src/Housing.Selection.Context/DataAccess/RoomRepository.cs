@@ -15,23 +15,23 @@ namespace Housing.Selection.Context.DataAccess
 
    public class RoomRepository : IRoomRepository
     {
-
+        //Clean up space around class and remove unnecessary spacing.
         private readonly IDbContext _HousingSelectionDbContext;
-
+        //Change name to _housingSelectionDbContext.
         private List<User> users = new List<User>();
-
+        //Remove unnecessary list.
         public RoomRepository(IDbContext housingSelectionContext)
         {
             _HousingSelectionDbContext = housingSelectionContext;
         }
 
-
+        //Remove default constructor.
         public RoomRepository()
         {
            
 
         }
-
+        //This comment isn't needed.
         // Add room to Housing-Selection database 
         public void AddRoom(Room room)
         {
@@ -53,6 +53,7 @@ namespace Housing.Selection.Context.DataAccess
             return _HousingSelectionDbContext.Rooms;
         }
 
+        //Return statement isn't needed. 
         public int SaveChanges()
         {
           return _HousingSelectionDbContext.saveChanges();
