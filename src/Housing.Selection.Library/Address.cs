@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -52,7 +51,7 @@ namespace Housing.Selection.Library
 
             if (AddressId == Guid.Empty) { return false; }
             if (string.IsNullOrEmpty(Address1) || Address1.Length > maxStringLength) { return false; }
-            if (Address2.Length > 255) { return false; }
+            if (Address2.Length > maxStringLength) { return false; }
             if (string.IsNullOrEmpty(City) || City.Length > maxStringLength) { return false; }
             if (string.IsNullOrEmpty(State)) { return false; }
             if (string.IsNullOrEmpty(PostalCode)) { return false; }
@@ -72,7 +71,7 @@ namespace Housing.Selection.Library
         /// Thus Country is invalid. If no exception is thrown, Country is valid.
         /// </remarks>
         /// <returns>True if Country is valid, and false otherwise</returns>
-        public Boolean ValidateCountry()
+        public bool ValidateCountry()
         {
             var validCountry = true;
             try { var region = new RegionInfo(Country); }
@@ -153,8 +152,8 @@ namespace Housing.Selection.Library
         /// <returns>True if postal code is in a valid format and false otherwise.</returns>
         public bool ValidateAmericanPostalCode()
         {
-            var regex = new Regex(@"^\d{5}(?:-\d{4})?$");
-            return regex.Match(PostalCode).Success;
+            const int postalCodeLength = 5;
+            return PostalCode.Length == postalCodeLength;
         }
     }
 }
