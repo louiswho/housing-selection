@@ -14,9 +14,9 @@ namespace Housing.Selection.Context.HttpRequests
     {
         public HttpClient Client { get; set; }
 
-        public HttpClientWrapper()
+        public HttpClientWrapper(HttpClient httpclient)
         {
-            Client = new HttpClient();
+            Client = httpclient;
         }
 
         public async Task<HttpResponseMessage> GetAsync(string requestUri)
