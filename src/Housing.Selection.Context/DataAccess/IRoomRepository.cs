@@ -1,7 +1,5 @@
-﻿using Housing.Selection.Library;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Housing.Selection.Library.HousingModels;
 
 namespace Housing.Selection.Context.DataAccess
@@ -15,6 +13,6 @@ namespace Housing.Selection.Context.DataAccess
         Room GetRoomById(Guid id);
         Room GetRoomByRoomId(Guid roomId);
         void AddRoom(Room room);
-        void SaveChanges();
+        int SaveChanges();
     }
 }

@@ -4,11 +4,13 @@ using Housing.Selection.Library.HousingModels;
 
 namespace Housing.Selection.Context
 {
-    interface ISelectionService
+    public interface ISelectionService
     {
         List<Batch> GetBatches();
         List<Room> GetRooms();
         List<User> GetUsers();
-        List<Room> CustomSearch(RoomSearchViewModel roomSearchViewModel);
+        IEnumerable<Room> CustomSearch(RoomSearchViewModel roomSearchViewModel);
+        void AddUserToRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel);
+        void RemoveUserFromRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel);
     }
 }

@@ -38,7 +38,8 @@ namespace Housing.Selection.Library.HousingModels
 
         [Required]
         public Address Address { get; set; }
-        public Batch ConvertFromServiceModel(ApiBatch apiBatch)
+
+      public Batch ConvertFromServiceModel(ApiBatch apiBatch)
         {
             Batch housingBatch = this;            
             housingBatch.BatchId = apiBatch.BatchId;
