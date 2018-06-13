@@ -9,6 +9,6 @@ namespace Housing.Selection.Library.ServiceHubModels
         public ApiAddress Address { get; set; }
         public int Vacancy { get; set; }
         public int Occupancy { get; set; }
-        public char Gender { get; set; }
+        public string Gender { get; set; }
     }
 }

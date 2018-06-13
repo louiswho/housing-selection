@@ -1,4 +1,4 @@
-﻿namespace Housing.Selection.Library
+﻿namespace Housing.Selection.Library.ViewModels
 {
     public class RoomSearchViewModel
     {
