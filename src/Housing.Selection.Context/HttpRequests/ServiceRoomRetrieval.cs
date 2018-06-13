@@ -33,8 +33,8 @@ namespace Housing.Selection.Context.HttpRequests
         {
             try
             {
-                List<ApiRoom> rooms = new List<ApiRoom>();
-                IHttpResponseWrapper response = new HttpResponseWrapper(await Client.GetAsync(ApiPath.GetRoomServicePath()));
+                var rooms = new List<ApiRoom>();
+                var response = new HttpResponseWrapper(await Client.GetAsync(ApiPath.GetRoomServicePath()));
                 if (response.IsSuccessStatusCode())
                 {
                     rooms = await response.ReadAsAsync<List<ApiRoom>>();

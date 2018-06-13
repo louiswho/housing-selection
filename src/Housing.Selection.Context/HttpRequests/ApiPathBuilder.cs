@@ -48,7 +48,7 @@ namespace Housing.Selection.Context.HttpRequests
 
         public string GetUserServicePath(Guid id)
         {
-                return UserServicePath + id;
+            return UserServicePath + id;
         }
     }
 }
