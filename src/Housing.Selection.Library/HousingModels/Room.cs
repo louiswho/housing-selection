@@ -29,7 +29,7 @@ namespace Housing.Selection.Library.HousingModels
         public int Occupancy { get; set; }
 
         [Required]
-        public char Gender { get; set; }
+        public string Gender { get; set; }
         
         [Required]
         public Address Address { get; set; }
