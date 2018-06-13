@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace Housing.Selection.Library
 {
@@ -9,33 +8,40 @@ namespace Housing.Selection.Library
         /// <summary>
         /// Our primary key.
         /// </summary>
-        [Required]
         public Guid Id { get; set; }
 
         /// <summary>
         /// Service hub primary key.
         /// </summary>
-        [Required]
         public Guid BatchId { get; set; }
 
-        [DataType(DataType.Date)]
         public DateTime StartDate { get; set; }
 
-        [DataType(DataType.Date)]
         public DateTime EndDate { get; set; }
 
-        [StringLength(50)]
         public string BatchName { get; set; }
 
-        [Range(0, 100)]
         public int BatchOccupancy { get; set; }
 
-        [StringLength(50)]
         public string BatchSkill { get; set; }
 
         public ICollection<User> Users { get; set; }
 
-        [Required]
         public Address Address { get; set; }
+
+        /// <summary>
+        /// Check if object has any invalid (default) property values
+        /// </summary>
+        /// <returns>Returns false if any value is invalid, else true</returns>
+        public bool Validate()
+        {
+            if (BatchId == Guid.Empty) { return false; }
+            if (string.IsNullOrEmpty(BatchName)) { return false; }
+            if (BatchOccupancy < 0 || BatchOccupancy > 100) { return false; }
+            if (string.IsNullOrEmpty(BatchSkill)) { return false; }
+            if (Address == null) { return false; }
+
+            return true;
+        }
     }
 }
