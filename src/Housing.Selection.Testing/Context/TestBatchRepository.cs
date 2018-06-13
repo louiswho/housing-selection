@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-
+//Clean up white space.
 namespace Housing.Selection.Testing.Context
 {
     public class TestBatchRepository
@@ -14,13 +14,13 @@ namespace Housing.Selection.Testing.Context
         public readonly IDbContext mockHousingContext;
 
         public TestBatchRepository()
-        {
+        {   //Unnessary commenbts
             // create a mock Db Context
             Mock<IDbContext> mockHousingContext = new Mock<IDbContext>();
-
+            //Unecessary comments
             // Add fake data to the context
-            var guid = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019D");
-            var guid1 = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019F");
+            var guid = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019D"); //Change to Guid.NewGuid()
+            var guid1 = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019F"); //Change to Guid.NewGuid()
             Batch batch = new Batch()
             {
                 BatchId = guid,
@@ -92,9 +92,9 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public void CanReturnBatches()
         {
-
+            //Remove uncessary comments
             BatchRepository batchRepository = new BatchRepository(mockHousingContext);
-
+            
             // Try finding all batches
             var testBatches = batchRepository.GetBatches();
 
@@ -105,7 +105,7 @@ namespace Housing.Selection.Testing.Context
         public void CanReturnBatchesById()
         {
             BatchRepository batchRepository = new BatchRepository(mockHousingContext);
-
+            //Remove unnesessary comments.
             var guid = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019D");
             // Try finding a batch by id
             var testBatch = batchRepository.GetBatchByBatchId(guid);
@@ -116,7 +116,7 @@ namespace Housing.Selection.Testing.Context
         public void CanSaveChanges()
         {
 
-
+            //Clean up white space, use var instead of concrete types. 
 
             Mock<IDbContext> MockHousingContext = new Mock<IDbContext>();
             MockHousingContext.Setup(x => x.saveChanges()).Returns(1);

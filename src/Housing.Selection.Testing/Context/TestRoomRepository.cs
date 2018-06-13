@@ -19,18 +19,18 @@ namespace Housing.Selection.Testing.Context
         /// </summary>
         public TestRoomRepository()
         {
-
+            //Use var instad of Mock<IDbContext>
             Mock<IDbContext> mockHousingContext = new Mock<IDbContext>();
-            var guid = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1C");
-            var guid1 = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1D");
-            var guid2 = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1E");
-            var guid3 = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1F");
-            Address address = new Address();
+            var guid = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1C"); //Guid.NewGuid
+            var guid1 = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1D"); //Guid.NewGuid
+            var guid2 = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1E");//Guid.NewGuid
+            var guid3 = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1F");//Guid.NewGuid
+            Address address = new Address(); //use var
             Room testRoom1 = new Room()
             {
                 Id = guid,
                 RoomId = guid1,
-                Gender = 'm',
+                Gender = "m",
                 Location = "Reston",
                 Occupancy = 3,
                 Vacancy = 2,
@@ -42,7 +42,7 @@ namespace Housing.Selection.Testing.Context
             {
                 Id = guid2,
                 RoomId = guid3,
-                Gender = 'f',
+                Gender = "f",
                 Location = "Reston",
                 Occupancy = 2,
                 Vacancy = 2,
@@ -58,19 +58,19 @@ namespace Housing.Selection.Testing.Context
         };
 
             DbSet<Room> myDbSet = TestingUtilities.GetQueryableMockDbSet(RoomList);
-
+            //Remove old comments
             mockHousingContext.Setup(x => x.Rooms).Returns(myDbSet);
             //mockHousingContext.Setup(x => x.Rooms.Add(It.IsAny<Room>()));
             //.Callback((Room item) => itemsInserted.Add(item));
             this.mockHousingContext = mockHousingContext.Object;
         }
         #endregion
-
+        //Remove all regions
         [Fact]
         public void CanReturnRooms()
         {
 
-
+            //Remove unnecessary comments
             RoomRepository roomRepository = new RoomRepository(mockHousingContext);
             // Try finding all batches
 
@@ -83,9 +83,9 @@ namespace Housing.Selection.Testing.Context
         public void CanReturnRoomsById()
         {
             RoomRepository roomRepository = new RoomRepository(mockHousingContext);
-
-            var guid = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1C");
-            var guid1 = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1D");
+            //Use var
+            var guid = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1C"); //Guid.NewGuid
+            var guid1 = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1D"); //Guid.NewGuid
             // Try finding a room by id
             var testRoom = roomRepository.GetRoomById(guid);
             Assert.Equal(guid1, testRoom.RoomId); // Verify it is the right room.
@@ -96,10 +96,10 @@ namespace Housing.Selection.Testing.Context
         {
 
 
-            
+            //Use var
             Mock<IDbContext> MockHousingContext = new Mock<IDbContext>();
             MockHousingContext.Setup(x => x.saveChanges()).Returns(1);
-
+            //Use var
             RoomRepository roomRepository = new RoomRepository(MockHousingContext.Object);
             roomRepository.SaveChanges();
 
@@ -115,13 +115,13 @@ namespace Housing.Selection.Testing.Context
             Mock<IDbContext> MockHousingContext = new Mock<IDbContext>();
             
 
-            var guid = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1E");
+            var guid = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1E"); //Guid.NewGuid
             Address address = new Address();
             Room testRoom1 = new Room()
             {
                 Id = guid,
                 RoomId = guid,
-                Gender = 'm',
+                Gender = "m",
                 Location = "Reston",
                 Occupancy = 3,
                 Vacancy = 2,

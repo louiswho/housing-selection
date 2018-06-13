@@ -14,29 +14,29 @@ namespace Housing.Selection.Context.DataAccess
     public class BatchRepository : IBatchRepository
     {
         private readonly IDbContext _HousingSelectionDbContext;
-    
+        //change to _housingSelectionDbContext;
         
 
         public BatchRepository(IDbContext housingSelectionContext)
         {
             _HousingSelectionDbContext = housingSelectionContext;
-
+            //Clean up space.
         }
         public BatchRepository(HousingSelectionDbContext housingSelectionDbContext)
         {
             //housingSelectionDbContext = _HousingSelectionDbContext;
-
+            //Remove this method.
         }
 
         public void AddBatch(Batch batch)
         {
              _HousingSelectionDbContext.Batches.Add(batch);
-           
+            //Clean up space.
         }
 
         public IEnumerable<Batch> GetBatches()
         {
-
+            //Clean up space.
             return _HousingSelectionDbContext.Batches;
         }
 
@@ -56,6 +56,6 @@ namespace Housing.Selection.Context.DataAccess
             _HousingSelectionDbContext.saveChanges();
         }
 
-     
+        //Collapse space.
     }
 }
