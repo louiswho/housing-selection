@@ -11,7 +11,7 @@ namespace Housing.Selection.Testing.Context
 {
     public class TestBatchRepository
     {
-        public readonly IDbContext mockHousingContext;
+        private readonly IDbContext mockHousingContext;
         private List<Batch> batchList = new List<Batch>();
         private Batch testBatch1 = new Batch();
         private Batch testBatch2 = new Batch();

@@ -11,7 +11,7 @@ namespace Housing.Selection.Testing.Context
     public class TestRoomRepository
     {
 
-        public readonly IDbContext mockHousingContext;
+        private readonly IDbContext mockHousingContext;
         private List<Room> roomList = new List<Room>();
         private Room testRoom1 = new Room();
         private Room testRoom2 = new Room();
