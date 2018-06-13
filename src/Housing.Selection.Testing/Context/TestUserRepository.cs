@@ -9,9 +9,9 @@ using Xunit;
 
 namespace Housing.Selection.Testing.Context
 {
+    #region Constructor
     public class TestUserRepository
     {
-
         private readonly IDbContext mockHousingContext;
         private List<User> userList = new List<User>();
 
@@ -23,7 +23,8 @@ namespace Housing.Selection.Testing.Context
             var guid1 = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1F");
             var guid2 = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1C");
             var guid3 = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1A");
-            User testUser1 = new User() {
+            User testUser1 = new User()
+            {
                 Id = guid,
                 UserId = guid1
 
@@ -34,8 +35,6 @@ namespace Housing.Selection.Testing.Context
                 UserId = guid3
 
             };
-
-         
             userList.Add(testUser1);
             userList.Add(testUser2);
 
@@ -45,17 +44,18 @@ namespace Housing.Selection.Testing.Context
             this.mockHousingContext = mockHousingContext.Object;
 
         }
+        #endregion
 
         [Fact]
-        public void CanGetUsers(){
+        public void CanGetUsers()
+        {
+            UserRepository userRepository = new UserRepository(mockHousingContext);
 
-         UserRepository userRepository = new UserRepository(mockHousingContext);
-
-          var users = userRepository.GetUsers();
+            var users = userRepository.GetUsers();
 
             Assert.NotNull(users);
+        }
 
-          }
         [Fact]
         public void CanGetUsersById()
         {
@@ -67,15 +67,9 @@ namespace Housing.Selection.Testing.Context
             var guid1 = new Guid("CF0A8C1C-F2D0-41A1-A12C-53D9BE513A1F");
 
             var user = userRepository.GetUserById(guid);
-
+            // test that  the correct user is returned
             Assert.Equal(guid1, user.UserId);
-
-
         }
-
-
-
-
 
         [Fact]
         public void CanAddUser()
@@ -88,7 +82,7 @@ namespace Housing.Selection.Testing.Context
             UserRepository userRepository = new UserRepository(MockDbContext.Object);
 
             var guid = Guid.NewGuid();
-       
+
             User testUser1 = new User()
             {
                 Id = guid,
@@ -98,16 +92,13 @@ namespace Housing.Selection.Testing.Context
 
             userRepository.AddUser(testUser1);
 
-            MockDbContext.Verify(x => x.Users.Add(It.IsAny<User> ()), Times.Once );
-
+            MockDbContext.Verify(x => x.Users.Add(It.IsAny<User>()), Times.Once);
         }
 
+        ///<summary> Test the save changes method</summary>
         [Fact]
         public void CanSaveChanges()
         {
-
-
-
             Mock<IDbContext> MockHousingContext = new Mock<IDbContext>();
             MockHousingContext.Setup(x => x.saveChanges()).Returns(1);
 
@@ -116,15 +107,9 @@ namespace Housing.Selection.Testing.Context
 
             MockHousingContext.Verify(m => m.saveChanges(), Times.Once());
 
-
         }
-
-
-
-
-
     }
-        
 
 
-    }
+
+}
