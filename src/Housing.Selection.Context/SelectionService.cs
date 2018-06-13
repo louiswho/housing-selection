@@ -1,10 +1,82 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using Housing.Selection.Context.DataAccess;
+using Housing.Selection.Context.Filters;
+using Housing.Selection.Library;
+using Housing.Selection.Library.HousingModels;
 
 namespace Housing.Selection.Context
 {
-    class SelectionService
+
+
+    public class SelectionService : ISelectionService
     {
+        private readonly IUserRepository userRepo;
+        private readonly IRoomRepository roomRepo;
+        private readonly IBatchRepository batchRepo;
+
+        public SelectionService(IUserRepository _users, IRoomRepository _rooms, IBatchRepository _batches)
+        {
+            userRepo = _users;
+            roomRepo = _rooms;
+            batchRepo = _batches;
+        }
+        public void AddUserToRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel)
+        {
+            var newUser = userRepo.GetUserByUserId(addRemoveUserFromRoomModel.UserId);
+            var addRoom = roomRepo.GetRoomByRoomId(addRemoveUserFromRoomModel.RoomId);
+
+            newUser.Room = addRoom;
+            addRoom.Users.Add(newUser);
+
+            userRepo.SaveChanges();
+            roomRepo.SaveChanges();
+        }
+
+        public IEnumerable<Room> CustomSearch(RoomSearchViewModel roomSearchViewModel)
+        {
+            var returnedRooms = roomRepo.GetRooms().ToList();
+
+            AFilter genderFilter = new GenderFilter();
+            AFilter locationFilter = new LocationFilter();
+            AFilter batchFilter = new BatchFilter();
+            AFilter isCompletelyUnassignedFilter = new IsCompletelyUnassignedFilter();
+
+            genderFilter.SetSuccessor(locationFilter);
+            locationFilter.SetSuccessor(batchFilter);
+            batchFilter.SetSuccessor(isCompletelyUnassignedFilter);
+
+            genderFilter.FilterRequest(ref returnedRooms, roomSearchViewModel);
+
+            return returnedRooms;
+        }
+
+        public List<Batch> GetBatches()
+        {
+            return batchRepo.GetBatches().ToList();
+        }
+
+        public List<Room> GetRooms()
+        {
+            return roomRepo.GetRooms().ToList();
+        }
+
+        public List<User> GetUsers()
+        {
+            return userRepo.GetUsers().ToList();
+        }
+
+        public void RemoveUserFromRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel)
+        {
+            var removeUser = userRepo.GetUserByUserId(addRemoveUserFromRoomModel.UserId);
+            var emptiedRoom = roomRepo.GetRoomByRoomId(addRemoveUserFromRoomModel.RoomId);
+
+            removeUser.Room = null;
+            emptiedRoom.Users.Remove(removeUser);
+
+            userRepo.SaveChanges();
+            roomRepo.SaveChanges();
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Housing.Selection.Library.ServiceHubModels;
 
 namespace Housing.Selection.Library.HousingModels
 { 
@@ -27,5 +28,18 @@ namespace Housing.Selection.Library.HousingModels
         public string Last { get; set; }
 
         public ICollection<User> Users { get; set; }
+
+        public static explicit operator ApiName(Name name)
+        {
+            ApiName apiName = new ApiName()
+            {
+                NameId = name.NameId,
+                First = name.First,
+                Middle = name.Middle,
+                Last = name.Last,
+                
+            };
+            return apiName;
+        }
     }
 }
