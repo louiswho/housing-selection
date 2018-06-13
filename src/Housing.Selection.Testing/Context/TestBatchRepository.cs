@@ -6,40 +6,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-//Clean up white space.
+
 namespace Housing.Selection.Testing.Context
 {
     public class TestBatchRepository
     {
         public readonly IDbContext mockHousingContext;
 
+        #region Constructor
         public TestBatchRepository()
-        {   //Unnessary commenbts
+        {
             // create a mock Db Context
             Mock<IDbContext> mockHousingContext = new Mock<IDbContext>();
-            //Unecessary comments
+
             // Add fake data to the context
-            var guid = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019D"); //Change to Guid.NewGuid()
-            var guid1 = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019F"); //Change to Guid.NewGuid()
+            var guid = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019D");
+            var guid1 = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019F");
             Batch batch = new Batch()
             {
                 BatchId = guid,
-                BatchName = ".Net 2018 5",
-                BatchOccupancy = 34,
-                BatchSkill = ".NET",
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Now
-
+                BatchName = ".Net 2018 5"
             };
             Batch batch1 = new Batch()
             {
                 BatchId = guid1,
-                BatchName = "Java 2018 5",
-                BatchOccupancy = 25,
-                BatchSkill = "Java",
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Now
-
+                BatchName = "Java 2018 5"
+              
             };
             List<Batch> BatchList = new List<Batch>
         {
@@ -54,6 +46,7 @@ namespace Housing.Selection.Testing.Context
             this.mockHousingContext = mockHousingContext.Object;
 
         }
+        #endregion
 
         [Fact]
         public void CanAddBatch()
@@ -92,9 +85,8 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public void CanReturnBatches()
         {
-            //Remove uncessary comments
             BatchRepository batchRepository = new BatchRepository(mockHousingContext);
-            
+
             // Try finding all batches
             var testBatches = batchRepository.GetBatches();
 
@@ -105,7 +97,7 @@ namespace Housing.Selection.Testing.Context
         public void CanReturnBatchesById()
         {
             BatchRepository batchRepository = new BatchRepository(mockHousingContext);
-            //Remove unnesessary comments.
+
             var guid = new Guid("62FA647C-AD54-4BCC-A860-E5A2664B019D");
             // Try finding a batch by id
             var testBatch = batchRepository.GetBatchByBatchId(guid);
@@ -115,9 +107,6 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public void CanSaveChanges()
         {
-
-            //Clean up white space, use var instead of concrete types. 
-
             Mock<IDbContext> MockHousingContext = new Mock<IDbContext>();
             MockHousingContext.Setup(x => x.saveChanges()).Returns(1);
 
@@ -125,8 +114,6 @@ namespace Housing.Selection.Testing.Context
             roomRepository.SaveChanges();
 
             MockHousingContext.Verify(m => m.saveChanges(), Times.Once());
-
-
         }
     }
 }
