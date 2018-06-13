@@ -16,6 +16,6 @@ namespace Housing.Selection.Context.DataAccess
         User GetUserById(Guid id);
         User GetUserByUserId(Guid userId);
         void AddUser(User user);
-        void SaveChanges();
+        int SaveChanges();
     }
 }

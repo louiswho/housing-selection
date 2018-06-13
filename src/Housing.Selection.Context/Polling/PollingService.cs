@@ -1,6 +1,7 @@
 using Housing.Selection.Context.HttpRequests;
 using Housing.Selection.Context.DataAccess;
 using Housing.Selection.Library.ServiceHubModels;
+using Housing.Selection.Library.HousingModels;
 
 namespace Housing.Selection.Context.Polling
 {
@@ -11,29 +12,83 @@ namespace Housing.Selection.Context.Polling
     {
         private IHttpClientWrapper httpClient;
         private IBatchRepository batchRepository;
-        public PollingService(IHttpClientWrapper httpClient, IBatchRepository batchRepository)
+        private IRoomRepository roomRepository;
+        private IUserRepository userRepository;
+        private IServiceBatchRetrieval batchRetrieval;
+        private IServiceRoomRetrieval roomRetrieval;
+        private IServiceUserRetrieval userRetrieval;
+        public PollingService(IBatchRepository batchRepository, IRoomRepository roomRepository, IUserRepository userRepository, IServiceBatchRetrieval batchRetrieval, IServiceRoomRetrieval roomRetrieval, IServiceUserRetrieval userRetrieval)
         {
-            this.httpClient = httpClient;
             this.batchRepository = batchRepository;
+            this.roomRepository = roomRepository;
+            this.userRepository = userRepository;
+            this.batchRetrieval = batchRetrieval;
+            this.roomRetrieval = roomRetrieval;
+            this.userRetrieval = userRetrieval;
         }
-        /// <summary>
-        ///  Poll all Service Hub databases through their respective API's and updates our databases with the new data 
-        /// </summary>
-        public void PollAll()
+      
+        public async void PollAll()
         {
-            var batches = httpClient.GetBatches();
-            foreach (var batch in batches)
+            var batches = await batchRetrieval.RetrieveAllBatchesAsync();
+            if (batches != null)
             {
-                UpdateBatch(batch);
+                foreach (var batch in batches)
+                {
+                    UpdateBatch(batch);
+                }
             }
-            var rooms = httpClient.GetRooms();
-            var users = httpClient.GetUsers();
+            var rooms = await roomRetrieval.RetrieveAllRoomsAsync();
+            if (rooms != null)
+            {
+                foreach (var room in rooms)
+                {
+                    UpdateRoom(room);
+                }
+            }
+            var users = await userRetrieval.RetrieveAllUsersAsync();
+            if (users != null)
+            {
+                foreach (var user in users)
+                {
+                    UpdateUser(user);
+                }
+            }
         }
-        private void UpdateBatch(ApiBatch batch)
+
+        /// <summary>
+        ///  Get batch by batchId (taken from service hubs api call)
+        ///  then convert the service hub model to housing model and update our database with the new information 
+        /// </summary>
+        public Batch UpdateBatch(ApiBatch batch)
         {
-            
-            var housingBatch = batchRepository.GetByBatchId(batch.BatchId);
-            //TODO: Finish writing this method
+            var housingBatch = batchRepository.GetBatchByBatchId(batch.BatchId);
+            housingBatch = housingBatch.ConvertFromServiceModel(apiBatch: batch);
+            batchRepository.SaveChanges();
+            return housingBatch;
+        }
+
+        /// <summary>
+        ///  Get room by roomId (taken from service hubs api call)
+        ///  then convert the service hub model to housing model and update our database with the new information 
+        /// </summary>
+        public Room UpdateRoom(ApiRoom room)
+        {
+            var housingRoom = roomRepository.GetRoomByRoomId(room.RoomId);
+            housingRoom = housingRoom.ConvertFromServiceModel(apiRoom: room);
+            roomRepository.SaveChanges();
+            return housingRoom;
+        }
+
+        /// <summary>
+        ///  Get user by userId (taken from service hubs api call)
+        ///  then convert the service hub model to housing model and update our database with the new information 
+        /// </summary>
+        public User UpdateUser(ApiUser user)
+        {
+            var housingUser = userRepository.GetUserByUserId(user.UserId);
+            housingUser = housingUser.ConvertFromServiceModel(apiUser: user);
+            userRepository.SaveChanges();
+            return housingUser;
         }
     }
 }
