@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
-//Clean up white space.
+
+
 namespace Housing.Selection.Testing.Context
 {
     public class TestBatchRepository
