@@ -3,6 +3,7 @@ using System.Linq;
 using Housing.Selection.Context.DataAccess;
 using Housing.Selection.Library;
 using Housing.Selection.Library.HousingModels;
+using Housing.Selection.Library.ViewModels;
 
 namespace Housing.Selection.Context.Selection
 {
@@ -10,11 +11,11 @@ namespace Housing.Selection.Context.Selection
 
     public class SelectionService : ISelectionService
     {
-        private readonly IUserRepository userRepo;
-        private readonly IRoomRepository roomRepo;
-        private readonly IBatchRepository batchRepo;
+        private readonly IUserRepository userRepo; //Change to _userRepository
+        private readonly IRoomRepository roomRepo; //Change to _roomRepository
+        private readonly IBatchRepository batchRepo; //Change to _batchRepository
 
-        public SelectionService(IUserRepository _users, IRoomRepository _rooms, IBatchRepository _batches)
+        public SelectionService(IUserRepository _users, IRoomRepository _rooms, IBatchRepository _batches) //Change to users, rooms, and batches.
         {
             userRepo = _users;
             roomRepo = _rooms;
@@ -35,7 +36,7 @@ namespace Housing.Selection.Context.Selection
         public IEnumerable<Room> CustomSearch(RoomSearchViewModel roomSearchViewModel)
         {
             var returnedRooms = roomRepo.GetRooms().ToList();
-
+            //Change constructors to Factories, see me. 
             AFilter genderFilter = new GenderFilter();
             AFilter locationFilter = new LocationFilter();
             AFilter batchFilter = new BatchFilter();
