@@ -67,7 +67,7 @@ namespace Housing.Selection.Testing.Context
         #endregion
 
         [Fact]
-        public void CanReturnBatches()
+        public void CanReturnRooms()
         {
 
 
