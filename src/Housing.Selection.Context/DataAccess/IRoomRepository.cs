@@ -13,6 +13,6 @@ namespace Housing.Selection.Context.DataAccess
         Room GetRoomById(Guid id);
         Room GetRoomByRoomId(Guid roomId);
         void AddRoom(Room room);
-        void SaveChanges();
+        int SaveChanges();
     }
 }
