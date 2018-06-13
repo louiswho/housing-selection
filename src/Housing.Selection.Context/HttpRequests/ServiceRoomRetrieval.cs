@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Housing.Selection.Library.ServiceHubModels;
 
 namespace Housing.Selection.Context.HttpRequests
 {
-    public class ServiceBatchRetrieval : IServiceBatchRetrieval
+    public class ServiceRoomRetrieval : IServiceRoomRetrieval
     {
         public IHttpClientWrapper Client { get; set; }
         public IApiPathBuilder ApiPath { get; set; }
@@ -18,29 +19,30 @@ namespace Housing.Selection.Context.HttpRequests
         /// For IApiPathBuilder, you only need to pass a new ApiPathBuilder object.
         /// If any changes to paths need to be made, do it in the ApiPathBuilder base class.
         /// </remarks>
-        public ServiceBatchRetrieval(HttpClient httpClient, IApiPathBuilder apiPath)
+        public ServiceRoomRetrieval(HttpClient httpClient, IApiPathBuilder apiPath)
         {
             Client = new HttpClientWrapper(httpClient);
             ApiPath = apiPath;
         }
 
+
         /// <summary>
-        /// Asynchronously retrieves all service hub batches.
+        /// Asynchronously retrieves all service hub rooms.
         /// </summary>
         /// <returns>
-        /// Returns a List<ApiBatch>.
+        /// Returns a List<ApiRoom>.
         /// </returns>
-        public async Task<List<ApiBatch>> RetrieveAllBatchesAsync()
+        public async Task<List<ApiRoom>> RetrieveAllRoomsAsync()
         {
             try
             {
-                List<ApiBatch> batches = new List<ApiBatch>();
-                HttpResponseMessage response = await Client.GetAsync(ApiPath.GetBatchServicePath());
+                List<ApiRoom> rooms = new List<ApiRoom>();
+                HttpResponseMessage response = await Client.GetAsync(ApiPath.GetRoomServicePath());
                 if (response.IsSuccessStatusCode)
                 {
-                    batches = await response.Content.ReadAsAsync<List<ApiBatch>>();
-                    if (batches.Count <= 0) return null;
-                    return batches;
+                    rooms = await response.Content.ReadAsAsync<List<ApiRoom>>();
+                    if (rooms.Count <= 0) return null;
+                    return rooms;
                 }
                 else
                 {
@@ -51,7 +53,8 @@ namespace Housing.Selection.Context.HttpRequests
             {
                 throw ex;
             }
-
         }
+
+
     }
 }

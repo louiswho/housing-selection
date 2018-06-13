@@ -13,14 +13,6 @@ namespace Housing.Selection.Context.HttpRequests
     public interface IServiceBatchRetrieval
     {
         /// <summary>
-        /// RetrieveBatch asynchronously retrieves a single batch from the service hub api.
-        /// </summary>
-        /// <returns>
-        /// A single batch object is returned, or if not found, null is returned.
-        /// </returns>
-        Task<ApiBatch> RetrieveBatchAsync(Guid guid);
-
-        /// <summary>
         /// RetrieveAllBatches will asynchronously retrieve all batches from the service api.
         /// </summary>
         /// <returns>
