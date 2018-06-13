@@ -13,7 +13,10 @@ namespace Housing.Selection.Testing.Context
 
         public readonly IDbContext mockHousingContext;
 
-
+        #region Constructor
+        /// <summary>
+        /// create a mock dbContext object and setup relevent methods and properties
+        /// </summary>
         public TestRoomRepository()
         {
 
@@ -57,10 +60,11 @@ namespace Housing.Selection.Testing.Context
             DbSet<Room> myDbSet = TestingUtilities.GetQueryableMockDbSet(RoomList);
 
             mockHousingContext.Setup(x => x.Rooms).Returns(myDbSet);
-            mockHousingContext.Setup(x => x.Rooms.Add(It.IsAny<Room>()));
+            //mockHousingContext.Setup(x => x.Rooms.Add(It.IsAny<Room>()));
             //.Callback((Room item) => itemsInserted.Add(item));
             this.mockHousingContext = mockHousingContext.Object;
         }
+        #endregion
 
         [Fact]
         public void CanReturnBatches()
@@ -90,6 +94,8 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public void CanSaveChanges()
         {
+
+
             
             Mock<IDbContext> MockHousingContext = new Mock<IDbContext>();
             MockHousingContext.Setup(x => x.saveChanges()).Returns(1);
@@ -105,6 +111,7 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public void CanAddRoom()
         {
+            
             Mock<IDbContext> MockHousingContext = new Mock<IDbContext>();
             
 
