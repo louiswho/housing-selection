@@ -30,6 +30,24 @@ namespace Housing.Selection.Testing.Context.PollingTests
 
             pollRoom = new PollRoom(mockRoomRepo.Object, mockRoomRetrieval.Object);
         }
+        [Fact]
+        public async void Test_Room_Poll()
+        {
+            var expected = mockRoomList;
+            var result = await pollRoom.RoomPoll();
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public async void Test_Room_Poll_Fail()
+        {
+            mockRoomList.Add(room2);
+            var expected = mockRoomList;
+            var result = await pollRoom.RoomPoll();
+
+            Assert.NotEqual(expected, result);
+        }
 
         [Fact]
         public void Test_Room_Update()
