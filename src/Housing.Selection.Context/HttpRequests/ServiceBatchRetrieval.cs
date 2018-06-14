@@ -15,12 +15,21 @@ namespace Housing.Selection.Context.HttpRequests
         public IApiPathBuilder ApiPath { get; set; }
 
         /// <summary>
-        /// This is the constructor, where the HttpClient and ApiPathBuilder is injected.
+        /// This is the constructor, where the HttpClientWrapper and ApiPathBuilder is injected.
         /// </summary>
-        /// <remarks>
-        /// For IApiPathBuilder, you only need to pass a new ApiPathBuilder object.
-        /// If any changes to paths need to be made, do it in the ApiPathBuilder base class.
-        /// </remarks>
+        /// <param name="apiPath">
+        /// Pass in the implementation of IApiPathBuilder.
+        /// Api paths to the service hub are hard-wired
+        /// into the ApiPathBuilder class.
+        /// </param>
+        /// <param name="client">
+        /// This parameter takes in an IHttpClientWrapper.
+        /// The HttpClientWrapper passes in an HttpClient
+        /// Object in its own constructor.
+        /// </param>
+        /// <example>
+        /// ServiceBatchRetrieval batchCall = new ServiceBatchRetrieval(new HttpClientWrapper(new HttpClient()), new ApiPathBuilder());
+        /// </example>
         public ServiceBatchRetrieval(IHttpClientWrapper client, IApiPathBuilder apiPath)
         {
             Client = client;
