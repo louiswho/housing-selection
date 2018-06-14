@@ -24,7 +24,7 @@ namespace Housing.Selection.Service.Controllers
         public IActionResult GetBatches()
         {
             var batches = _selection.GetBatches();
-            var viewModel = _mapper.Map<IEnumerable<Batch>>(batches);
+            var viewModel = _mapper.Map<IEnumerable<BatchViewModel>>(batches);
 
             return Ok(viewModel);
         }
@@ -33,9 +33,9 @@ namespace Housing.Selection.Service.Controllers
         public IActionResult GetRooms()
         {
             var rooms = _selection.GetRooms();
-            var viewModel = _mapper.Map<IEnumerable<Room>>(rooms);
+            var viewModel = _mapper.Map<IEnumerable<RoomViewModel>>(rooms);
 
-            return Ok(_selection.GetRooms());
+            return Ok(viewModel);
         }
 
         [HttpGet]
@@ -44,9 +44,9 @@ namespace Housing.Selection.Service.Controllers
             if(!ModelState.IsValid) { return BadRequest(); };
 
             var rooms = _selection.CustomSearch(roomSearchViewModel);
-            var viewModel = _mapper.Map<IEnumerable<Room>>(rooms);
+            var viewModel = _mapper.Map<IEnumerable<RoomViewModel>>(rooms);
 
-            return Ok(_selection.CustomSearch(roomSearchViewModel));
+            return Ok(viewModel);
         }
 
         [HttpPut]

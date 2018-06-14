@@ -45,7 +45,7 @@ namespace Housing.Selection.Testing.Service
 
             var resultType = result as ObjectResult;
 
-            Assert.IsType<IEnumerable<BatchViewModel>>(resultType.Value);
+            Assert.IsAssignableFrom<IEnumerable<BatchViewModel>>(resultType.Value);
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace Housing.Selection.Testing.Service
 
             var resultType = result as ObjectResult;
 
-            Assert.IsType<List<Room>>(resultType.Value);
+            Assert.IsAssignableFrom<IEnumerable<RoomViewModel>>(resultType.Value);
         }
 
         [Fact]
@@ -91,7 +91,7 @@ namespace Housing.Selection.Testing.Service
 
             var resultType = result as ObjectResult;
 
-            Assert.IsType<List<Room>>(resultType.Value);
+            Assert.IsAssignableFrom<IEnumerable<RoomViewModel>>(resultType.Value);
         }
 
         [Fact]
