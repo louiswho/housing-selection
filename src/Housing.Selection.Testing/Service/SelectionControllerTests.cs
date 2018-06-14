@@ -1,4 +1,5 @@
-﻿using Housing.Selection.Context.Selection;
+﻿using AutoMapper;
+using Housing.Selection.Context.Selection;
 using Housing.Selection.Library.HousingModels;
 using Housing.Selection.Library.ViewModels;
 using Housing.Selection.Service.Controllers;
@@ -17,13 +18,16 @@ namespace Housing.Selection.Testing.Service
         {
             var moqService = new Mock<ISelectionService>();
 
+            var config = new MapperConfiguration(cfg => cfg.AddProfile(new MappingProfile()));
+            var mapper = config.CreateMapper();
+
             moqService.Setup(x => x.GetBatches()).Returns(new List<Batch>());
             moqService.Setup(x => x.GetRooms()).Returns(new List<Room>());
             moqService.Setup(x => x.CustomSearch(It.IsAny<RoomSearchViewModel>())).Returns(new List<Room>());
             moqService.Setup(x => x.AddUserToRoom(It.IsAny<AddRemoveUserFromRoomModel>()));
             moqService.Setup(x => x.RemoveUserFromRoom(It.IsAny<AddRemoveUserFromRoomModel>()));
 
-            controller = new SelectionController(moqService.Object);
+            controller = new SelectionController(moqService.Object, mapper);
         }
 
         [Fact]
@@ -41,7 +45,7 @@ namespace Housing.Selection.Testing.Service
 
             var resultType = result as ObjectResult;
 
-            Assert.IsType<List<Batch>>(resultType.Value);
+            Assert.IsType<IEnumerable<BatchViewModel>>(resultType.Value);
         }
 
         [Fact]
