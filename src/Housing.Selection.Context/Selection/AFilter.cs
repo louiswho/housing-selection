@@ -8,7 +8,7 @@ namespace Housing.Selection.Context.Selection
     public abstract class AFilter
     {
         protected AFilter _successor;
-        //Change to Successor
+        
         public void SetSuccessor(AFilter successor)
         {
             _successor = successor;
