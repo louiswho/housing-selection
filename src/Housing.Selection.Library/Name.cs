@@ -3,10 +3,9 @@ using System.Collections.Generic;
 
 namespace Housing.Selection.Library
 { 
-   public  class Name
+   public class Name
    {
         private const int MaxNameLength = 255;
-
         /// <summary>
         /// Our primary key.
         /// </summary>

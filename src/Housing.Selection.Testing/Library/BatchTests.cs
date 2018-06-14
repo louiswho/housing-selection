@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using Housing.Selection.Library;
 using Xunit;
 
@@ -21,7 +20,7 @@ namespace Housing.Selection.Testing.Library
                 BatchOccupancy = 20,
                 BatchSkill = ".net",
                 Users = new List<User>(),
-                Address = new Address()
+                Location = "Tampa"
             };
 
             Assert.True(batch.Validate());
@@ -40,7 +39,7 @@ namespace Housing.Selection.Testing.Library
                 BatchOccupancy = 20,
                 BatchSkill = "",
                 Users = new List<User>(),
-                Address = new Address()
+                Location = ""
             };
 
             Assert.False(batch.Validate());

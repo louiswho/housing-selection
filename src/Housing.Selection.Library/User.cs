@@ -7,7 +7,6 @@ namespace Housing.Selection.Library
 {
     public class User
     {
-        private const int MaxStringLength = 255;
         /// <summary>
         /// Our primary key.
         /// </summary>
@@ -50,8 +49,10 @@ namespace Housing.Selection.Library
         /// <returns>True if user model is valid and false if invalid.</returns>
         public bool Validate()
         {
+            const int MaxStringLength = 255;
+
             if (UserId == Guid.Empty) { return false; }
-            if (string.IsNullOrEmpty(Location) || Location.Length > 255) { return false; }
+            if (string.IsNullOrEmpty(Location) || Location.Length > MaxStringLength) { return false; }
             if (ValidateEmail() == false || Email.Length > MaxStringLength) { return false; }
             if (Gender == null || ValidateGender() == false) { return false; }
 

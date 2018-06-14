@@ -25,9 +25,9 @@ namespace Housing.Selection.Library
 
         public string BatchSkill { get; set; }
 
-        public ICollection<User> Users { get; set; }
+        public string Location { get; set; }
 
-        public Address Address { get; set; }
+        public ICollection<User> Users { get; set; }
 
         /// <summary>
         /// Check if object has any invalid (default) property values
@@ -39,7 +39,7 @@ namespace Housing.Selection.Library
             if (string.IsNullOrEmpty(BatchName)) { return false; }
             if (BatchOccupancy < 0 || BatchOccupancy > 100) { return false; }
             if (string.IsNullOrEmpty(BatchSkill)) { return false; }
-            if (Address == null) { return false; }
+            if (string.IsNullOrEmpty(Location)) { return false; }
 
             return true;
         }
