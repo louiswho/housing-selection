@@ -7,11 +7,11 @@ namespace Housing.Selection.Context.Selection
 {
     public abstract class AFilter
     {
-        protected AFilter _successor;
-        //Change to Successor
+        protected AFilter Successor;
+        
         public void SetSuccessor(AFilter successor)
         {
-            _successor = successor;
+            Successor = successor;
         }
 
         public abstract void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel);
@@ -26,10 +26,7 @@ namespace Housing.Selection.Context.Selection
                 var result = filterRooms.Where(x => x.Location == roomSearchViewModel.Location);
                 filterRooms = result.ToList();
             }
-            if(_successor != null) //Change to null propagation, see me.
-            {
-                _successor.FilterRequest(ref filterRooms, roomSearchViewModel);
-            }
+            Successor?.FilterRequest(ref filterRooms, roomSearchViewModel);
         }
     }
 
@@ -45,10 +42,7 @@ namespace Housing.Selection.Context.Selection
                               select x;
                 filterRooms = result.ToList();
             }
-            if (_successor != null) //Null propagation
-            {
-                _successor.FilterRequest(ref filterRooms, roomSearchViewModel);
-            }
+            Successor?.FilterRequest(ref filterRooms, roomSearchViewModel);
         }
     }
 
@@ -61,10 +55,7 @@ namespace Housing.Selection.Context.Selection
                 var result = filterRooms.Where(x => x.Gender.Equals(roomSearchViewModel.Gender));
                 filterRooms = result.ToList();
             }
-            if (_successor != null) //Null propagation
-            {
-                _successor.FilterRequest(ref filterRooms, roomSearchViewModel);
-            }
+            Successor?.FilterRequest(ref filterRooms, roomSearchViewModel);
         }
     }
 
@@ -79,13 +70,28 @@ namespace Housing.Selection.Context.Selection
             }
             else
             {
-                var result = filterRooms.Where(x => x.Vacancy < x.Occupancy);
+                var result = filterRooms.Where(x => x.Vacancy <= x.Occupancy);
                 filterRooms = result.ToList();
             }
-            if (_successor != null) //Null propagation
+            Successor?.FilterRequest(ref filterRooms, roomSearchViewModel);
+        }
+    }
+
+    public class HasBedAvailableFilter : AFilter
+    {
+        public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
+        {
+            if (roomSearchViewModel.HasBedAvailable)
             {
-                _successor.FilterRequest(ref filterRooms, roomSearchViewModel);
+                var result = filterRooms.Where(x => x.Vacancy > 0);
+                filterRooms = result.ToList();
             }
+            else
+            {
+                var result = filterRooms.Where(x => x.Vacancy == 0);
+                filterRooms = result.ToList();
+            }
+            Successor?.FilterRequest(ref filterRooms, roomSearchViewModel);
         }
     }
 }
