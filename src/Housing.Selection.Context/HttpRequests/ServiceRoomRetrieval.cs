@@ -5,6 +5,9 @@ using Housing.Selection.Library.ServiceHubModels;
 
 namespace Housing.Selection.Context.HttpRequests
 {
+    /// <summary>
+    /// This class retrieves room information from the service hub.
+    /// </summary>
     public class ServiceRoomRetrieval : IServiceRoomRetrieval
     {
         public IHttpClientWrapper Client { get; set; }

@@ -5,6 +5,9 @@ using Housing.Selection.Library.ServiceHubModels;
 
 namespace Housing.Selection.Context.HttpRequests
 {
+    /// <summary>
+    /// This class retrieves User information from the service hub.
+    /// </summary>
     public class ServiceUserRetrieval : IServiceUserRetrieval
     {
         public IHttpClientWrapper Client { get; set; }

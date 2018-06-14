@@ -3,6 +3,9 @@ using System.Net.Http;
 
 namespace Housing.Selection.Context.HttpRequests
 {
+    /// <summary>
+    /// This class wraps the HttpResponseMessage and exposes necessary methods.
+    /// </summary>
     public class HttpResponseWrapper : IHttpResponseWrapper
     {
         public HttpResponseMessage Response { get; set; }

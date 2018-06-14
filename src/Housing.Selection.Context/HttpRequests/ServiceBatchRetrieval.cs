@@ -6,6 +6,9 @@ using Housing.Selection.Library.ServiceHubModels;
 
 namespace Housing.Selection.Context.HttpRequests
 {
+    /// <summary>
+    /// This class retrieves Batch information from the service hub.
+    /// </summary>
     public class ServiceBatchRetrieval : IServiceBatchRetrieval
     {
         public IHttpClientWrapper Client { get; set; }
