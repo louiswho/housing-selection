@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Housing.Selection.Library.ServiceHubModels;
 
@@ -46,10 +47,10 @@ namespace Housing.Selection.Context.HttpRequests
             try
             {
                 var users = new List<ApiUser>();
-                var response = new HttpResponseWrapper(await Client.GetAsync(ApiPath.GetUserServicePath()));
-                if (response.IsSuccessStatusCode())
+                var response = await Client.GetAsync(ApiPath.GetUserServicePath());
+                if (response.IsSuccessStatusCode)
                 {
-                    users = await response.ReadAsAsync<List<ApiUser>>();
+                    users = await response.Content.ReadAsAsync<List<ApiUser>>();
                     if (users.Count <= 0) return null;
                     return users;
                 }
