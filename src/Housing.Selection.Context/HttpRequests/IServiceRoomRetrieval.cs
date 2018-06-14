@@ -11,8 +11,6 @@ namespace Housing.Selection.Context.HttpRequests
     /// </summary>
     public interface IServiceRoomRetrieval
     {
-
-
         /// <summary>
         /// Asynchronously etrieves all rooms from the service api.
         /// </summary>

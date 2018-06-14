@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Housing.Selection.Library.ServiceHubModels;
 
@@ -19,12 +17,11 @@ namespace Housing.Selection.Context.HttpRequests
         /// For IApiPathBuilder, you only need to pass a new ApiPathBuilder object.
         /// If any changes to paths need to be made, do it in the ApiPathBuilder base class.
         /// </remarks>
-        public ServiceRoomRetrieval(HttpClient httpClient, IApiPathBuilder apiPath)
+        public ServiceRoomRetrieval(IHttpClientWrapper httpClient, IApiPathBuilder apiPath)
         {
-            Client = new HttpClientWrapper(httpClient);
+            Client = httpClient;
             ApiPath = apiPath;
         }
-
 
         /// <summary>
         /// Asynchronously retrieves all service hub rooms.
@@ -36,11 +33,11 @@ namespace Housing.Selection.Context.HttpRequests
         {
             try
             {
-                List<ApiRoom> rooms = new List<ApiRoom>();
-                HttpResponseMessage response = await Client.GetAsync(ApiPath.GetRoomServicePath());
-                if (response.IsSuccessStatusCode)
+                var rooms = new List<ApiRoom>();
+                var response = new HttpResponseWrapper(await Client.GetAsync(ApiPath.GetRoomServicePath()));
+                if (response.IsSuccessStatusCode())
                 {
-                    rooms = await response.Content.ReadAsAsync<List<ApiRoom>>();
+                    rooms = await response.ReadAsAsync<List<ApiRoom>>();
                     if (rooms.Count <= 0) return null;
                     return rooms;
                 }
@@ -54,7 +51,5 @@ namespace Housing.Selection.Context.HttpRequests
                 throw ex;
             }
         }
-
-
     }
 }
