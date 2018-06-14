@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Xunit;
 using Moq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
 using Housing.Selection.Context.HttpRequests;
@@ -18,10 +19,6 @@ namespace Housing.Selection.Testing.Context
             List<ApiBatch> apibatchesexpected = new List<ApiBatch>();
             apibatchesexpected.Add(new ApiBatch());
 
-            var mockHttpResponseWrapper = new Mock<IHttpResponseWrapper>();
-            mockHttpResponseWrapper.Setup(x => x.ReadAsAsync<List<ApiBatch>>()).ReturnsAsync(apibatchesexpected);
-            mockHttpResponseWrapper.Setup(x => x.IsSuccessStatusCode()).Returns(true);
-
             var response = new HttpResponseMessage();
             response.Content = new ObjectContent<List<ApiBatch>>(apibatchesexpected, new JsonMediaTypeFormatter(), "application/json");
 
@@ -36,16 +33,13 @@ namespace Housing.Selection.Testing.Context
             var actual = await sbr.RetrieveAllBatchesAsync();
 
             Assert.Equal(apibatchesexpected, actual);
+            Assert.Single(actual);
         }
 
         [Fact]
         public async Task GetAllBatches_StatusCodeSuccessNoBatches_ReturnsNull()
         {
             List<ApiBatch> apibatchesexpected = new List<ApiBatch>();
-
-            var mockHttpResponseWrapper = new Mock<IHttpResponseWrapper>();
-            mockHttpResponseWrapper.Setup(x => x.ReadAsAsync<List<ApiBatch>>()).ReturnsAsync(apibatchesexpected);
-            mockHttpResponseWrapper.Setup(x => x.IsSuccessStatusCode()).Returns(true);
 
             var response = new HttpResponseMessage();
             response.Content = new ObjectContent<List<ApiBatch>>(apibatchesexpected, new JsonMediaTypeFormatter(), "application/json");
@@ -67,13 +61,11 @@ namespace Housing.Selection.Testing.Context
         public async Task GetAllBatches_StatusCodeFail_ReturnsNull()
         {
             List<ApiBatch> apibatchesexpected = new List<ApiBatch>();
-
-            var mockHttpResponseWrapper = new Mock<IHttpResponseWrapper>();
-            mockHttpResponseWrapper.Setup(x => x.ReadAsAsync<List<ApiBatch>>()).ReturnsAsync(apibatchesexpected);
-            mockHttpResponseWrapper.Setup(x => x.IsSuccessStatusCode()).Returns(false);
+            apibatchesexpected.Add(new ApiBatch());
 
             var response = new HttpResponseMessage();
             response.Content = new ObjectContent<List<ApiBatch>>(apibatchesexpected, new JsonMediaTypeFormatter(), "application/json");
+            response.StatusCode = HttpStatusCode.NotFound;
 
             var mockHttpClientWrapper = new Mock<IHttpClientWrapper>();
             mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(response);
@@ -89,14 +81,10 @@ namespace Housing.Selection.Testing.Context
         }
 
         [Fact]
-        public async Task GetAllRooms_StatusCodeSuccessReturnsRoom_ReturnsApiRooms()
+        public async Task GetAllRooms_StatusCodeSuccessReturnsRooms_ReturnsApiRooms()
         {
             List<ApiRoom> apiroomsexpected = new List<ApiRoom>();
             apiroomsexpected.Add(new ApiRoom());
-
-            var mockHttpResponseWrapper = new Mock<IHttpResponseWrapper>();
-            mockHttpResponseWrapper.Setup(x => x.ReadAsAsync<List<ApiRoom>>()).ReturnsAsync(apiroomsexpected);
-            mockHttpResponseWrapper.Setup(x => x.IsSuccessStatusCode()).Returns(true);
 
             var response = new HttpResponseMessage();
             response.Content = new ObjectContent<List<ApiRoom>>(apiroomsexpected, new JsonMediaTypeFormatter(), "application/json");
@@ -112,16 +100,13 @@ namespace Housing.Selection.Testing.Context
             var actual = await sbr.RetrieveAllRoomsAsync();
 
             Assert.Equal(apiroomsexpected, actual);
+            Assert.Single(actual);
         }
 
         [Fact]
         public async Task GetAllRooms_StatusCodeSuccessNoRooms_ReturnsNull()
         {
             List<ApiRoom> apiroomsexpected = new List<ApiRoom>();
-
-            var mockHttpResponseWrapper = new Mock<IHttpResponseWrapper>();
-            mockHttpResponseWrapper.Setup(x => x.ReadAsAsync<List<ApiRoom>>()).ReturnsAsync(apiroomsexpected);
-            mockHttpResponseWrapper.Setup(x => x.IsSuccessStatusCode()).Returns(true);
 
             var response = new HttpResponseMessage();
             response.Content = new ObjectContent<List<ApiRoom>>(apiroomsexpected, new JsonMediaTypeFormatter(), "application/json");
@@ -143,13 +128,11 @@ namespace Housing.Selection.Testing.Context
         public async Task GetAllRooms_StatusCodeFail_ReturnsNull()
         {
             List<ApiRoom> apiroomsexpected = new List<ApiRoom>();
-
-            var mockHttpResponseWrapper = new Mock<IHttpResponseWrapper>();
-            mockHttpResponseWrapper.Setup(x => x.ReadAsAsync<List<ApiRoom>>()).ReturnsAsync(apiroomsexpected);
-            mockHttpResponseWrapper.Setup(x => x.IsSuccessStatusCode()).Returns(false);
+            apiroomsexpected.Add(new ApiRoom());
 
             var response = new HttpResponseMessage();
             response.Content = new ObjectContent<List<ApiRoom>>(apiroomsexpected, new JsonMediaTypeFormatter(), "application/json");
+            response.StatusCode = HttpStatusCode.NotFound;
 
             var mockHttpClientWrapper = new Mock<IHttpClientWrapper>();
             mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(response);
@@ -169,10 +152,6 @@ namespace Housing.Selection.Testing.Context
         {
             List<ApiUser> apiUsersexpected = new List<ApiUser>();
             apiUsersexpected.Add(new ApiUser());
-
-            var mockHttpResponseWrapper = new Mock<IHttpResponseWrapper>();
-            mockHttpResponseWrapper.Setup(x => x.ReadAsAsync<List<ApiUser>>()).ReturnsAsync(apiUsersexpected);
-            mockHttpResponseWrapper.Setup(x => x.IsSuccessStatusCode()).Returns(true);
 
             var response = new HttpResponseMessage();
             response.Content = new ObjectContent<List<ApiUser>>(apiUsersexpected, new JsonMediaTypeFormatter(), "application/json");
@@ -195,10 +174,6 @@ namespace Housing.Selection.Testing.Context
         {
             List<ApiUser> apiUsersexpected = new List<ApiUser>();
 
-            var mockHttpResponseWrapper = new Mock<IHttpResponseWrapper>();
-            mockHttpResponseWrapper.Setup(x => x.ReadAsAsync<List<ApiUser>>()).ReturnsAsync(apiUsersexpected);
-            mockHttpResponseWrapper.Setup(x => x.IsSuccessStatusCode()).Returns(true);
-
             var response = new HttpResponseMessage();
             response.Content = new ObjectContent<List<ApiUser>>(apiUsersexpected, new JsonMediaTypeFormatter(), "application/json");
 
@@ -219,13 +194,11 @@ namespace Housing.Selection.Testing.Context
         public async Task GetAllUsers_StatusCodeFail_ReturnsNull()
         {
             List<ApiUser> apiUsersexpected = new List<ApiUser>();
-
-            var mockHttpResponseWrapper = new Mock<IHttpResponseWrapper>();
-            mockHttpResponseWrapper.Setup(x => x.ReadAsAsync<List<ApiUser>>()).ReturnsAsync(apiUsersexpected);
-            mockHttpResponseWrapper.Setup(x => x.IsSuccessStatusCode()).Returns(false);
+            apiUsersexpected.Add(new ApiUser());
 
             var response = new HttpResponseMessage();
             response.Content = new ObjectContent<List<ApiUser>>(apiUsersexpected, new JsonMediaTypeFormatter(), "application/json");
+            response.StatusCode = HttpStatusCode.NotFound;
 
             var mockHttpClientWrapper = new Mock<IHttpClientWrapper>();
             mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(response);
