@@ -68,11 +68,6 @@ namespace Housing.Selection.Context.Selection
                 var result = filterRooms.Where(x => x.Vacancy == x.Occupancy);
                 filterRooms = result.ToList();
             }
-            else
-            {
-                var result = filterRooms.Where(x => x.Vacancy <= x.Occupancy);
-                filterRooms = result.ToList();
-            }
             Successor?.FilterRequest(ref filterRooms, roomSearchViewModel);
         }
     }

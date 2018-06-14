@@ -351,7 +351,7 @@ namespace Housing.Selection.Testing.Context
         }
 
         [Fact]
-        public void IsCompletelyUnassignedFilter_False_TestRoom4FilteredOut()
+        public void IsCompletelyUnassignedFilter_False_AllRoomsReturned()
         {
             SearchModel = new RoomSearchViewModel
             {
@@ -382,7 +382,7 @@ namespace Housing.Selection.Testing.Context
 
             unassignedFilterTest.FilterRequest(ref TestRooms, SearchModel);
 
-            Assert.Equal(2, TestRooms.Count);
+            Assert.Equal(3, TestRooms.Count);
         }
     }
 }
