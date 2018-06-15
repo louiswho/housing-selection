@@ -60,7 +60,7 @@ namespace Housing.Selection.Context.Polling
                 housingUser = housingUser.NewUserFromServiceModel(user);
             }
             else
-            {             
+            {
                 housingUser = housingUser.ConvertFromServiceModel(apiUser: user);
                 housingUser.Batch = GetBatchId(user, batches);
                 housingUser.Room = GetRoomId(user, rooms);
@@ -73,21 +73,23 @@ namespace Housing.Selection.Context.Polling
         public Room GetRoomId(ApiUser user, List<ApiRoom> rooms)
         {
             var roomId = (from x in rooms
-                              where x.Address.AddressId == user.Address.AddressId
-                              select x.RoomId).FirstOrDefault(); 
-            var room = roomRepository.GetRoomByRoomId(roomId);
-
-            return room;
+                          where x.Address.AddressId == user.Address.AddressId
+                          select x.RoomId).FirstOrDefault();
+            if(roomId != null)
+                return roomRepository.GetRoomByRoomId(roomId);
+            else
+                return null;
         }
 
         public Batch GetBatchId(ApiUser user, List<ApiBatch> batches)
         {
             var batchId = (from x in batches
-                              where x.UserIds.Any(y => y == user.UserId)
-                              select x).FirstOrDefault().BatchId;
-            var batch = batchRepository.GetBatchByBatchId(batchId); 
-            
-            return batch;
+                           where x.UserIds.Any(y => y == user.UserId)
+                           select x).FirstOrDefault().BatchId;
+            if (batchId != null)
+                return batchRepository.GetBatchByBatchId(batchId);
+            else
+                return null;
         }
         public Address UpdateAddress(ApiAddress apiAddress)
         {
