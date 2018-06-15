@@ -260,6 +260,62 @@ namespace Housing.Selection.Testing.Context
         }
 
         [Fact]
+        public void HasBedAvailableFilter_True_FullRoomsFilteredOut()
+        {
+            SearchModel = new RoomSearchViewModel
+            {
+                HasBedAvailable = true
+            };
+            TestRooms = new List<Room>();
+            AFilter bedAvailableFilterTest = new HasBedAvailableFilter();
+
+            Room room1 = new Room
+            {
+                Vacancy = 3
+            };
+
+            Room room2 = new Room
+            {
+                Vacancy = 0
+            };
+
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
+
+            bedAvailableFilterTest.FilterRequest(ref TestRooms, SearchModel);
+
+            Assert.Single(TestRooms);
+        }
+
+        [Fact]
+        public void HasBedAvailableFilter_False_EmptyRoomsFilteredOut()
+        {
+            SearchModel = new RoomSearchViewModel
+            {
+                HasBedAvailable = false
+            };
+            TestRooms = new List<Room>();
+            AFilter bedAvailableFilterTest = new HasBedAvailableFilter();
+
+            Room room1 = new Room
+            {
+                Vacancy = 3
+            };
+
+            Room room2 = new Room
+            {
+                Vacancy = 0
+            };
+
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
+
+            bedAvailableFilterTest.FilterRequest(ref TestRooms, SearchModel);
+
+            Assert.Single(TestRooms);
+        }
+
+        [Fact]
         public void IsCompletelyUnassignedFilter_True_TestRoom4Returned()
         {
             SearchModel = new RoomSearchViewModel
