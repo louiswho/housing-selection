@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Housing.Selection.Context.ServiceHubProxies
 {
-    public class ServiceUserRetrievalProxy
+    public class ServiceUserRetrievalProxy :  IServiceUserRetrievalProxy
     {
         private List<ApiUser> _users;
 
@@ -134,7 +134,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                }
 );
         }
-        public async Task<IEnumerable<ApiUser>> RetrieveUsersAsync()
+        public async Task<IEnumerable<ApiUser>> RetrieveAllUsersAsync()
         {
             return _users;
         }

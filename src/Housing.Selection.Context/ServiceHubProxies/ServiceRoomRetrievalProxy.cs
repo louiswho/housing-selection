@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace Housing.Selection.Context.ServiceHubProxies
 {
-   public class ServiceRoomRetrievalProxy
+   public class ServiceRoomRetrievalProxy : IServiceRoomRetrievalProxy
+    {
     {
        private List<ApiRoom> _rooms;
 
