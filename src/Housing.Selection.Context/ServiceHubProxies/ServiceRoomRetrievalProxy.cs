@@ -31,7 +31,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                         PostalCode = "33620"
                     },
                     Gender = "M",
-                    Location = ""
+                    Location = "Tampa"
                 }
                 );
             _rooms.Add(
@@ -45,12 +45,12 @@ namespace Housing.Selection.Context.ServiceHubProxies
                {
                    AddressId = Guid.NewGuid(),
                    Address1 = "12977 E 6th St",
-                   City = "Tampa",
+                   City = "Reston",
                    Country = "USA",
-                   PostalCode = "33620"
+                   PostalCode = "33690"
                },
                Gender = "M",
-               Location = ""
+               Location = "Reston"
            }
            );
             _rooms.Add(
@@ -68,7 +68,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                         PostalCode = "33620"
                     },
                     Gender = "F",
-                    Location = ""
+                    Location = "Tampa"
                 }
                 );
                 _rooms.Add(
@@ -81,12 +81,12 @@ namespace Housing.Selection.Context.ServiceHubProxies
                     {
                         AddressId = Guid.NewGuid(),
                         Address1 = "2919 Network",
-                        City = "Tampa",
+                        City = "Reston",
                         Country = "USA",
-                        PostalCode = "33620"
+                        PostalCode = "33670"
                     },
                     Gender = "M",
-                    Location = ""
+                    Location = "Reston"
                 } 
                 );
         }
@@ -94,7 +94,6 @@ namespace Housing.Selection.Context.ServiceHubProxies
         {
             return _rooms;
         }
-
 
     }
 }

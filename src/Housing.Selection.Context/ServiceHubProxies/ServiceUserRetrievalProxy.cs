@@ -58,7 +58,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                     PostalCode = "33620"
                 },
                 Gender = 'F',
-                Location = ""
+                Location = "Tampa"
             }
             );
             _users.Add(
@@ -82,7 +82,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                      PostalCode = "33620"
                  },
                  Gender = 'M',
-                 Location = ""
+                 Location = "Tampa"
              }
     );
             _users.Add(
@@ -106,7 +106,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                     PostalCode = "33620"
                 },
                 Gender = 'M',
-                Location = ""
+                Location = "Tampa"
             }
 );
             _users.Add(
@@ -125,12 +125,12 @@ namespace Housing.Selection.Context.ServiceHubProxies
                    {
                        AddressId = Guid.NewGuid(),
                        Address1 = "12773 N 21st St",
-                       City = "Tampa",
+                       City = "Reston",
                        Country = "USA",
-                       PostalCode = "33620"
+                       PostalCode = "45321"
                    },
                    Gender = 'F',
-                   Location = ""
+                   Location = "Reston"
                }
 );
         }
