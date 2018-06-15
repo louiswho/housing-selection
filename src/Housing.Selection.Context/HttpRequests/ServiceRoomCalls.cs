@@ -65,10 +65,22 @@ namespace Housing.Selection.Context.HttpRequests
             }
         }
 
+        /// <summary>
+        /// Makes a call to the Service Hub room service and
+        /// updates a room.
+        /// </summary>
+        /// <param name="room">This is the room to be updated.
+        /// The room must have the ID of the room to be updated,
+        /// but the object only requires fields that need to be
+        /// updated.  Any field that will be left unmodified
+        /// can be left null.
+        /// </param>
         public async Task UpdateRoomAsync(ApiRoom room)
         {
             try
             {
+                if (room.RoomId == Guid.Empty) throw new Exception("Room did not have a valid ID");
+
                 var response = await Client.PutAsync<ApiRoom>(ApiPath.GetRoomServicePath(), room);
                 if (!response.IsSuccessStatusCode)
                 {

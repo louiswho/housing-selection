@@ -65,10 +65,40 @@ namespace Housing.Selection.Context.HttpRequests
             }
         }
 
+        /// <summary>
+        /// Use this method to make a call to the
+        /// service hub Users, and update a user.
+        /// </summary>
+        /// <param name="user">An ApiUser object is passed into this method.
+        /// The userID is a required field.
+        /// Null address will clear an address.
+        /// An address must be a complete, valid address, or else a 400 error will return.
+        /// Null location will not update.
+        /// If an empty string is passed into location, a 400 error will be returned.
+        /// Location can be 1-255 characters.
+        /// All other fields are ignored.
+        /// </param>
         public async Task UpdateUserAsync(ApiUser user)
         {
             try
             {
+                if (user.UserId == Guid.Empty) throw new Exception("No ID provided.");
+
+                if (user.Address != null)
+                {
+                    bool validate = true;
+                    validate = String.IsNullOrEmpty(user.Address.Address1) ? false : validate;
+                    validate = (user.Address.AddressId == Guid.Empty) ? false : validate;
+                    validate = String.IsNullOrEmpty(user.Address.City) ? false : validate;
+                    validate = String.IsNullOrEmpty(user.Address.State) ? false : validate;
+                    validate = String.IsNullOrEmpty(user.Address.PostalCode) ? false : validate;
+                    validate = String.IsNullOrEmpty(user.Address.Country) ? false : validate;
+
+                    if (!validate) throw new Exception("Address was not valid.");
+                }
+
+                if (user.Location == "") throw new Exception("Location was invalid.");
+
                 var response = await Client.PutAsync<ApiUser>(ApiPath.GetUserServicePath(), user);
                 if (!response.IsSuccessStatusCode)
                 {

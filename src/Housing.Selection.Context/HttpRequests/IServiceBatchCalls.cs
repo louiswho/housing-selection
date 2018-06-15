@@ -16,6 +16,5 @@ namespace Housing.Selection.Context.HttpRequests
         /// Returns a list of Batches.
         /// </returns>
         Task<List<ApiBatch>> RetrieveAllBatchesAsync();
-        Task UpdateBatchAsync(ApiBatch batch);
     }
 }
