@@ -102,7 +102,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
             var expected = batch1;
             var result = pollUser.GetBatchId(apiUser1, mockApiBatchList);
 
-            Assert.NotEqual(expected, result);
+            Assert.Equal(expected, result);
         }
 
         [Fact]
