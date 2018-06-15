@@ -37,15 +37,15 @@ namespace Housing.Selection.Testing.Context.PollingTests
 
             var mockUserRepo = new Mock<IUserRepository>();
             mockUserRepo.Setup(x => x.GetUserByUserId(It.IsAny<Guid>())).Returns(user1);
-            var mockUserRetrieval = new Mock<IServiceUserRetrieval>();
+            var mockUserRetrieval = new Mock<IServiceUserCalls>();
             mockUserRetrieval.Setup(x => x.RetrieveAllUsersAsync()).Returns(mockTaskApiUserList);
             var mockRoomRepo = new Mock<IRoomRepository>();
             mockRoomRepo.Setup(x => x.GetRoomByRoomId(It.IsAny<Guid>())).Returns(room1);
-            var mockRoomRetrieval = new Mock<IServiceRoomRetrieval>();
+            var mockRoomRetrieval = new Mock<IServiceRoomCalls>();
             mockRoomRetrieval.Setup(x => x.RetrieveAllRoomsAsync()).Returns(mockTaskApiRoomList);
             var mockBatchRepo = new Mock<IBatchRepository>();
             mockBatchRepo.Setup(x => x.GetBatchByBatchId(It.IsAny<Guid>())).Returns(batch1);
-            var mockBatchRetrieval = new Mock<IServiceBatchRetrieval>();
+            var mockBatchRetrieval = new Mock<IServiceBatchCalls>();
             mockBatchRetrieval.Setup(x => x.RetrieveAllBatchesAsync()).Returns(mockTaskApiBatchList);
             var mockAddressRepo = new Mock<IAddressRepository>();
             mockAddressRepo.Setup(x => x.GetAddressByAddressId(It.IsAny<Guid>())).Returns(room1.Address);
@@ -102,7 +102,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
             var expected = batch1;
             var result = pollUser.GetBatchId(apiUser1, mockApiBatchList);
 
-            Assert.NotEqual(expected, result);
+            Assert.Equal(expected, result);
         }
 
         [Fact]

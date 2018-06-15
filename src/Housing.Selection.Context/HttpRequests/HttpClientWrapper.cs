@@ -19,5 +19,10 @@ namespace Housing.Selection.Context.HttpRequests
         {
             return await Client.GetAsync(requestUri);
         }
+
+        public async Task<HttpResponseMessage> PutAsync<T>(string requestUri, T value) where T : class
+        {
+            return await Client.PutAsJsonAsync<T>(requestUri, value);
+        }
     }
 }
