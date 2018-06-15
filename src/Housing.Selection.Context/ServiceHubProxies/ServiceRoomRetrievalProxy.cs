@@ -30,7 +30,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                         Country = "USA",
                         PostalCode = "33620"
                     },
-                    Gender = "Male",
+                    Gender = "M",
                     Location = ""
                 }
                 );
@@ -49,7 +49,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                    Country = "USA",
                    PostalCode = "33620"
                },
-               Gender = "Male",
+               Gender = "M",
                Location = ""
            }
            );
@@ -67,7 +67,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                         Country = "USA",
                         PostalCode = "33620"
                     },
-                    Gender = "Female",
+                    Gender = "F",
                     Location = ""
                 }
                 );
@@ -85,12 +85,12 @@ namespace Housing.Selection.Context.ServiceHubProxies
                         Country = "USA",
                         PostalCode = "33620"
                     },
-                    Gender = "Male",
+                    Gender = "M",
                     Location = ""
                 } 
                 );
         }
-        public async Task<List<ApiRoom>> RetrieveAllRoomsAsync()
+        public async Task<IEnumerable<ApiRoom>> RetrieveAllRoomsAsync()
         {
             return _rooms;
         }

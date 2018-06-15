@@ -9,17 +9,23 @@ namespace Housing.Selection.Context.ServiceHubProxies
     public class ServiceUserRetrievalProxy
     {
         public List<ApiUser> _users;
-        public List<ApiUser> _usersBatch2;
 
         public ServiceUserRetrievalProxy()
         {
             _users = new List<ApiUser>();
-            _usersBatch2 = new List<ApiUser>();
 
             _users.Add(
                 new ApiUser()
                 {
                     UserId = Guid.NewGuid(),
+                    Email = "Linda@mail.com",
+                    Type = "Associate",
+                    Name = new ApiName()
+                    {
+                        First = "Linda",
+                        Last = "Houdini",
+                        NameId = Guid.NewGuid()
+                    },
                     Address = new ApiAddress()
                     {
                         AddressId = Guid.NewGuid(),
@@ -34,6 +40,15 @@ namespace Housing.Selection.Context.ServiceHubProxies
             _users.Add(
             new ApiUser()
             {
+                UserId = Guid.NewGuid(),
+                Email = "Carly@mail.com",
+                Type = "Associate",
+                Name = new ApiName()
+                {
+                    First = "Carly",
+                    Last = "Houdini",
+                    NameId = Guid.NewGuid()
+                },
                 Address = new ApiAddress()
                 {
                     AddressId = Guid.NewGuid(),
@@ -49,6 +64,15 @@ namespace Housing.Selection.Context.ServiceHubProxies
             _users.Add(
              new ApiUser()
              {
+                 UserId = Guid.NewGuid(),
+                 Email = "lary@mail.com",
+                 Type = "Associate",
+                 Name = new ApiName()
+                 {
+                     First = "Larry",
+                     Last = "Loudini",
+                     NameId = Guid.NewGuid()
+                 },
                  Address = new ApiAddress()
                  {
                      AddressId = Guid.NewGuid(),
@@ -64,6 +88,15 @@ namespace Housing.Selection.Context.ServiceHubProxies
             _users.Add(
             new ApiUser()
             {
+                UserId = Guid.NewGuid(),
+                Email = "Mary@mail.com",
+                Type = "Associate",
+                Name = new ApiName()
+                {
+                    First = "Larry",
+                    Last = "Loudini",
+                    NameId = Guid.NewGuid()
+                },
                 Address = new ApiAddress()
                 {
                     AddressId = Guid.NewGuid(),
@@ -75,6 +108,30 @@ namespace Housing.Selection.Context.ServiceHubProxies
                 Gender = 'M',
                 Location = ""
             }
+);
+            _users.Add(
+               new ApiUser()
+               {
+                   UserId = Guid.NewGuid(),
+                   Email = "Mary@mail.com",
+                   Type = "Associate",
+                   Name = new ApiName()
+                   {
+                       First = "Mary",
+                       Last = "Loudini",
+                       NameId = Guid.NewGuid()
+                   },
+                   Address = new ApiAddress()
+                   {
+                       AddressId = Guid.NewGuid(),
+                       Address1 = "12773 N 21st St",
+                       City = "Tampa",
+                       Country = "USA",
+                       PostalCode = "33620"
+                   },
+                   Gender = 'F',
+                   Location = ""
+               }
 );
         }
         public async Task<IEnumerable<ApiUser>> RetrieveUsersAsync()
