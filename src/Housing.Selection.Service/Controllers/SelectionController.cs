@@ -38,7 +38,7 @@ namespace Housing.Selection.Service.Controllers
             return Ok(viewModel);
         }
 
-        [HttpGet]
+        [HttpPut]
         public IActionResult CustomSearch(RoomSearchViewModel roomSearchViewModel)
         {
             if(!ModelState.IsValid) { return BadRequest(); };
