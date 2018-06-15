@@ -13,7 +13,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
 {
     public class BatchPollingTest
     {
-        private Batch batch1, batch2, batch3;
+        private Batch batch1, batch2;
         private ApiBatch apiBatch1, apiBatch2;
         private List<Batch> mockBatchList;
         private Task<List<ApiBatch>> mockApiBatchList;
