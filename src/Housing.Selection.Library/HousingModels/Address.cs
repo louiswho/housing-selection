@@ -54,6 +54,9 @@ namespace Housing.Selection.Library.HousingModels
         /// api call.
         /// All other fields are ignored.
         /// </param>
+        /// <returns>
+        /// Address that has been updated with the ApiAddresss properties
+        /// </returns>
         public Address ConvertFromServiceModel(ApiAddress apiAddress)
         {
             var housingAddress = this;

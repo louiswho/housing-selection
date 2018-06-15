@@ -49,6 +49,9 @@ namespace Housing.Selection.Library.HousingModels
         /// api call.
         /// All other fields are ignored.
         /// </param>
+        /// <returns>
+        /// Batch that has been updated with the ApiBatchs properties
+        /// </returns>
         public Batch ConvertFromServiceModel(ApiBatch apiBatch)
         {
             Batch housingBatch = this;
@@ -59,7 +62,7 @@ namespace Housing.Selection.Library.HousingModels
             housingBatch.BatchOccupancy = (int)apiBatch.BatchOccupancy;
             housingBatch.BatchSkill = apiBatch.BatchSkill;
             housingBatch.Address = apiBatch.Address.ConvertToAddress(housingBatch.Address);
-            
+
             return housingBatch;
         }
 
@@ -73,6 +76,9 @@ namespace Housing.Selection.Library.HousingModels
         /// api call.
         /// All other fields are ignored.
         /// </param>
+        /// <returns>
+        /// New instance of Batch that has been created with the ApiBatchs properties
+        /// </returns>
         public Batch CreateNewBatch(ApiBatch apiBatch)
         {
             Batch batch = new Batch()
@@ -85,7 +91,7 @@ namespace Housing.Selection.Library.HousingModels
                 BatchSkill = apiBatch.BatchSkill,
                 Address = apiBatch.Address.CreateNewAddress()
             };
-           
+
             return batch;
         }
     }

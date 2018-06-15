@@ -51,6 +51,9 @@ namespace Housing.Selection.Library.HousingModels
         /// api call.
         /// All other fields are ignored.
         /// </param>
+        /// <returns>
+        /// User that has been updated with the ApiUsers properties
+        /// </returns>
         public User ConvertFromServiceModel(ApiUser apiUser)
         {
             User housingUser = this;
@@ -64,6 +67,7 @@ namespace Housing.Selection.Library.HousingModels
             return housingUser;
         }
 
+
         /// <summary>
         /// Use this method to create a new User in the instance
         /// where housing is passed a service hub User that does not exist
@@ -74,6 +78,9 @@ namespace Housing.Selection.Library.HousingModels
         /// api call.
         /// All other fields are ignored.
         /// </param>
+        /// <returns>
+        /// New instance of User that has been created with the ApiUsers properties
+        /// </returns>
         public User NewUserFromServiceModel(ApiUser apiUser)
         {
             User housingUser = new User()

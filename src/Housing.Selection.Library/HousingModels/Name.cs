@@ -27,7 +27,7 @@ namespace Housing.Selection.Library.HousingModels
         [Required]
         public string Last { get; set; }
 
-        public ICollection<User> Users { get; set; }        
+        public ICollection<User> Users { get; set; }
 
         /// <summary>
         /// Use this method to convert from a 
@@ -39,6 +39,9 @@ namespace Housing.Selection.Library.HousingModels
         /// api call.
         /// All other fields are ignored.
         /// </param>
+        /// <returns>
+        /// Name that has been updated with the ApiName properties
+        /// </returns>
         public Name ConvertFromServiceModel(ApiName apiName)
         {
             Name housingName = this;
@@ -50,7 +53,7 @@ namespace Housing.Selection.Library.HousingModels
 
             return housingName;
         }
-        
+
         /// <summary>
         /// Use this method to create a new Name in the instance
         /// where housing is passed a service hub Name that does not exist
@@ -61,6 +64,9 @@ namespace Housing.Selection.Library.HousingModels
         /// api call.
         /// All other fields are ignored.
         /// </param>
+        /// <returns>
+        /// New instance of Name that has been created with the ApiNames properties
+        /// </returns>
         public Name NewNameFromServiceModel(ApiName apiName)
         {
             Name housingName = new Name()
