@@ -16,5 +16,6 @@ namespace Housing.Selection.Context.HttpRequests
         /// Returns a list of users.
         /// </returns>
         Task<List<ApiUser>> RetrieveAllUsersAsync();
+        Task UpdateUserAsync(ApiUser user);
     }
 }

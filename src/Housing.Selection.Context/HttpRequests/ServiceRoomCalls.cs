@@ -64,5 +64,21 @@ namespace Housing.Selection.Context.HttpRequests
                 throw ex;
             }
         }
+
+        public async Task UpdateRoomAsync(ApiRoom room)
+        {
+            try
+            {
+                var response = await Client.PutAsync<ApiRoom>(ApiPath.GetRoomServicePath(), room);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception("Update failed for " + room.RoomId);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -16,5 +16,6 @@ namespace Housing.Selection.Context.HttpRequests
         /// Returns a list of Rooms.
         /// </returns>
         Task<List<ApiRoom>> RetrieveAllRoomsAsync();
+        Task UpdateRoomAsync(ApiRoom room);
     }
 }

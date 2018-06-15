@@ -64,5 +64,21 @@ namespace Housing.Selection.Context.HttpRequests
                 throw ex;
             }
         }
+
+        public async Task UpdateUserAsync(ApiUser user)
+        {
+            try
+            {
+                var response = await Client.PutAsync<ApiUser>(ApiPath.GetUserServicePath(), user);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception("Update failed for " + user.UserId);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

@@ -64,5 +64,21 @@ namespace Housing.Selection.Context.HttpRequests
                 throw ex;
             }
         }
+
+        public async Task UpdateBatchAsync(ApiBatch batch)
+        {
+            try
+            {
+                var response = await Client.PutAsync<ApiBatch>(ApiPath.GetBatchServicePath(), batch);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception("Update failed for " + batch.BatchId);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
