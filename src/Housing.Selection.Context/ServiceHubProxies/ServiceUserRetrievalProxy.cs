@@ -8,7 +8,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
 {
     public class ServiceUserRetrievalProxy
     {
-        public List<ApiUser> _users;
+        private List<ApiUser> _users;
 
         public ServiceUserRetrievalProxy()
         {

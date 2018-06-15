@@ -1,15 +1,13 @@
-﻿using Housing.Selection.Library.HousingModels;
-using Housing.Selection.Library.ServiceHubModels;
+﻿using Housing.Selection.Library.ServiceHubModels;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Housing.Selection.Context.ServiceHubProxies
 {
    public class ServiceRoomRetrievalProxy
     {
-        public List<ApiRoom> _rooms;
+       private List<ApiRoom> _rooms;
 
         public ServiceRoomRetrievalProxy( )
         {
