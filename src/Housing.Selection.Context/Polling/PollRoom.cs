@@ -10,9 +10,9 @@ namespace Housing.Selection.Context.Polling
     public class PollRoom : IPollRoom
     {
         private IRoomRepository roomRepository;
-        private IServiceRoomRetrieval roomRetrieval;
+        private IServiceRoomCalls roomRetrieval;
 
-        public PollRoom(IRoomRepository roomRepository, IServiceRoomRetrieval roomRetrieval)
+        public PollRoom(IRoomRepository roomRepository, IServiceRoomCalls roomRetrieval)
         {
             this.roomRepository = roomRepository;
             this.roomRetrieval = roomRetrieval;

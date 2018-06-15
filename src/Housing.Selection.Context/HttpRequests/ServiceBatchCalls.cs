@@ -7,9 +7,9 @@ using Housing.Selection.Library.ServiceHubModels;
 namespace Housing.Selection.Context.HttpRequests
 {
     /// <summary>
-    /// This class retrieves User information from the service hub.
+    /// This class retrieves Batch information from the service hub.
     /// </summary>
-    public class ServiceUserRetrieval : IServiceUserRetrieval
+    public class ServiceBatchCalls : IServiceBatchCalls
     {
         public IHttpClientWrapper Client { get; set; }
         public IApiPathBuilder ApiPath { get; set; }
@@ -22,37 +22,37 @@ namespace Housing.Selection.Context.HttpRequests
         /// Api paths to the service hub are hard-wired
         /// into the ApiPathBuilder class.
         /// </param>
-        /// <param name="httpClient">
+        /// <param name="client">
         /// This parameter takes in an IHttpClientWrapper.
         /// The HttpClientWrapper passes in an HttpClient
         /// Object in its own constructor.
         /// </param>
         /// <example>
-        /// ServiceUserRetrieval batchCall = new ServiceUserRetrieval(new HttpClientWrapper(new HttpClient()), new ApiPathBuilder());
+        /// ServiceBatchRetrieval batchCall = new ServiceBatchRetrieval(new HttpClientWrapper(new HttpClient()), new ApiPathBuilder());
         /// </example>
-        public ServiceUserRetrieval(IHttpClientWrapper httpClient, IApiPathBuilder apiPath)
+        public ServiceBatchCalls(IHttpClientWrapper client, IApiPathBuilder apiPath)
         {
-            Client = httpClient;
+            Client = client;
             ApiPath = apiPath;
         }
 
         /// <summary>
-        /// Asynchronously retrieves all service hub users.
+        /// Asynchronously retrieves all service hub batches.
         /// </summary>
         /// <returns>
-        /// Returns a List<ApiUser>.
+        /// Returns a List<ApiBatch>.
         /// </returns>
-        public async Task<List<ApiUser>> RetrieveAllUsersAsync()
+        public async Task<List<ApiBatch>> RetrieveAllBatchesAsync()
         {
             try
             {
-                var users = new List<ApiUser>();
-                var response = await Client.GetAsync(ApiPath.GetUserServicePath());
+                var batches = new List<ApiBatch>();
+                var response = await Client.GetAsync(ApiPath.GetBatchServicePath());
                 if (response.IsSuccessStatusCode)
                 {
-                    users = await response.Content.ReadAsAsync<List<ApiUser>>();
-                    if (users.Count <= 0) return null;
-                    return users;
+                    batches = await response.Content.ReadAsAsync<List<ApiBatch>>();
+                    if (batches.Count <= 0) return null;
+                    return batches;
                 }
                 else
                 {

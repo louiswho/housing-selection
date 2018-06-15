@@ -9,5 +9,6 @@ namespace Housing.Selection.Context.HttpRequests
     public interface IHttpClientWrapper
     {
         Task<HttpResponseMessage> GetAsync(string requestUri);
+        Task<HttpResponseMessage> PutAsync<T>(string requestUri, T value) where T : class;
     }
 }
