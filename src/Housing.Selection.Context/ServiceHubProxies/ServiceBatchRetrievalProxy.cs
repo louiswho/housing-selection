@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Housing.Selection.Context.HttpRequests;
 using Housing.Selection.Library.ServiceHubModels;
@@ -9,9 +10,11 @@ namespace Housing.Selection.Context.ServiceHubProxies
     public class ServiceBatchRetrievalProxy : IServiceBatchRetrieval
     {
         private List<ApiBatch> _batches;
+        public readonly ServiceUserRetrievalProxy serviceUserRetrieval;
 
         public ServiceBatchRetrievalProxy()
         {
+            serviceUserRetrieval = new ServiceUserRetrievalProxy();
             _batches = new List<ApiBatch>();
             _batches.Add
                 (
@@ -23,7 +26,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                     BatchSkill = ".NET",
                     StartDate = new DateTime(2020, 1, 1),
                     EndDate = new DateTime(2020, 5, 1),
-                    UserIds = this.MakeUserIds(20),
+                    UserIds = serviceUserRetrieval.RetrieveUserIds().ToList(),
                     Address = new ApiAddress()
                     {
                         AddressId = Guid.NewGuid(),
@@ -45,7 +48,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                     BatchSkill = "Java",
                     StartDate = new DateTime(2020, 1, 1),
                     EndDate = new DateTime(2020, 5, 1),
-                    UserIds = this.MakeUserIds(21),
+                    UserIds = serviceUserRetrieval.RetrieveUserIds().ToList(),
                     Address = new ApiAddress()
                     {
                         AddressId = Guid.NewGuid(),
@@ -68,7 +71,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                     BatchSkill = ".NET",
                     StartDate = new DateTime(2020, 2, 1),
                     EndDate = new DateTime(2020, 6, 1),
-                    UserIds = this.MakeUserIds(16),
+                    UserIds = serviceUserRetrieval.RetrieveUserIds().ToList(),
                     Address = new ApiAddress()
                     {
                         AddressId = Guid.NewGuid(),
@@ -90,7 +93,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                     BatchSkill = "Java",
                     StartDate = new DateTime(2020, 3, 1),
                     EndDate = new DateTime(2020, 7, 1),
-                    UserIds = this.MakeUserIds(19),
+                    UserIds = serviceUserRetrieval.RetrieveUserIds().ToList(),
                     Address = new ApiAddress()
                     {
                         AddressId = Guid.NewGuid(),
@@ -114,7 +117,6 @@ namespace Housing.Selection.Context.ServiceHubProxies
             }
             return ids;
         }
-
         public async Task<List<ApiBatch>> RetrieveAllBatchesAsync()
         {
             return _batches;
