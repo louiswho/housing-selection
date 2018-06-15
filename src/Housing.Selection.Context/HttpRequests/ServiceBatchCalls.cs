@@ -9,7 +9,7 @@ namespace Housing.Selection.Context.HttpRequests
     /// <summary>
     /// This class retrieves Batch information from the service hub.
     /// </summary>
-    public class ServiceBatchRetrieval : IServiceBatchRetrieval
+    public class ServiceBatchCalls : IServiceBatchCalls
     {
         public IHttpClientWrapper Client { get; set; }
         public IApiPathBuilder ApiPath { get; set; }
@@ -30,7 +30,7 @@ namespace Housing.Selection.Context.HttpRequests
         /// <example>
         /// ServiceBatchRetrieval batchCall = new ServiceBatchRetrieval(new HttpClientWrapper(new HttpClient()), new ApiPathBuilder());
         /// </example>
-        public ServiceBatchRetrieval(IHttpClientWrapper client, IApiPathBuilder apiPath)
+        public ServiceBatchCalls(IHttpClientWrapper client, IApiPathBuilder apiPath)
         {
             Client = client;
             ApiPath = apiPath;

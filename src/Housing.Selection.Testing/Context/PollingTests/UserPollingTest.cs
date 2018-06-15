@@ -26,7 +26,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
 
             mockUserRepo = new Mock<IUserRepository>();
             mockUserRepo.Setup(x => x.GetUserByUserId(It.IsAny<Guid>())).Returns(user1);
-            var mockUserRetrieval = new Mock<IServiceUserRetrieval>();
+            var mockUserRetrieval = new Mock<IServiceUserCalls>();
             mockUserRetrieval.Setup(x => x.RetrieveAllUsersAsync()).Returns(mockApiUserList);
 
             pollUser = new PollUser(mockUserRepo.Object, mockUserRetrieval.Object);

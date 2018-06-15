@@ -10,9 +10,9 @@ namespace Housing.Selection.Context.Polling
     public class PollUser : IPollUser
     {
         private IUserRepository userRepository;
-        private IServiceUserRetrieval userRetrieval;
+        private IServiceUserCalls userRetrieval;
 
-        public PollUser(IUserRepository userRepository, IServiceUserRetrieval userRetrieval)
+        public PollUser(IUserRepository userRepository, IServiceUserCalls userRetrieval)
         {
             this.userRepository = userRepository;
             this.userRetrieval = userRetrieval;

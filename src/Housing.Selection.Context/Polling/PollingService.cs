@@ -14,10 +14,10 @@ namespace Housing.Selection.Context.Polling
         private IBatchRepository batchRepository;
         private IRoomRepository roomRepository;
         private IUserRepository userRepository;
-        private IServiceBatchRetrieval batchRetrieval;
-        private IServiceRoomRetrieval roomRetrieval;
-        private IServiceUserRetrieval userRetrieval;
-        public PollingService(IBatchRepository batchRepository, IRoomRepository roomRepository, IUserRepository userRepository, IServiceBatchRetrieval batchRetrieval, IServiceRoomRetrieval roomRetrieval, IServiceUserRetrieval userRetrieval)
+        private IServiceBatchCalls batchRetrieval;
+        private IServiceRoomCalls roomRetrieval;
+        private IServiceUserCalls userRetrieval;
+        public PollingService(IBatchRepository batchRepository, IRoomRepository roomRepository, IUserRepository userRepository, IServiceBatchCalls batchRetrieval, IServiceRoomCalls roomRetrieval, IServiceUserCalls userRetrieval)
         {
             this.batchRepository = batchRepository;
             this.roomRepository = roomRepository;

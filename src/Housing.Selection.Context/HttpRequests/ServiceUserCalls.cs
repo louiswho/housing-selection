@@ -9,7 +9,7 @@ namespace Housing.Selection.Context.HttpRequests
     /// <summary>
     /// This class retrieves User information from the service hub.
     /// </summary>
-    public class ServiceUserRetrieval : IServiceUserRetrieval
+    public class ServiceUserCalls : IServiceUserCalls
     {
         public IHttpClientWrapper Client { get; set; }
         public IApiPathBuilder ApiPath { get; set; }
@@ -30,7 +30,7 @@ namespace Housing.Selection.Context.HttpRequests
         /// <example>
         /// ServiceUserRetrieval batchCall = new ServiceUserRetrieval(new HttpClientWrapper(new HttpClient()), new ApiPathBuilder());
         /// </example>
-        public ServiceUserRetrieval(IHttpClientWrapper httpClient, IApiPathBuilder apiPath)
+        public ServiceUserCalls(IHttpClientWrapper httpClient, IApiPathBuilder apiPath)
         {
             Client = httpClient;
             ApiPath = apiPath;

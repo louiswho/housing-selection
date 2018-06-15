@@ -9,7 +9,7 @@ namespace Housing.Selection.Context.HttpRequests
     /// <summary>
     /// This class retrieves room information from the service hub.
     /// </summary>
-    public class ServiceRoomRetrieval : IServiceRoomRetrieval
+    public class ServiceRoomCalls : IServiceRoomCalls
     {
         public IHttpClientWrapper Client { get; set; }
         public IApiPathBuilder ApiPath { get; set; }
@@ -30,7 +30,7 @@ namespace Housing.Selection.Context.HttpRequests
         /// <example>
         /// ServiceRoomRetrieval roomCall = new ServiceRoomRetrieval(new HttpClientWrapper(new HttpClient()), new ApiPathBuilder());
         /// </example>
-        public ServiceRoomRetrieval(IHttpClientWrapper httpClient, IApiPathBuilder apiPath)
+        public ServiceRoomCalls(IHttpClientWrapper httpClient, IApiPathBuilder apiPath)
         {
             Client = httpClient;
             ApiPath = apiPath;

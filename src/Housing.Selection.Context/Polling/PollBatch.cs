@@ -10,9 +10,9 @@ namespace Housing.Selection.Context.Polling
     public class PollBatch : IPollBatch
     {
         private IBatchRepository batchRepository;
-        private IServiceBatchRetrieval batchRetrieval;
+        private IServiceBatchCalls batchRetrieval;
 
-        public PollBatch(IBatchRepository batchRepository, IServiceBatchRetrieval batchRetrieval)
+        public PollBatch(IBatchRepository batchRepository, IServiceBatchCalls batchRetrieval)
         {
             this.batchRepository = batchRepository;
             this.batchRetrieval = batchRetrieval;
