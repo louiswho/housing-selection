@@ -141,7 +141,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
 
         public IEnumerable<Guid> RetrieveUserIds()
         {
-            var userIds = new List<Guid>;
+            var userIds = new List<Guid>();
             foreach (var user in _users)
             {
                 userIds.Add(user.UserId);

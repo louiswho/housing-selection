@@ -7,7 +7,7 @@ using Housing.Selection.Library.ServiceHubModels;
 
 namespace Housing.Selection.Context.ServiceHubProxies
 {
-    public class ServiceBatchRetrievalProxy : IServiceBatchRetrieval
+    public class ServiceBatchRetrievalProxy
     {
         private List<ApiBatch> _batches;
         public readonly ServiceUserRetrievalProxy serviceUserRetrieval;
