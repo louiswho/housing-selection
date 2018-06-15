@@ -16,9 +16,20 @@ namespace Housing.Selection.Testing.Context.PollingTests
         private User user1, user2;
         private ApiUser apiUser1, apiUser2;
         private List<User> mockUserList;
-        private Task<List<ApiUser>> mockApiUserList;
+        private Task<List<ApiUser>> mockTaskApiUserList;
+        private Task<List<ApiRoom>> mockTaskApiRoomList;
+        private Task<List<ApiBatch>> mockTaskApiBatchList;
+        private List<ApiUser> mockApiUserList;
+        private List<ApiRoom> mockApiRoomList;
+        private List<ApiBatch> mockApiBatchList;
         private Mock<IUserRepository> mockUserRepo;
 
+        private Mock<IRoomRepository> mockRoomRepo;
+        private Mock<IServiceRoomRetrieval> mockRoomRetrieval;
+
+        private Mock<IBatchRepository> mockBatchRepo;
+        private Mock<IAddressRepository> mockAddressRepo;
+        private Mock<INameRepository> mockNameRepo;
         private PollUser pollUser;
         public UserPollingTest()
         {
@@ -27,9 +38,15 @@ namespace Housing.Selection.Testing.Context.PollingTests
             mockUserRepo = new Mock<IUserRepository>();
             mockUserRepo.Setup(x => x.GetUserByUserId(It.IsAny<Guid>())).Returns(user1);
             var mockUserRetrieval = new Mock<IServiceUserRetrieval>();
-            mockUserRetrieval.Setup(x => x.RetrieveAllUsersAsync()).Returns(mockApiUserList);
+            mockUserRetrieval.Setup(x => x.RetrieveAllUsersAsync()).Returns(mockTaskApiUserList);
+            var mockRoomRetrieval = new Mock<IServiceRoomRetrieval>();
+            mockRoomRetrieval.Setup(x => x.RetrieveAllRoomsAsync()).Returns(mockTaskApiRoomList);
+            var mockBatchRetrieval = new Mock<IServiceBatchRetrieval>();
+            mockBatchRetrieval.Setup(x => x.RetrieveAllBatchesAsync()).Returns(mockTaskApiBatchList);            
 
-            pollUser = new PollUser(mockUserRepo.Object, mockUserRetrieval.Object);
+            pollUser = new PollUser(mockUserRepo.Object, mockUserRetrieval.Object, mockAddressRepo.Object,
+                                    mockNameRepo.Object, mockBatchRepo.Object, mockBatchRetrieval.Object, 
+                                    mockRoomRepo.Object, mockRoomRetrieval.Object);
         }
 
         [Fact]
@@ -57,7 +74,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
         public void Test_User_Update()
         {
             var expected = user1;
-            var result = pollUser.UpdateUser(apiUser1);
+            var result = pollUser.UpdateUser(apiUser1, mockApiBatchList, mockApiRoomList);
 
             Assert.Equal(expected, result);
         }
@@ -66,7 +83,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
         public void Test_User_Update_Fail()
         {
             var expected = user2;
-            var result = pollUser.UpdateUser(apiUser1);
+            var result = pollUser.UpdateUser(apiUser1, mockApiBatchList, mockApiRoomList);
 
             Assert.NotEqual(expected, result);
         }
@@ -182,7 +199,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
                 apiUser1,
                 apiUser2
             };
-            mockApiUserList = Task.FromResult<List<ApiUser>>(apiUserList);
+            mockTaskApiUserList = Task.FromResult<List<ApiUser>>(apiUserList);
 
         }
     }
