@@ -42,7 +42,7 @@ namespace Housing.Selection.Library.HousingModels
             Room housingRoom = this;            
             housingRoom.RoomId = apiRoom.RoomId;
             housingRoom.Location = apiRoom.Location;
-            housingRoom.Address = (Address) apiRoom.Address;            
+            housingRoom.Address = apiRoom.Address.ConvertToAddress(housingRoom.Address);            
             housingRoom.Vacancy = apiRoom.Vacancy;
             housingRoom.Occupancy = apiRoom.Occupancy;
             housingRoom.Gender = apiRoom.Gender;          

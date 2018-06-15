@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations;
 using Housing.Selection.Library.ServiceHubModels;
 
 namespace Housing.Selection.Library.HousingModels
-{ 
-   public  class Name
+{
+    public class Name
     {
         /// <summary>
         /// Our primary key.
@@ -27,19 +27,31 @@ namespace Housing.Selection.Library.HousingModels
         [Required]
         public string Last { get; set; }
 
-        public ICollection<User> Users { get; set; }
+        public ICollection<User> Users { get; set; }        
 
-        public static explicit operator ApiName(Name name)
+        public Name ConvertFromServiceModel(ApiName apiName)
         {
-            ApiName apiName = new ApiName()
+            Name housingName = this;
+
+            NameId = apiName.NameId;
+            First = apiName.First;
+            Middle = apiName.Middle;
+            Last = apiName.Last;
+
+            return housingName;
+        }
+
+        public Name NewNameFromServiceModel(ApiName apiName)
+        {
+            Name housingName = new Name()
             {
-                NameId = name.NameId,
-                First = name.First,
-                Middle = name.Middle,
-                Last = name.Last,
-                
+                Id = Guid.NewGuid(),
+                NameId = apiName.NameId,
+                First = apiName.First,
+                Middle = apiName.Middle,
+                Last = apiName.Last,
             };
-            return apiName;
+            return housingName;
         }
     }
 }

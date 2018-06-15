@@ -48,9 +48,25 @@ namespace Housing.Selection.Library.HousingModels
             housingBatch.BatchName = apiBatch.BatchName;
             housingBatch.BatchOccupancy = (int) apiBatch.BatchOccupancy;
             housingBatch.BatchSkill = apiBatch.BatchSkill;
-            housingBatch.Address = (Address) apiBatch.Address;
+            housingBatch.Address = apiBatch.Address.ConvertToAddress(housingBatch.Address);
             //TODO - Figure out how to handle apiBatch userIds
             return housingBatch;
+        }
+
+        public Batch CreateNewBatch(ApiBatch apiBatch)
+        {
+            Batch batch = new Batch()
+            {
+                BatchId = apiBatch.BatchId,
+                StartDate = (DateTime) apiBatch.StartDate,
+                EndDate = (DateTime) apiBatch.EndDate,
+                BatchName = apiBatch.BatchName,
+                BatchOccupancy = (int) apiBatch.BatchOccupancy,
+                BatchSkill = apiBatch.BatchSkill,
+                Address = apiBatch.Address.CreateNewAddress()
+            };
+            //TODO - Figure out how to handle apiBatch userIds
+            return batch;
         }
     }
 }
