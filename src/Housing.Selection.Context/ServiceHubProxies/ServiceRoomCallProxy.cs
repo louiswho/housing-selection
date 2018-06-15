@@ -1,16 +1,17 @@
-﻿using Housing.Selection.Library.ServiceHubModels;
+﻿using Housing.Selection.Context.HttpRequests;
+using Housing.Selection.Library.ServiceHubModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Housing.Selection.Context.ServiceHubProxies
 {
-   public class ServiceRoomRetrievalProxy : IServiceRoomRetrievalProxy
-    {
+   public class ServiceRoomCallProxy : IServiceRoomCalls
     {
        private List<ApiRoom> _rooms;
 
-        public ServiceRoomRetrievalProxy( )
+        public ServiceRoomCallProxy( )
         {
             _rooms = new List<ApiRoom>();
 
@@ -20,7 +21,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                 {
                     RoomId = Guid.NewGuid(),
                     Vacancy = 1,
-                    Occupancy = 2,
+                    Occupancy = 5,
                     Address = new ApiAddress()
                     {
                         AddressId = Guid.NewGuid(),
@@ -39,7 +40,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
            {
                RoomId = Guid.NewGuid(),
                Vacancy = 5,
-               Occupancy = 1,
+               Occupancy = 5,
                Address = new ApiAddress()
                {
                    AddressId = Guid.NewGuid(),
@@ -57,7 +58,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                 {
                     RoomId = Guid.NewGuid(),
                     Vacancy = 1,
-                    Occupancy = 2,
+                    Occupancy = 4,
                     Address = new ApiAddress()
                     {
                         AddressId = Guid.NewGuid(),
@@ -75,7 +76,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                 {
                     RoomId = Guid.NewGuid(),
                     Vacancy = 1,
-                    Occupancy = 2,
+                    Occupancy = 4,
                     Address = new ApiAddress()
                     {
                         AddressId = Guid.NewGuid(),
@@ -89,10 +90,22 @@ namespace Housing.Selection.Context.ServiceHubProxies
                 } 
                 );
         }
-        public async Task<IEnumerable<ApiRoom>> RetrieveAllRoomsAsync()
+
+
+        public async Task UpdateRoomAsync(ApiRoom room)
+        {
+            if(room.RoomId == Guid.Empty ) throw new Exception("Update failed for room with RoomId " + room.RoomId);
+            
+            var _room = _rooms.First(x => x.RoomId == room.RoomId);
+            if (room == null) throw new Exception("Update failed for room with RoomId " + room.RoomId);
+
+            _room.Vacancy = room.Vacancy;
+
+        }
+
+        public async Task<List<ApiRoom>> RetrieveAllRoomsAsync()
         {
             return _rooms;
         }
-
     }
 }

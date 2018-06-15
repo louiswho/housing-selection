@@ -1,4 +1,5 @@
-﻿using Housing.Selection.Library.ServiceHubModels;
+﻿using Housing.Selection.Context.HttpRequests;
+using Housing.Selection.Library.ServiceHubModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Housing.Selection.Context.ServiceHubProxies
 {
-    public class ServiceUserRetrievalProxy :  IServiceUserRetrievalProxy
+    public class ServiceUserCallProxy :  IServiceUserCalls
     {
         private List<ApiUser> _users;
 
-        public ServiceUserRetrievalProxy()
+        public ServiceUserCallProxy()
         {
             _users = new List<ApiUser>();
 
@@ -134,10 +135,6 @@ namespace Housing.Selection.Context.ServiceHubProxies
                }
 );
         }
-        public async Task<IEnumerable<ApiUser>> RetrieveAllUsersAsync()
-        {
-            return _users;
-        }
 
         public IEnumerable<Guid> RetrieveUserIds()
         {
@@ -147,6 +144,36 @@ namespace Housing.Selection.Context.ServiceHubProxies
                 userIds.Add(user.UserId);
             }
             return userIds;
+        }
+
+        public async Task UpdateUserAsync(ApiUser user)
+        {
+            if (user.UserId == Guid.Empty) throw new Exception("Update failed for user with UserId " + user.UserId);
+
+            var _user =_users.First(x => x.UserId == user.UserId);
+            if (user == null) throw new Exception("Update failed for room with UserId " + user.UserId);
+            if( user.Address != null)
+            {
+                bool validate = true;
+                validate = (user.Address.AddressId == Guid.Empty) ? false : validate;
+                validate = string.IsNullOrEmpty(user.Address.Address1) ? false : validate;
+                validate = string.IsNullOrEmpty(user.Address.City) ? false : validate;
+                validate = string.IsNullOrEmpty(user.Address.PostalCode) ? false : validate;
+                validate = string.IsNullOrEmpty(user.Address.Country) ? false : validate;
+                validate = string.IsNullOrEmpty(user.Address.State) ? false : validate;
+
+                if (!validate) throw new Exception("Update failed, Address was not valid");
+            }
+
+            if (user.Location == "") throw new Exception("Update failed the location is invalid");
+
+            user.Location = _user.Location;
+            user.Address = _user.Address;
+        }
+
+       public async Task<List<ApiUser>> RetrieveAllUsersAsync()
+        {
+            return _users;
         }
     }
 }

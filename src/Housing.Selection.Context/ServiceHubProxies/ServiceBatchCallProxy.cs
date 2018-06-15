@@ -7,14 +7,14 @@ using Housing.Selection.Library.ServiceHubModels;
 
 namespace Housing.Selection.Context.ServiceHubProxies
 {
-    public class ServiceBatchRetrievalProxy : IServiceBatchRetrievalProxy
+    public class ServiceBatchCallProxy : IServiceBatchCalls
     {
         private List<ApiBatch> _batches;
-        public readonly ServiceUserRetrievalProxy serviceUserRetrieval;
+        public readonly ServiceUserCallProxy serviceUserRetrieval;
 
-        public ServiceBatchRetrievalProxy()
+        public ServiceBatchCallProxy()
         {
-            serviceUserRetrieval = new ServiceUserRetrievalProxy();
+            serviceUserRetrieval = new ServiceUserCallProxy();
             _batches = new List<ApiBatch>();
             _batches.Add
                 (
@@ -117,9 +117,10 @@ namespace Housing.Selection.Context.ServiceHubProxies
             }
             return ids;
         }
-        public async Task<IEnumerable<ApiBatch>> RetrieveAllBatchesAsync()
+     
+        public async Task<List<ApiBatch>> RetrieveAllBatchesAsync()
         {
-            return _batches;
+            return  _batches;
         }
     }
 }
