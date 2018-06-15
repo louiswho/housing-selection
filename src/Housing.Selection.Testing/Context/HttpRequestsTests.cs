@@ -471,5 +471,37 @@ namespace Housing.Selection.Testing.Context
 
             await Assert.ThrowsAsync<Exception>(() => src.UpdateUserAsync(user));
         }
+
+        [Fact]
+        public async Task UpdateUserAsync_UpdateUserFailed_ThrowsException()
+        {
+            ApiUser user = new ApiUser()
+            {
+                UserId = Guid.NewGuid(),
+                Location = "Earth",
+                Address = new ApiAddress()
+                {
+                    AddressId = Guid.NewGuid(),
+                    Address1 = "123 1st street",
+                    City = "City",
+                    State = "FL",
+                    Country = "US",
+                    PostalCode = "12345"
+                }
+            };
+
+            HttpResponseMessage response = new HttpResponseMessage();
+            response.StatusCode = HttpStatusCode.BadRequest;
+
+            var mockHttpWrapper = new Mock<IHttpClientWrapper>();
+            mockHttpWrapper.Setup(x => x.PutAsync<ApiUser>(It.IsAny<String>(), It.IsAny<ApiUser>())).ReturnsAsync(response);
+
+            var mockApiPath = new Mock<IApiPathBuilder>();
+            mockApiPath.Setup(x => x.GetUserServicePath()).Returns("string");
+
+            ServiceUserCalls src = new ServiceUserCalls(mockHttpWrapper.Object, mockApiPath.Object);
+
+            await Assert.ThrowsAsync<Exception>(() => src.UpdateUserAsync(user));
+        }
     }
 }
