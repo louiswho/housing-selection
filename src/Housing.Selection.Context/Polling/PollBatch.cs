@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using Housing.Selection.Context.DataAccess;
 using Housing.Selection.Context.HttpRequests;
 using Housing.Selection.Library.HousingModels;
@@ -10,9 +11,9 @@ namespace Housing.Selection.Context.Polling
     public class PollBatch : IPollBatch
     {
         private IBatchRepository batchRepository;
-        private IServiceBatchRetrieval batchRetrieval;
+        private IServiceBatchCalls batchRetrieval;
 
-        public PollBatch(IBatchRepository batchRepository, IServiceBatchRetrieval batchRetrieval)
+        public PollBatch(IBatchRepository batchRepository, IServiceBatchCalls batchRetrieval)
         {
             this.batchRepository = batchRepository;
             this.batchRetrieval = batchRetrieval;
@@ -33,6 +34,7 @@ namespace Housing.Selection.Context.Polling
 
         public Batch UpdateBatch(ApiBatch batch)
         {
+            
             var housingBatch = batchRepository.GetBatchByBatchId(batch.BatchId);
             housingBatch = housingBatch.ConvertFromServiceModel(apiBatch: batch);
             batchRepository.SaveChanges();

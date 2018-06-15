@@ -9,7 +9,7 @@ namespace Housing.Selection.Context.HttpRequests
     /// <summary>
     /// This class retrieves room information from the service hub.
     /// </summary>
-    public class ServiceRoomRetrieval : IServiceRoomRetrieval
+    public class ServiceRoomCalls : IServiceRoomCalls
     {
         public IHttpClientWrapper Client { get; set; }
         public IApiPathBuilder ApiPath { get; set; }
@@ -30,7 +30,7 @@ namespace Housing.Selection.Context.HttpRequests
         /// <example>
         /// ServiceRoomRetrieval roomCall = new ServiceRoomRetrieval(new HttpClientWrapper(new HttpClient()), new ApiPathBuilder());
         /// </example>
-        public ServiceRoomRetrieval(IHttpClientWrapper httpClient, IApiPathBuilder apiPath)
+        public ServiceRoomCalls(IHttpClientWrapper httpClient, IApiPathBuilder apiPath)
         {
             Client = httpClient;
             ApiPath = apiPath;
@@ -57,6 +57,34 @@ namespace Housing.Selection.Context.HttpRequests
                 else
                 {
                     return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        /// <summary>
+        /// Makes a call to the Service Hub room service and
+        /// updates a room.
+        /// </summary>
+        /// <param name="room">This is the room to be updated.
+        /// The room must have the ID of the room to be updated,
+        /// but the object only requires fields that need to be
+        /// updated.  Any field that will be left unmodified
+        /// can be left null.
+        /// </param>
+        public async Task UpdateRoomAsync(ApiRoom room)
+        {
+            try
+            {
+                if (room.RoomId == Guid.Empty) throw new Exception("Room did not have a valid ID");
+
+                var response = await Client.PutAsync<ApiRoom>(ApiPath.GetRoomServicePath(), room);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception("Update failed for " + room.RoomId);
                 }
             }
             catch (Exception ex)

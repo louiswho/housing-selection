@@ -25,7 +25,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
             PollingSetupRooms();
             mockRoomRepo = new Mock<IRoomRepository>();
             mockRoomRepo.Setup(x => x.GetRoomByRoomId(It.IsAny<Guid>())).Returns(room1);
-            var mockRoomRetrieval = new Mock<IServiceRoomRetrieval>();
+            var mockRoomRetrieval = new Mock<IServiceRoomCalls>();
             mockRoomRetrieval.Setup(x => x.RetrieveAllRoomsAsync()).Returns(mockApiRoomList);
 
             pollRoom = new PollRoom(mockRoomRepo.Object, mockRoomRetrieval.Object);
