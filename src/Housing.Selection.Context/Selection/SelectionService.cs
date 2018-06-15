@@ -1,7 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Housing.Selection.Context.DataAccess;
+using Housing.Selection.Context.HttpRequests;
 using Housing.Selection.Library.HousingModels;
+using Housing.Selection.Library.ServiceHubModels;
 using Housing.Selection.Library.ViewModels;
 
 namespace Housing.Selection.Context.Selection
@@ -10,71 +13,84 @@ namespace Housing.Selection.Context.Selection
 
     public class SelectionService : ISelectionService
     {
-        private readonly IUserRepository userRepo; //Change to _userRepository
-        private readonly IRoomRepository roomRepo; //Change to _roomRepository
-        private readonly IBatchRepository batchRepo; //Change to _batchRepository
+        private readonly IUserRepository _userRepository;
+        private readonly IRoomRepository _roomRepository;
+        private readonly IBatchRepository _batchRepository;
+        private readonly IServiceRoomCalls _serviceRoomCalls;
+        private readonly IServiceUserCalls _serviceUserCalls;
+        private readonly IMapper _mapper;
 
-        public SelectionService(IUserRepository _users, IRoomRepository _rooms, IBatchRepository _batches) //Change to users, rooms, and batches.
+        public SelectionService(IUserRepository users, IRoomRepository rooms, IBatchRepository batches, IServiceRoomCalls roomCalls, IServiceUserCalls userCalls, IMapper mapper)
         {
-            userRepo = _users;
-            roomRepo = _rooms;
-            batchRepo = _batches;
+            _userRepository = users;
+            _roomRepository = rooms;
+            _batchRepository = batches;
+            _serviceRoomCalls = roomCalls;
+            _serviceUserCalls = userCalls;
+            _mapper = mapper;
         }
-        public void AddUserToRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel)
+        public async void AddUserToRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel)
         {
-            var newUser = userRepo.GetUserByUserId(addRemoveUserFromRoomModel.UserId);
-            var addRoom = roomRepo.GetRoomByRoomId(addRemoveUserFromRoomModel.RoomId);
+            var newUser = _userRepository.GetUserByUserId(addRemoveUserFromRoomModel.UserId);
+            var addRoom = _roomRepository.GetRoomByRoomId(addRemoveUserFromRoomModel.RoomId);
 
             newUser.Room = addRoom;
-            addRoom.Users.Add(newUser);
+            newUser.Address = addRoom.Address;
+            addRoom.Vacancy--;
 
-            userRepo.SaveChanges();
-            roomRepo.SaveChanges();
+            _userRepository.SaveChanges();
+            _roomRepository.SaveChanges();
+
+            var apiUser = _mapper.Map<ApiUser>(newUser);
+            var apiRoom = _mapper.Map<ApiRoom>(addRoom);
+
+            await _serviceUserCalls.UpdateUserAsync(apiUser);
+            await _serviceRoomCalls.UpdateRoomAsync(apiRoom);
         }
 
         public IEnumerable<Room> CustomSearch(RoomSearchViewModel roomSearchViewModel)
         {
-            var returnedRooms = roomRepo.GetRooms().ToList();
-            //Change constructors to Factories, see me. 
-            AFilter genderFilter = new GenderFilter();
-            AFilter locationFilter = new LocationFilter();
-            AFilter batchFilter = new BatchFilter();
-            AFilter isCompletelyUnassignedFilter = new IsCompletelyUnassignedFilter();
+            var returnedRooms = _roomRepository.GetRooms().ToList();
 
-            genderFilter.SetSuccessor(locationFilter);
-            locationFilter.SetSuccessor(batchFilter);
-            batchFilter.SetSuccessor(isCompletelyUnassignedFilter);
+            var filters = FilterFactories.ResolveAllFilters();
 
-            genderFilter.FilterRequest(ref returnedRooms, roomSearchViewModel);
+            filters.FilterRequest(ref returnedRooms, roomSearchViewModel);
 
             return returnedRooms;
         }
 
         public List<Batch> GetBatches()
         {
-            return batchRepo.GetBatches().ToList();
+            return _batchRepository.GetBatches().ToList();
         }
 
         public List<Room> GetRooms()
         {
-            return roomRepo.GetRooms().ToList();
+            return _roomRepository.GetRooms().ToList();
         }
 
         public List<User> GetUsers()
         {
-            return userRepo.GetUsers().ToList();
+            return _userRepository.GetUsers().ToList();
         }
 
-        public void RemoveUserFromRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel)
+        public async void RemoveUserFromRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel)
         {
-            var removeUser = userRepo.GetUserByUserId(addRemoveUserFromRoomModel.UserId);
-            var emptiedRoom = roomRepo.GetRoomByRoomId(addRemoveUserFromRoomModel.RoomId);
+            var removeUser = _userRepository.GetUserByUserId(addRemoveUserFromRoomModel.UserId);
+            var emptiedRoom = _roomRepository.GetRoomByRoomId(addRemoveUserFromRoomModel.RoomId);
 
             removeUser.Room = null;
-            emptiedRoom.Users.Remove(removeUser);
+            removeUser.Address = null;
+            emptiedRoom.Vacancy++;
 
-            userRepo.SaveChanges();
-            roomRepo.SaveChanges();
+            _userRepository.SaveChanges();
+            _roomRepository.SaveChanges();
+
+            var apiUser = _mapper.Map<ApiUser>(removeUser);
+            var apiRoom = _mapper.Map<ApiRoom>(emptiedRoom);
+
+            await _serviceUserCalls.UpdateUserAsync(apiUser);
+            await _serviceRoomCalls.UpdateRoomAsync(apiRoom);
         }
     }
 }
