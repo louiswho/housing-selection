@@ -27,6 +27,8 @@ namespace Housing.Selection.Library
 
         public string Location { get; set; }
 
+        public string State { get; set; }
+
         public ICollection<User> Users { get; set; }
 
         /// <summary>
@@ -37,6 +39,7 @@ namespace Housing.Selection.Library
         {
             if (BatchId == Guid.Empty) { return false; }
             if (string.IsNullOrEmpty(BatchName)) { return false; }
+            if (string.IsNullOrEmpty(State)) { return false; }
             if (BatchOccupancy < 0 || BatchOccupancy > 100) { return false; }
             if (string.IsNullOrEmpty(BatchSkill)) { return false; }
             if (string.IsNullOrEmpty(Location)) { return false; }
