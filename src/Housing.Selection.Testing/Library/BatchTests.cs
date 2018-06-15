@@ -20,8 +20,7 @@ namespace Housing.Selection.Testing.Library
                 BatchName = ".net-1804",
                 BatchOccupancy = 20,
                 BatchSkill = ".net",
-                Users = new List<User>(),
-                Location = "Tampa"
+                Users = new List<User>()
             };
 
             Assert.True(batch.Validate());
@@ -40,8 +39,7 @@ namespace Housing.Selection.Testing.Library
                 State = "",
                 BatchOccupancy = 20,
                 BatchSkill = "",
-                Users = new List<User>(),
-                Location = ""
+                Users = new List<User>()
             };
 
             Assert.False(batch.Validate());

@@ -29,7 +29,6 @@ namespace Housing.Selection.Library
 
         public string Country { get; set; }
 
-        public ICollection<Batch> Batches { get; set; }
         public ICollection<User> Users { get; set; }
         public ICollection<Room> Rooms { get; set; }
 

@@ -20,7 +20,6 @@ namespace Housing.Selection.Testing.Library
                 State = "FL",
                 PostalCode = "91711",
                 Country = "US",
-                Batches = new List<Batch>(),
                 Users = new List<User>(),
                 Rooms = new List<Room>()
             };
@@ -41,7 +40,6 @@ namespace Housing.Selection.Testing.Library
                 State = "",
                 PostalCode = "",
                 Country = "",
-                Batches = new List<Batch>(),
                 Users = new List<User>(),
                 Rooms = new List<Room>()
             };

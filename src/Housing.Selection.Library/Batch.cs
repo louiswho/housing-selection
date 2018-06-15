@@ -25,8 +25,6 @@ namespace Housing.Selection.Library
 
         public string BatchSkill { get; set; }
 
-        public string Location { get; set; }
-
         public string State { get; set; }
 
         public ICollection<User> Users { get; set; }
@@ -42,7 +40,6 @@ namespace Housing.Selection.Library
             if (string.IsNullOrEmpty(State)) { return false; }
             if (BatchOccupancy < 0 || BatchOccupancy > 100) { return false; }
             if (string.IsNullOrEmpty(BatchSkill)) { return false; }
-            if (string.IsNullOrEmpty(Location)) { return false; }
 
             return true;
         }
