@@ -41,23 +41,21 @@ namespace Housing.Selection.Library.HousingModels
         [StringLength(2, MinimumLength = 2)]
         public string Country { get; set; }
 
-        public ICollection<Batch> Batches { get; set; }
         public ICollection<User> Users { get; set; }
         public ICollection<Room> Rooms { get; set; }
 
-        public static explicit operator ApiAddress(Address address)
+        public Address ConvertFromServiceModel(ApiAddress apiAddress)
         {
-            ApiAddress apiAdress = new ApiAddress()
-            {
-                AddressId = address.AddressId,
-                Address1 = address.Address1,
-                Address2 = address.Address2,
-                City = address.City,
-                State = address.State,
-                PostalCode = address.PostalCode,
-                Country = address.Country
-            };
-            return apiAdress;
+            var housingAddress = this;
+            housingAddress.AddressId = apiAddress.AddressId;
+            housingAddress.Address1 = apiAddress.Address1;
+            housingAddress.Address2 = apiAddress.Address2;
+            housingAddress.City = apiAddress.City;
+            housingAddress.State = apiAddress.State;
+            housingAddress.PostalCode = apiAddress.PostalCode;
+            housingAddress.Country = apiAddress.Country;
+
+            return housingAddress;
         }
     }
 }

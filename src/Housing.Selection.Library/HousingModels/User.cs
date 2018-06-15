@@ -43,15 +43,31 @@ namespace Housing.Selection.Library.HousingModels
 
         public User ConvertFromServiceModel(ApiUser apiUser)
         {
-            User housingUser = this;            
+            User housingUser = this;
             housingUser.UserId = apiUser.UserId;
-            housingUser.Location = apiUser.Location;
-            housingUser.Address = (Address) apiUser.Address;            
+            housingUser.Location = apiUser.Location;            
             housingUser.Email = apiUser.Email;
-            housingUser.Name = (Name) apiUser.Name;
-            housingUser.Gender = apiUser.Gender.ToString();   
-            housingUser.Type = apiUser.Type;       
-            
+            housingUser.Name = apiUser.Name.ConvertToName(this.Name);
+            housingUser.Gender = apiUser.Gender.ToString();
+            housingUser.Type = apiUser.Type;
+
+            return housingUser;
+        }
+
+        public User NewUserFromServiceModel(ApiUser apiUser)
+        {
+            User housingUser = new User()
+            {
+                Id = Guid.NewGuid(),
+                UserId = apiUser.UserId,
+                Location = apiUser.Location,
+                Address = apiUser.Address.ConvertToAddress(this.Address),
+                Email = apiUser.Email,
+                Name = apiUser.Name.ConvertToName(this.Name),
+                Gender = apiUser.Gender.ToString(),
+                Type = apiUser.Type
+            };
+
             return housingUser;
         }
     }

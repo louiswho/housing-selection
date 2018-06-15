@@ -15,21 +15,46 @@ namespace Housing.Selection.Testing.Context.PollingTests
     {
         private User user1, user2;
         private ApiUser apiUser1, apiUser2;
+        private Room room1;
+        private Batch batch1;
+
         private List<User> mockUserList;
-        private Task<List<ApiUser>> mockApiUserList;
-        private Mock<IUserRepository> mockUserRepo;
+        private Task<List<ApiUser>> mockTaskApiUserList;
+        private Task<List<ApiRoom>> mockTaskApiRoomList;
+        private Task<List<ApiBatch>> mockTaskApiBatchList;
+
+        private List<ApiUser> mockApiUserList;
+        private List<ApiRoom> mockApiRoomList;
+        private List<ApiBatch> mockApiBatchList;
 
         private PollUser pollUser;
+
         public UserPollingTest()
         {
             PollingSetupUsers();
+            PollingSetupRooms();
+            PollingSetupBatch();
 
-            mockUserRepo = new Mock<IUserRepository>();
+            var mockUserRepo = new Mock<IUserRepository>();
             mockUserRepo.Setup(x => x.GetUserByUserId(It.IsAny<Guid>())).Returns(user1);
             var mockUserRetrieval = new Mock<IServiceUserRetrieval>();
-            mockUserRetrieval.Setup(x => x.RetrieveAllUsersAsync()).Returns(mockApiUserList);
+            mockUserRetrieval.Setup(x => x.RetrieveAllUsersAsync()).Returns(mockTaskApiUserList);
+            var mockRoomRepo = new Mock<IRoomRepository>();
+            mockRoomRepo.Setup(x => x.GetRoomByRoomId(It.IsAny<Guid>())).Returns(room1);
+            var mockRoomRetrieval = new Mock<IServiceRoomRetrieval>();
+            mockRoomRetrieval.Setup(x => x.RetrieveAllRoomsAsync()).Returns(mockTaskApiRoomList);
+            var mockBatchRepo = new Mock<IBatchRepository>();
+            mockBatchRepo.Setup(x => x.GetBatchByBatchId(It.IsAny<Guid>())).Returns(batch1);
+            var mockBatchRetrieval = new Mock<IServiceBatchRetrieval>();
+            mockBatchRetrieval.Setup(x => x.RetrieveAllBatchesAsync()).Returns(mockTaskApiBatchList);
+            var mockAddressRepo = new Mock<IAddressRepository>();
+            mockAddressRepo.Setup(x => x.GetAddressByAddressId(It.IsAny<Guid>())).Returns(room1.Address);
+            var mockNameRepo = new Mock<INameRepository>();
+            mockNameRepo.Setup(x => x.GetNameByNameId(It.IsAny<Guid>())).Returns(user1.Name);            
 
-            pollUser = new PollUser(mockUserRepo.Object, mockUserRetrieval.Object);
+            pollUser = new PollUser(mockUserRepo.Object, mockUserRetrieval.Object, mockAddressRepo.Object,
+                                    mockNameRepo.Object, mockBatchRepo.Object, mockBatchRetrieval.Object, 
+                                    mockRoomRepo.Object, mockRoomRetrieval.Object);
         }
 
         [Fact]
@@ -57,7 +82,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
         public void Test_User_Update()
         {
             var expected = user1;
-            var result = pollUser.UpdateUser(apiUser1);
+            var result = pollUser.UpdateUser(apiUser1, mockApiBatchList, mockApiRoomList);
 
             Assert.Equal(expected, result);
         }
@@ -66,7 +91,82 @@ namespace Housing.Selection.Testing.Context.PollingTests
         public void Test_User_Update_Fail()
         {
             var expected = user2;
-            var result = pollUser.UpdateUser(apiUser1);
+            var result = pollUser.UpdateUser(apiUser1, mockApiBatchList, mockApiRoomList);
+
+            Assert.NotEqual(expected, result);
+        }
+
+        [Fact]
+        public void Test_GetBatchId()
+        {            
+            var expected = batch1;
+            var result = pollUser.GetBatchId(apiUser1, mockApiBatchList);
+
+            Assert.NotEqual(expected, result);
+        }
+
+        [Fact]
+        public void Test_GetBatchId_Fail()
+        {
+            Batch batch2 = new Batch()
+            {
+                Id = Guid.NewGuid(),
+                BatchId = Guid.NewGuid(),
+                StartDate = DateTime.Today,
+                EndDate = DateTime.Today,
+                BatchName = "Batch Two",
+                BatchOccupancy = 2,
+                BatchSkill = "None",
+                Address = new Address()
+                {
+                    Id = Guid.NewGuid(),
+                    AddressId = Guid.NewGuid(),
+                    Address1 = "222 Batch2 St",
+                    City = "Tampa",
+                    State = "FL",
+                    PostalCode = "22222",
+                    Country = "US"
+                }
+            };
+            var expected = batch2;
+            var result = pollUser.GetBatchId(apiUser1, mockApiBatchList);
+
+            Assert.NotEqual(expected, result);
+        }
+
+        [Fact]
+        public void Test_GetRoomId()
+        {
+            var expected = room1;
+            var result = pollUser.GetRoomId(apiUser1, mockApiRoomList);
+
+            Assert.Equal(expected, result);
+        }
+
+        [Fact]
+        public void Test_GetRoomId_Fail()
+        {
+            Room room2 = new Room()
+            {
+                Id = Guid.NewGuid(),
+                RoomId = Guid.NewGuid(),
+                Location = "222",
+                Vacancy = 2,
+                Occupancy = 3,
+                Gender = "M",
+                Address = new Address()
+                {
+                    Id = Guid.NewGuid(),
+                    AddressId = Guid.NewGuid(),
+                    Address1 = "222 Room 2 St",
+                    City = "Tampa",
+                    State = "FL",
+                    PostalCode = "22222",
+                    Country = "US"
+                }
+            };
+            var expected = room2;
+            var result = pollUser.GetRoomId(apiUser1, mockApiRoomList);
 
             Assert.NotEqual(expected, result);
         }
@@ -177,13 +277,149 @@ namespace Housing.Selection.Testing.Context.PollingTests
             };
 
             mockUserList = new List<User>();
-            var apiUserList = new List<ApiUser>()
+            mockApiUserList = new List<ApiUser>()
             {
                 apiUser1,
                 apiUser2
             };
-            mockApiUserList = Task.FromResult<List<ApiUser>>(apiUserList);
+            mockTaskApiUserList = Task.FromResult<List<ApiUser>>(mockApiUserList);
 
+        }
+
+        private void PollingSetupRooms()
+        {
+            room1 = new Room()
+            {
+                Id = Guid.NewGuid(),
+                RoomId = Guid.NewGuid(),
+                Location = "111",
+                Vacancy = 1,
+                Occupancy = 3,
+                Gender = "M",
+                Address = new Address()
+                {
+                    Id = Guid.NewGuid(),
+                    AddressId = Guid.NewGuid(),
+                    Address1 = "111 Room1 St",
+                    City = "Tampa",
+                    State = "FL",
+                    PostalCode = "11111",
+                    Country = "US"
+                }
+            };
+
+            ApiRoom apiRoom1 = new ApiRoom()
+            {
+                RoomId = Guid.NewGuid(),
+                Location = "111 API",
+                Vacancy = 1,
+                Occupancy = 3,
+                Gender = "M",
+                Address = new ApiAddress()
+                {
+                    AddressId = Guid.NewGuid(),
+                    Address1 = "111 Api Room 1 St",
+                    City = "Tampa",
+                    State = "FL",
+                    PostalCode = "11111",
+                    Country = "US"
+                }
+            };
+            ApiRoom apiRoom2 = new ApiRoom()
+            {
+                RoomId = Guid.NewGuid(),
+                Location = "222",
+                Vacancy = 2,
+                Occupancy = 3,
+                Gender = "M",
+                Address = new ApiAddress()
+                {
+                    AddressId = Guid.NewGuid(),
+                    Address1 = "222 ApiRoom 2 St",
+                    City = "Tampa",
+                    State = "FL",
+                    PostalCode = "22222",
+                    Country = "US"
+                }
+            };
+            mockApiRoomList = new List<ApiRoom>();
+            mockApiRoomList.Add(apiRoom1);
+            mockApiRoomList.Add(apiRoom2);
+            mockTaskApiRoomList = Task.FromResult<List<ApiRoom>>(mockApiRoomList);
+        }
+
+        private void PollingSetupBatch()
+        {
+            List<Guid> apiUserIdList = new List<Guid>();
+            foreach (var user in mockApiUserList)
+            {
+                apiUserIdList.Add(user.UserId);
+            }
+
+            batch1 = new Batch()
+            {
+                Id = Guid.NewGuid(),
+                BatchId = Guid.NewGuid(),
+                StartDate = DateTime.Today,
+                EndDate = DateTime.Today,
+                BatchName = "Batch One",
+                BatchOccupancy = 1,
+                BatchSkill = "None",
+                Address = new Address()
+                {
+                    Id = Guid.NewGuid(),
+                    AddressId = Guid.NewGuid(),
+                    Address1 = "111 Batch1 St",
+                    City = "Tampa",
+                    State = "FL",
+                    PostalCode = "11111",
+                    Country = "US"
+                }                
+            };
+
+            ApiBatch apiBatch1 = new ApiBatch()
+            {
+                BatchId = Guid.NewGuid(),
+                StartDate = DateTime.Today,
+                EndDate = DateTime.Today,
+                BatchName = "Batch One",
+                BatchOccupancy = 1,
+                BatchSkill = "None",
+                Address = new ApiAddress()
+                {
+                    AddressId = Guid.NewGuid(),
+                    Address1 = "111 Batch1 St",
+                    City = "Tampa",
+                    State = "FL",
+                    PostalCode = "11111",
+                    Country = "US"
+                },
+                UserIds = apiUserIdList
+            };
+            ApiBatch apiBatch2 = new ApiBatch()
+            {
+                BatchId = Guid.NewGuid(),
+                StartDate = DateTime.Today,
+                EndDate = DateTime.Today,
+                BatchName = "Batch Two",
+                BatchOccupancy = 2,
+                BatchSkill = "None",
+                Address = new ApiAddress()
+                {
+                    AddressId = Guid.NewGuid(),
+                    Address1 = "222 Batch2 St",
+                    City = "Tampa",
+                    State = "FL",
+                    PostalCode = "22222",
+                    Country = "US"
+                },
+                UserIds = apiUserIdList
+            };
+                       
+            mockApiBatchList = new List<ApiBatch>();
+            mockApiBatchList.Add(apiBatch1);
+            mockApiBatchList.Add(apiBatch2);
+            mockTaskApiBatchList = Task.FromResult<List<ApiBatch>>(mockApiBatchList);
         }
     }
 }

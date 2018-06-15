@@ -13,17 +13,31 @@ namespace Housing.Selection.Library.ServiceHubModels
         public string PostalCode { get; set; }
         public string Country { get; set; }
 
-        public static explicit operator Address(ApiAddress apiAddress)
+        public Address ConvertToAddress(Address oldAddress)
+        {
+            oldAddress.AddressId = this.AddressId;
+            oldAddress.Address1 = this.Address1;
+            oldAddress.Address2 = this.Address2;
+            oldAddress.City = this.City;
+            oldAddress.State = this.State;
+            oldAddress.PostalCode = this.PostalCode;
+            oldAddress.Country = this.Country;
+
+            return oldAddress;
+        }
+
+        public Address CreateNewAddress()
         {
             Address address = new Address()
             {
-                AddressId = apiAddress.AddressId,
-                Address1 = apiAddress.Address1,
-                Address2 = apiAddress.Address2,
-                City = apiAddress.City,
-                State = apiAddress.State,
-                PostalCode = apiAddress.PostalCode,
-                Country = apiAddress.Country
+                Id = Guid.NewGuid(),
+                AddressId = this.AddressId,
+                Address1 = this.Address1,
+                Address2 = this.Address2,
+                City = this.City,
+                State = this.State,
+                PostalCode = this.PostalCode,
+                Country = this.Country
             };
             return address;
         }
