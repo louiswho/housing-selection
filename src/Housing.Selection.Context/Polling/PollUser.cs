@@ -12,18 +12,18 @@ namespace Housing.Selection.Context.Polling
     public class PollUser : IPollUser
     {
         private IUserRepository userRepository;
-        private IServiceUserRetrieval userRetrieval;
+        private IServiceUserCalls userRetrieval;
 
         private readonly IBatchRepository batchRepository;
-        private readonly IServiceBatchRetrieval batchRetrieval;
+        private readonly IServiceBatchCalls batchRetrieval;
 
         private readonly IRoomRepository roomRepository;
-        private readonly IServiceRoomRetrieval roomRetrieval;
+        private readonly IServiceRoomCalls roomRetrieval;
 
         private IAddressRepository addressRepository;
         private INameRepository nameRepository;
 
-        public PollUser(IUserRepository userRepository, IServiceUserRetrieval userRetrieval, IAddressRepository addressRepository, INameRepository nameRepository, IBatchRepository batchRepository, IServiceBatchRetrieval batchRetrieval, IRoomRepository roomRepository, IServiceRoomRetrieval roomRetrieval)
+        public PollUser(IUserRepository userRepository, IServiceUserCalls userRetrieval, IAddressRepository addressRepository, INameRepository nameRepository, IBatchRepository batchRepository, IServiceBatchCalls batchRetrieval, IRoomRepository roomRepository, IServiceRoomCalls roomRetrieval)
         {
             this.userRepository = userRepository;
             this.userRetrieval = userRetrieval;
