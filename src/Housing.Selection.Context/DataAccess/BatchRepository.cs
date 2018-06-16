@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Housing.Selection.Library;
 using Housing.Selection.Library.HousingModels;
 
 namespace Housing.Selection.Context.DataAccess
 {
-    /// <summary>
-    /// Add, read, update and get by Id Revature batches from Housing-Selection database.
-    /// </summary>
     public class BatchRepository : IBatchRepository
     {
         private readonly IDbContext _housingSelectionDbContext;
@@ -38,10 +34,9 @@ namespace Housing.Selection.Context.DataAccess
             return _housingSelectionDbContext.Batches.First(x => x.BatchId == batchId);
         }
 
-
         public void SaveChanges()
         {
-            _housingSelectionDbContext.saveChanges();
+            _housingSelectionDbContext.SaveChanges();
         }
     }
 }

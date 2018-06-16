@@ -48,6 +48,7 @@ namespace Housing.Selection.Context.HttpRequests
             {
                 var rooms = new List<ApiRoom>();
                 var response = await Client.GetAsync(ApiPath.GetRoomServicePath());
+
                 rooms = (response.IsSuccessStatusCode) ?
                     rooms = await response.Content.ReadAsAsync<List<ApiRoom>>() : rooms;
 

@@ -48,6 +48,7 @@ namespace Housing.Selection.Context.HttpRequests
             {
                 var batches = new List<ApiBatch>();
                 var response = await Client.GetAsync(ApiPath.GetBatchServicePath());
+
                 batches = (response.IsSuccessStatusCode) ? 
                     await response.Content.ReadAsAsync<List<ApiBatch>>() : batches;
 
