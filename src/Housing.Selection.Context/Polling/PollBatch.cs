@@ -32,11 +32,20 @@ namespace Housing.Selection.Context.Polling
             return batchList;
         }
 
-        public Batch UpdateBatch(ApiBatch batch)
-        {
-            
-            var housingBatch = batchRepository.GetBatchByBatchId(batch.BatchId);
-            housingBatch = housingBatch.ConvertFromServiceModel(apiBatch: batch);
+        /// <summary>
+        /// Updates a single Batch in the housing Batch database based on the Batch data retrieved from the service hub database
+        /// </summary>
+        /// <param name="apiBatch">
+        /// The ApiBatch object retrieved from the BatchRetireval
+        /// Contains the properties to update housing's matching Batch with
+        /// </param>        
+        /// <returns>
+        /// Returns a Batch that contains the updated properties
+        /// </returns>
+        public Batch UpdateBatch(ApiBatch apiBatch)
+        {            
+            var housingBatch = batchRepository.GetBatchByBatchId(apiBatch.BatchId);
+            housingBatch = housingBatch.ConvertFromServiceModel(apiBatch: apiBatch);
             batchRepository.SaveChanges();
             return housingBatch;
         }

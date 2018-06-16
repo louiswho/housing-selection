@@ -34,6 +34,13 @@ namespace Housing.Selection.Context.Polling
             this.roomRepository = roomRepository;
             this.roomRetrieval = roomRetrieval;
         }
+
+        /// <summary>
+        /// Updates the users in the housing user database based on the data retrieved from the service hub database
+        /// </summary>
+        /// <returns>
+        /// Returns a Task<List<User>> that contains the updated user list
+        /// </returns>
         public async Task<List<User>> UserPoll()
         {
             var userList = new List<User>();
@@ -52,39 +59,81 @@ namespace Housing.Selection.Context.Polling
             return userList;
         }
 
-        public User UpdateUser(ApiUser user, List<ApiBatch> batches, List<ApiRoom> rooms)
+        /// <summary>
+        /// Updates a single user in the housing user database based on the user data retrieved from the service hub database
+        /// </summary>
+        /// <param name="apiUser">
+        /// The ApiUser object retrieved from the userRetireval
+        /// Contains the properties to update housing's matching user with
+        /// </param>        
+        /// <param name="rooms">
+        /// A list of batches, the apiUser.UserId should map to one of the rooms.Users.UserId
+        /// But the room has to be retrieved from our database first because ApiRoom doesnt have nav properties
+        /// Used to determine which room the user belongs to
+        /// </param>
+        /// <returns>
+        /// Returns a User that contains the updated properties
+        /// </returns>
+        public User UpdateUser(ApiUser apiUser, List<ApiBatch> batches, List<ApiRoom> rooms)
         {
-            var housingUser = userRepository.GetUserByUserId(user.UserId);
+            var housingUser = userRepository.GetUserByUserId(apiUser.UserId);
             if (housingUser == null)
             {
-                housingUser = housingUser.NewUserFromServiceModel(user);
+                housingUser = housingUser.NewUserFromServiceModel(apiUser);
             }
             else
             {
-                housingUser = housingUser.ConvertFromServiceModel(apiUser: user);
-                housingUser.Batch = GetBatchId(user, batches);
-                housingUser.Room = GetRoomId(user, rooms);
+                housingUser = housingUser.ConvertFromServiceModel(apiUser: apiUser);
+                housingUser.Batch = GetBatchId(apiUser, batches);
+                housingUser.Room = GetRoomId(apiUser, rooms);
                 housingUser.Address = housingUser.Room.Address;
             }
             userRepository.SaveChanges();
             return housingUser;
         }
 
-        public Room GetRoomId(ApiUser user, List<ApiRoom> rooms)
+        /// <summary>
+        /// Gets the RoomId from the roomRepository
+        /// </summary>
+        /// <param name="apiUser">
+        /// The ApiUser object retrieved from the userRetireval
+        /// Contains the properties to update housing's matching user with
+        /// </param>        
+        /// <param name="rooms">
+        /// A list of batches, the apiUser.UserId should map to one of the rooms.Users.UserId
+        /// But the room has to be retrieved from our database first because ApiRoom doesnt have nav properties
+        /// Used to determine which room the user belongs to
+        /// <returns>
+        /// Returns the Room that contains the apiUser
+        /// </returns>
+        public Room GetRoomId(ApiUser apiUser, List<ApiRoom> rooms)
         {
             var roomId = (from x in rooms
-                          where x.Address.AddressId == user.Address.AddressId
+                          where x.Address.AddressId == apiUser.Address.AddressId
                           select x.RoomId).FirstOrDefault();
-            if(roomId != null)
+            if (roomId != null)
                 return roomRepository.GetRoomByRoomId(roomId);
             else
                 return null;
         }
 
-        public Batch GetBatchId(ApiUser user, List<ApiBatch> batches)
+        /// <summary>
+        /// Gets the RoomId from the roomRepository
+        /// </summary>
+        /// <param name="apiUser">
+        /// The ApiUser object retrieved from the userRetireval
+        /// Contains the properties to update housing's matching user with
+        /// </param>        
+        /// <param name="batches">
+        /// A list of batches, the apiUser.UserId should map to one of the batches.UserIds
+        /// Used to determine which batch the user belongs to
+        /// </param>
+        /// Returns a Batch that contains apiUser
+        /// </returns>
+        public Batch GetBatchId(ApiUser apiUser, List<ApiBatch> batches)
         {
             var batchId = (from x in batches
-                           where x.UserIds.Any(y => y == user.UserId)
+                           where x.UserIds.Any(y => y == apiUser.UserId)
                            select x).FirstOrDefault().BatchId;
             if (batchId != null)
                 return batchRepository.GetBatchByBatchId(batchId);
