@@ -48,16 +48,10 @@ namespace Housing.Selection.Context.HttpRequests
             {
                 var rooms = new List<ApiRoom>();
                 var response = await Client.GetAsync(ApiPath.GetRoomServicePath());
-                if (response.IsSuccessStatusCode)
-                {
-                    rooms = await response.Content.ReadAsAsync<List<ApiRoom>>();
-                    if (rooms.Count <= 0) return null;
-                    return rooms;
-                }
-                else
-                {
-                    return null;
-                }
+                rooms = (response.IsSuccessStatusCode) ?
+                    rooms = await response.Content.ReadAsAsync<List<ApiRoom>>() : rooms;
+
+                return (rooms.Count > 0) ? rooms : null;
             }
             catch (Exception ex)
             {
