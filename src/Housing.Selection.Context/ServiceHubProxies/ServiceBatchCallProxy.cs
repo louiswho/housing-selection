@@ -120,7 +120,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
      
         public async Task<List<ApiBatch>> RetrieveAllBatchesAsync()
         {
-            return  _batches;
+            return await Task.Run<List<ApiBatch>>(() => _batches);
         }
     }
 }
