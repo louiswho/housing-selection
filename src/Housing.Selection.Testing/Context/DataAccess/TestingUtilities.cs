@@ -1,14 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Moq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Moq;
 
-//Change name to DataAccessTestingUtilities, clean up white space.
-namespace Housing.Selection.Testing.Context
+namespace Housing.Selection.Testing.Context.DataAccess
 {
   public static  class TestingUtilities
     {
-
         public static DbSet<T> GetQueryableMockDbSet<T>(List<T> sourceList) where T : class
         {
             var queryable = sourceList.AsQueryable();
@@ -18,7 +16,7 @@ namespace Housing.Selection.Testing.Context
             dbSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
             dbSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
             dbSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-            dbSet.Setup(d => d.Add(It.IsAny<T>())).Callback<T>((s) => sourceList.Add(s));
+            dbSet.Setup(d => d.Add(It.IsAny<T>())).Callback<T>(sourceList.Add);
 
             return dbSet.Object;
         }

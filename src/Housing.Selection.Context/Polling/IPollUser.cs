@@ -9,6 +9,5 @@ namespace Housing.Selection.Context.Polling
     {
         Task<List<User>> UserPoll();
         User UpdateUser(ApiUser user, List<ApiBatch> batches, List<ApiRoom> rooms);
-
     }
 }
