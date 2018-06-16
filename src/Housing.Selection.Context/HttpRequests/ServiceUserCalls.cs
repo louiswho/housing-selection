@@ -48,16 +48,11 @@ namespace Housing.Selection.Context.HttpRequests
             {
                 var users = new List<ApiUser>();
                 var response = await Client.GetAsync(ApiPath.GetUserServicePath());
-                if (response.IsSuccessStatusCode)
-                {
-                    users = await response.Content.ReadAsAsync<List<ApiUser>>();
-                    if (users.Count <= 0) return null;
-                    return users;
-                }
-                else
-                {
-                    return null;
-                }
+
+                users = (response.IsSuccessStatusCode) ?
+                    await response.Content.ReadAsAsync<List<ApiUser>>() : users;
+
+                return (users.Count > 0) ? users : null;
             }
             catch (Exception ex)
             {
@@ -86,13 +81,13 @@ namespace Housing.Selection.Context.HttpRequests
 
                 if (user.Address != null)
                 {
-                    bool validate = true;
-                    validate = String.IsNullOrEmpty(user.Address.Address1) ? false : validate;
-                    validate = (user.Address.AddressId == Guid.Empty) ? false : validate;
-                    validate = String.IsNullOrEmpty(user.Address.City) ? false : validate;
-                    validate = String.IsNullOrEmpty(user.Address.State) ? false : validate;
-                    validate = String.IsNullOrEmpty(user.Address.PostalCode) ? false : validate;
-                    validate = String.IsNullOrEmpty(user.Address.Country) ? false : validate;
+                    var validate = true;
+                    validate = string.IsNullOrEmpty(user.Address.Address1) ? false : validate;
+                    validate = (user.Address.AddressId != Guid.Empty) && validate;
+                    validate = !string.IsNullOrEmpty(user.Address.City) && validate;
+                    validate = !string.IsNullOrEmpty(user.Address.State) && validate;
+                    validate = !string.IsNullOrEmpty(user.Address.PostalCode) && validate;
+                    validate = !string.IsNullOrEmpty(user.Address.Country) && validate;
 
                     if (!validate) throw new Exception("Address was not valid.");
                 }

@@ -4,9 +4,6 @@ using Housing.Selection.Library.HousingModels;
 
 namespace Housing.Selection.Context.DataAccess
 {
-    /// <summary>
-    /// Creates, reads and updates  Revature batches from Housing-Selection database.
-    /// </summary>
     public interface IBatchRepository
     {
         IEnumerable<Batch> GetBatches();

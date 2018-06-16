@@ -13,6 +13,19 @@ namespace Housing.Selection.Library.ServiceHubModels
         public string PostalCode { get; set; }
         public string Country { get; set; }
 
+        /// <summary>
+        /// Use this method to update a housing Address with the properties from the
+        /// calling service hub Address
+        /// doesnt change any nav properties from the passed in Address
+        /// </summary>
+        /// <param name="oldAddress">An Address object is passed into this method.
+        /// Updates the housing Address properties to match the ones grabbed from the
+        /// api call.
+        /// All other fields are ignored.
+        /// </param>
+        /// <returns>
+        /// Address that has been updated with the calling ApiAddress's properties
+        /// </returns>
         public Address ConvertToAddress(Address oldAddress)
         {
             oldAddress.AddressId = this.AddressId;
@@ -26,6 +39,14 @@ namespace Housing.Selection.Library.ServiceHubModels
             return oldAddress;
         }
 
+        /// <summary>
+        /// Use this method to create a new Address in the instance
+        /// where housing is passed a service hub Address that does not exist
+        /// in housings DB
+        /// </summary> 
+        /// <returns>
+        /// Returns a new Address object
+        /// </returns>       
         public Address CreateNewAddress()
         {
             Address address = new Address()

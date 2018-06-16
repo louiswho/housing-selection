@@ -9,19 +9,26 @@ namespace Housing.Selection.Context.Polling
 {
     public class PollRoom : IPollRoom
     {
-        private IRoomRepository roomRepository;
-        private IServiceRoomCalls roomRetrieval;
+        private readonly IRoomRepository _roomRepository;
+        private readonly IServiceRoomCalls _roomRetrieval;
 
         public PollRoom(IRoomRepository roomRepository, IServiceRoomCalls roomRetrieval)
         {
-            this.roomRepository = roomRepository;
-            this.roomRetrieval = roomRetrieval;
+            _roomRepository = roomRepository;
+            _roomRetrieval = roomRetrieval;
         }
+
+        /// <summary>
+        /// Updates the Rooms in the housing Room database based on the data retrieved from the service hub database
+        /// </summary>
+        /// <returns>
+        /// Returns a Task<List<Room>> that contains the updated Room list
+        /// </returns>
         public async Task<List<Room>> RoomPoll()
         {
             var roomList = new List<Room>();
-            var rooms = await roomRetrieval.RetrieveAllRoomsAsync();
-            if (rooms != null)
+            var rooms = await _roomRetrieval.RetrieveAllRoomsAsync();
+            if (rooms != null) //Invertable If Statement
             {
                 foreach (var room in rooms)
                 {
@@ -31,11 +38,21 @@ namespace Housing.Selection.Context.Polling
             return roomList;
         }
 
-        public Room UpdateRoom(ApiRoom room)
+        /// <summary>
+        /// Updates a single Room in the housing Room database based on the Room data retrieved from the service hub database
+        /// </summary>
+        /// <param name="apiRoom">
+        /// The ApiRoom object retrieved from the RoomRetireval
+        /// Contains the properties to update housing's matching Room with
+        /// </param>
+        /// <returns>
+        /// Returns a Room that contains the updated properties
+        /// </returns>
+        public Room UpdateRoom(ApiRoom apiRoom)
         {
-            var housingRoom = roomRepository.GetRoomByRoomId(room.RoomId);
-            housingRoom = housingRoom.ConvertFromServiceModel(apiRoom: room);
-            roomRepository.SaveChanges();
+            var housingRoom = _roomRepository.GetRoomByRoomId(apiRoom.RoomId);
+            housingRoom = housingRoom.ConvertFromServiceModel(apiRoom: apiRoom);
+            _roomRepository.SaveChanges();
             return housingRoom;
         }
     }

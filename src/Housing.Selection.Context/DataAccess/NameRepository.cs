@@ -34,12 +34,9 @@ namespace Housing.Selection.Context.DataAccess
             return _housingSelectionDbContext.Names.First(x => x.NameId == nameId);
         }
 
-
         public void SaveChanges()
         {
-            _housingSelectionDbContext.saveChanges();
+            _housingSelectionDbContext.SaveChanges();
         }
-
-
     }
 }
