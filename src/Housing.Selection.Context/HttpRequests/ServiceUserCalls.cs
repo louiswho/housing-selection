@@ -48,14 +48,11 @@ namespace Housing.Selection.Context.HttpRequests
             {
                 var users = new List<ApiUser>();
                 var response = await Client.GetAsync(ApiPath.GetUserServicePath());
-                if (response.IsSuccessStatusCode)
-                {
-                    users = await response.Content.ReadAsAsync<List<ApiUser>>();
-                    if (users.Count <= 0) return null;
-                    return users;
-                }
 
-                return null;
+                users = (response.IsSuccessStatusCode) ?
+                    await response.Content.ReadAsAsync<List<ApiUser>>() : users;
+
+                return (users.Count > 0) ? users : null;
             }
             catch (Exception ex)
             {
