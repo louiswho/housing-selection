@@ -36,7 +36,7 @@ namespace Housing.Selection.Context.DataAccess
 
         public void SaveChanges()
         {
-            _housingSelectionDbContext.saveChanges();
+            _housingSelectionDbContext.SaveChanges();
         }
     }
 }

@@ -54,10 +54,8 @@ namespace Housing.Selection.Context.HttpRequests
                     if (rooms.Count <= 0) return null;
                     return rooms;
                 }
-                else
-                {
-                    return null;
-                }
+
+                return null;
             }
             catch (Exception ex)
             {

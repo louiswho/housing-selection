@@ -54,10 +54,8 @@ namespace Housing.Selection.Context.HttpRequests
                     if (batches.Count <= 0) return null;
                     return batches;
                 }
-                else
-                {
-                    return null;
-                }
+
+                return null;
             }
             catch (Exception ex)
             {

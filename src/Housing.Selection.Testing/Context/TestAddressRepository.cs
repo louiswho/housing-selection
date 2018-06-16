@@ -94,13 +94,13 @@ namespace Housing.Selection.Testing.Context
         {
             var MockHousingContext = new Mock<IDbContext>();
 
-            MockHousingContext.Setup(x => x.saveChanges()).Returns(1);
+            MockHousingContext.Setup(x => x.SaveChanges()).Returns(1);
 
             var addressRepository = new AddressRepository(MockHousingContext.Object);
 
             addressRepository.SaveChanges();
 
-            MockHousingContext.Verify(m => m.saveChanges(), Times.Once());
+            MockHousingContext.Verify(m => m.SaveChanges(), Times.Once());
         }
     }
 }
