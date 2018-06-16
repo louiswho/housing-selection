@@ -1,38 +1,34 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 using Housing.Selection.Context.DataAccess;
 using Housing.Selection.Context.HttpRequests;
 using Housing.Selection.Library.HousingModels;
 using Housing.Selection.Library.ServiceHubModels;
-using System;
 
 namespace Housing.Selection.Context.Polling
 {
     public class PollUser : IPollUser
     {
-        private IUserRepository userRepository;
-        private IServiceUserCalls userRetrieval;
-
-        private readonly IBatchRepository batchRepository;
-        private readonly IServiceBatchCalls batchRetrieval;
-
-        private readonly IRoomRepository roomRepository;
-        private readonly IServiceRoomCalls roomRetrieval;
-
-        private IAddressRepository addressRepository;
-        private INameRepository nameRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IServiceUserCalls _userRetrieval;
+        private readonly IBatchRepository _batchRepository;
+        private readonly IServiceBatchCalls _batchRetrieval;
+        private readonly IRoomRepository _roomRepository;
+        private readonly IServiceRoomCalls _roomRetrieval;
+        private readonly IAddressRepository _addressRepository;
+        private readonly INameRepository _nameRepository;
 
         public PollUser(IUserRepository userRepository, IServiceUserCalls userRetrieval, IAddressRepository addressRepository, INameRepository nameRepository, IBatchRepository batchRepository, IServiceBatchCalls batchRetrieval, IRoomRepository roomRepository, IServiceRoomCalls roomRetrieval)
         {
-            this.userRepository = userRepository;
-            this.userRetrieval = userRetrieval;
-            this.addressRepository = addressRepository;
-            this.nameRepository = nameRepository;
-            this.batchRepository = batchRepository;
-            this.batchRetrieval = batchRetrieval;
-            this.roomRepository = roomRepository;
-            this.roomRetrieval = roomRetrieval;
+            _userRepository = userRepository;
+            _userRetrieval = userRetrieval;
+            _addressRepository = addressRepository;
+            _nameRepository = nameRepository;
+            _batchRepository = batchRepository;
+            _batchRetrieval = batchRetrieval;
+            _roomRepository = roomRepository;
+            _roomRetrieval = roomRetrieval;
         }
 
         /// <summary>
@@ -44,10 +40,10 @@ namespace Housing.Selection.Context.Polling
         public async Task<List<User>> UserPoll()
         {
             var userList = new List<User>();
-            var users = await userRetrieval.RetrieveAllUsersAsync();
-            var batches = await batchRetrieval.RetrieveAllBatchesAsync();
-            var rooms = await roomRetrieval.RetrieveAllRoomsAsync();
-            if (users != null)
+            var users = await _userRetrieval.RetrieveAllUsersAsync();
+            var batches = await _batchRetrieval.RetrieveAllBatchesAsync();
+            var rooms = await _roomRetrieval.RetrieveAllRoomsAsync();
+            if (users != null) //Inveratable if statement
             {
                 foreach (var user in users)
                 {
@@ -76,8 +72,8 @@ namespace Housing.Selection.Context.Polling
         /// </returns>
         public User UpdateUser(ApiUser apiUser, List<ApiBatch> batches, List<ApiRoom> rooms)
         {
-            var housingUser = userRepository.GetUserByUserId(apiUser.UserId);
-            if (housingUser == null)
+            var housingUser = _userRepository.GetUserByUserId(apiUser.UserId);
+            if (housingUser == null) //Dont you want this to be housingUsing != null?????
             {
                 housingUser = housingUser.NewUserFromServiceModel(apiUser);
             }
@@ -88,7 +84,7 @@ namespace Housing.Selection.Context.Polling
                 housingUser.Room = GetRoomId(apiUser, rooms);
                 housingUser.Address = housingUser.Room.Address;
             }
-            userRepository.SaveChanges();
+            _userRepository.SaveChanges();
             return housingUser;
         }
 
@@ -106,15 +102,14 @@ namespace Housing.Selection.Context.Polling
         /// <returns>
         /// Returns the Room that contains the apiUser
         /// </returns>
-        public Room GetRoomId(ApiUser apiUser, List<ApiRoom> rooms)
+        public Room GetRoomId(ApiUser apiUser, List<ApiRoom> rooms) //rooms can be IEnumeerable
         {
             var roomId = (from x in rooms
                           where x.Address.AddressId == apiUser.Address.AddressId
                           select x.RoomId).FirstOrDefault();
-            if (roomId != null)
-                return roomRepository.GetRoomByRoomId(roomId);
-            else
-                return null;
+            if (roomId != null)  //This expression will always be true
+                return _roomRepository.GetRoomByRoomId(roomId);
+            return null;
         }
 
         /// <summary>
@@ -130,29 +125,32 @@ namespace Housing.Selection.Context.Polling
         /// </param>
         /// Returns a Batch that contains apiUser
         /// </returns>
-        public Batch GetBatchId(ApiUser apiUser, List<ApiBatch> batches)
+        public Batch GetBatchId(ApiUser apiUser, List<ApiBatch> batches) //batches can be an IEnumerable
         {
             var batchId = (from x in batches
                            where x.UserIds.Any(y => y == apiUser.UserId)
                            select x).FirstOrDefault().BatchId;
-            if (batchId != null)
-                return batchRepository.GetBatchByBatchId(batchId);
-            else
-                return null;
+
+            if (batchId != null)  //This expression is always true. 
+            {
+                return _batchRepository.GetBatchByBatchId(batchId);
+            }
+                
+            return null;
         }
         public Address UpdateAddress(ApiAddress apiAddress)
         {
-            var housingAddress = addressRepository.GetAddressByAddressId(apiAddress.AddressId);
+            var housingAddress = _addressRepository.GetAddressByAddressId(apiAddress.AddressId);
             housingAddress = housingAddress.ConvertFromServiceModel(apiAddress);
-            addressRepository.SaveChanges();
+            _addressRepository.SaveChanges();
             return housingAddress;
         }
 
         public Name UpdateName(ApiName apiName)
         {
-            var housingName = nameRepository.GetNameByNameId(apiName.NameId);
+            var housingName = _nameRepository.GetNameByNameId(apiName.NameId);
             housingName = housingName.ConvertFromServiceModel(apiName);
-            nameRepository.SaveChanges();
+            _nameRepository.SaveChanges();
             return housingName;
         }
 

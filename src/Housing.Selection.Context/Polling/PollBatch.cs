@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using Housing.Selection.Context.DataAccess;
 using Housing.Selection.Context.HttpRequests;
 using Housing.Selection.Library.HousingModels;
@@ -10,19 +9,19 @@ namespace Housing.Selection.Context.Polling
 {
     public class PollBatch : IPollBatch
     {
-        private IBatchRepository batchRepository;
-        private IServiceBatchCalls batchRetrieval;
+        private readonly IBatchRepository _batchRepository;
+        private readonly IServiceBatchCalls _batchRetrieval;
 
         public PollBatch(IBatchRepository batchRepository, IServiceBatchCalls batchRetrieval)
         {
-            this.batchRepository = batchRepository;
-            this.batchRetrieval = batchRetrieval;
+            _batchRepository = batchRepository;
+            _batchRetrieval = batchRetrieval;
         }
         public async Task<List<Batch>> BatchPoll()
         {
             var batchList = new List<Batch>();
-            var batches = await batchRetrieval.RetrieveAllBatchesAsync();
-            if (batches != null)
+            var batches = await _batchRetrieval.RetrieveAllBatchesAsync();
+            if (batches != null) //You can invert this if statement. IE. if(batches == null) return batchList; then the foreach loop
             {
                 foreach (var batch in batches)
                 {
@@ -44,9 +43,9 @@ namespace Housing.Selection.Context.Polling
         /// </returns>
         public Batch UpdateBatch(ApiBatch apiBatch)
         {            
-            var housingBatch = batchRepository.GetBatchByBatchId(apiBatch.BatchId);
+            var housingBatch = _batchRepository.GetBatchByBatchId(apiBatch.BatchId);
             housingBatch = housingBatch.ConvertFromServiceModel(apiBatch: apiBatch);
-            batchRepository.SaveChanges();
+            _batchRepository.SaveChanges();
             return housingBatch;
         }
     }

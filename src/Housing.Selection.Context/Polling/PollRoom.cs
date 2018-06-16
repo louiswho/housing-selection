@@ -9,13 +9,13 @@ namespace Housing.Selection.Context.Polling
 {
     public class PollRoom : IPollRoom
     {
-        private IRoomRepository roomRepository;
-        private IServiceRoomCalls roomRetrieval;
+        private readonly IRoomRepository _roomRepository;
+        private readonly IServiceRoomCalls _roomRetrieval;
 
         public PollRoom(IRoomRepository roomRepository, IServiceRoomCalls roomRetrieval)
         {
-            this.roomRepository = roomRepository;
-            this.roomRetrieval = roomRetrieval;
+            _roomRepository = roomRepository;
+            _roomRetrieval = roomRetrieval;
         }
 
         /// <summary>
@@ -27,8 +27,8 @@ namespace Housing.Selection.Context.Polling
         public async Task<List<Room>> RoomPoll()
         {
             var roomList = new List<Room>();
-            var rooms = await roomRetrieval.RetrieveAllRoomsAsync();
-            if (rooms != null)
+            var rooms = await _roomRetrieval.RetrieveAllRoomsAsync();
+            if (rooms != null) //Invertable If Statement
             {
                 foreach (var room in rooms)
                 {
@@ -50,9 +50,9 @@ namespace Housing.Selection.Context.Polling
         /// </returns>
         public Room UpdateRoom(ApiRoom apiRoom)
         {
-            var housingRoom = roomRepository.GetRoomByRoomId(apiRoom.RoomId);
+            var housingRoom = _roomRepository.GetRoomByRoomId(apiRoom.RoomId);
             housingRoom = housingRoom.ConvertFromServiceModel(apiRoom: apiRoom);
-            roomRepository.SaveChanges();
+            _roomRepository.SaveChanges();
             return housingRoom;
         }
     }
