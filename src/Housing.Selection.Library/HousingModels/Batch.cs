@@ -28,6 +28,8 @@ namespace Housing.Selection.Library.HousingModels
 
         public string State { get; set; }
 
+        public string Location { get; set; }
+
         public ICollection<User> Users { get; set; }
 
         /// <summary>
@@ -54,7 +56,7 @@ namespace Housing.Selection.Library.HousingModels
             housingBatch.BatchName = apiBatch.BatchName;
             housingBatch.BatchOccupancy = (int) apiBatch.BatchOccupancy;
             housingBatch.BatchSkill = apiBatch.BatchSkill;
-            housingBatch.Address = apiBatch.Address.ConvertToAddress(housingBatch.Address);
+            housingBatch.Location = apiBatch.Location;
             //TODO - Figure out how to handle apiBatch userIds
             return housingBatch;
         }
@@ -69,7 +71,7 @@ namespace Housing.Selection.Library.HousingModels
                 BatchName = apiBatch.BatchName,
                 BatchOccupancy = (int) apiBatch.BatchOccupancy,
                 BatchSkill = apiBatch.BatchSkill,
-                Address = apiBatch.Address.CreateNewAddress()
+                Location = apiBatch.Location
             };
             //TODO - Figure out how to handle apiBatch userIds
             return batch;
