@@ -1,61 +1,72 @@
-//using System;
-//using System.Threading.Tasks;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.Azure.ServiceBus;
-//using Microsoft.Extensions.Logging;
+﻿using AutoMapper;
+using Housing.Selection.Context.Selection;
+using Housing.Selection.Library.HousingModels;
+using Housing.Selection.Library.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
-//namespace Housing.Selection.Service.Controllers
-//{
-//  [Route("api/[controller]")]
-//  public class SelectionController : BaseController
-//  {
-//    public SelectionController(ILoggerFactory loggerFactory, IQueueClient queueClientSingleton)
-//      : base(loggerFactory, queueClientSingleton) {}
-    
-//    public async Task<IActionResult> Get()
-//    {
-//      return await Task.Run(() => Ok());
-//    }
+namespace Housing.Selection.Service.Controllers
+{
+    [Produces("application/json")]
+    [Route("api/Selection")]
+    public class SelectionController : Controller
+    {
+        private readonly ISelectionService _selection;
+        private readonly IMapper _mapper;
 
-//    [HttpGet("{id}")]
-//    public async Task<IActionResult> Get(int id)
-//    {
-//      return await Task.Run(() => Ok());
-//    }
+        public SelectionController(ISelectionService selection, IMapper mapper)
+        {
+            _selection = selection;
+            _mapper = mapper;
+        }
 
-//    [HttpPost]
-//    public async Task<IActionResult> Post([FromBody]object value)
-//    {
-//      return await Task.Run(() => Ok());
-//    }
+        [HttpGet]
+        public IActionResult GetBatches()
+        {
+            var batches = _selection.GetBatches();
+            var viewModel = _mapper.Map<IEnumerable<BatchViewModel>>(batches);
 
-//    [HttpPut("{id}")]
-//    public async Task<IActionResult> Put(int id, [FromBody]object value)
-//    {
-//      return await Task.Run(() => Ok());
-//    }
+            return Ok(viewModel);
+        }
 
-//    [HttpDelete("{id}")]
-//    public async Task<IActionResult> Delete(int id)
-//    {
-//      return await Task.Run(() => Ok());
-//    }
+        [HttpGet]
+        public IActionResult GetRooms()
+        {
+            var rooms = _selection.GetRooms();
+            var viewModel = _mapper.Map<IEnumerable<RoomViewModel>>(rooms);
 
-//    protected override void UseReceiver()
-//    {
-//      var messageHandlerOptions = new MessageHandlerOptions(ReceiverExceptionHandler)
-//      {
-//        AutoComplete = false
-//      };
+            return Ok(viewModel);
+        }
 
-//      queueClient.RegisterMessageHandler(ReceiverMessageProcessAsync, messageHandlerOptions);
-//    }
-    
-//    protected override void UseSender(Message message)
-//    {
-//      Task.Run(() =>
-//        SenderMessageProcessAsync(message)
-//      );
-//    }
-//  }
-//}
+        [HttpPut]
+        public IActionResult CustomSearch(RoomSearchViewModel roomSearchViewModel)
+        {
+            if(!ModelState.IsValid) { return BadRequest(); };
+
+            var rooms = _selection.CustomSearch(roomSearchViewModel);
+            var viewModel = _mapper.Map<IEnumerable<RoomViewModel>>(rooms);
+
+            return Ok(viewModel);
+        }
+
+        [HttpPut]
+        public IActionResult AddUserToRoom(AddRemoveUserFromRoomModel addUserToRoomModel)
+        {
+            if(!ModelState.IsValid) { return BadRequest(); };
+
+            _selection.AddUserToRoom(addUserToRoomModel);
+
+            return Ok();
+        }
+
+        [HttpPut]
+        public IActionResult RemoveUserFromRoom(AddRemoveUserFromRoomModel removeUserFromRoomModel)
+        {
+            if(!ModelState.IsValid) { return BadRequest(); };
+
+            _selection.RemoveUserFromRoom(removeUserFromRoomModel);
+
+            return Ok();
+        }
+    }
+}
