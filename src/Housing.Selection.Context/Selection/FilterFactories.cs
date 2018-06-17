@@ -31,7 +31,7 @@ namespace Housing.Selection.Context.Selection
             return new IsCompletelyUnassignedFilter();
         }
 
-        public static AFilter ResolveAllFilters()
+        public static ARoomFilter ResolveAllFilters()
         {
             GenderFilter gender = GenderFilterFactory();
             LocationFilter location = LocationFilterFactory();

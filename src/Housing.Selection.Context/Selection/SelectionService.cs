@@ -59,6 +59,17 @@ namespace Housing.Selection.Context.Selection
             return returnedRooms;
         }
 
+        public IEnumerable<User> CustomUserSearch(UserSearchViewModel userSearchViewModel)
+        {
+            var returnedUsers = _userRepository.GetUsers().ToList();
+
+            var userFilters = UserFilterFactory.ResolveUserFilters();
+
+            userFilters.FilterRequest(ref returnedUsers, userSearchViewModel);
+
+            return returnedUsers;
+        }
+
         public List<Batch> GetBatches()
         {
             return _batchRepository.GetBatches().ToList();
