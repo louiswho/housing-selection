@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using Housing.Selection.Library.ServiceHubModels;
 
-namespace Housing.Selection.Library.HousingModels
-{
-    public class Name
-    {
+namespace Housing.Selection.Library
+{ 
+   public class Name
+   {
         private const int MaxNameLength = 255;
         /// <summary>
         /// Our primary key.
@@ -26,22 +24,22 @@ namespace Housing.Selection.Library.HousingModels
 
         public ICollection<User> Users { get; set; }
 
-        /// <summary>
-        /// Check that the Name object represents a valid name.
-        /// </summary>
-        /// <remarks>
-        /// First and Last names are required, as well as Name Id. 
-        /// Middle name is optional.
-        /// No name fields can be an empty string.
-        /// </remarks>
-        /// <returns>True if the name is valid and false otherwise.</returns>
-        public bool Validate()
-        {
-            return (NameId != Guid.Empty &&
-                    ValidateFirstOrLastName(First) &&
-                    ValidateMiddle(Middle) &&
-                    ValidateFirstOrLastName(Last));
-        }
+       /// <summary>
+       /// Check that the Name object represents a valid name.
+       /// </summary>
+       /// <remarks>
+       /// First and Last names are required, as well as Name Id. 
+       /// Middle name is optional.
+       /// No name fields can be an empty string.
+       /// </remarks>
+       /// <returns>True if the name is valid and false otherwise.</returns>
+       public bool Validate()
+       {
+           return (NameId != Guid.Empty &&
+                   ValidateFirstOrLastName(First) &&
+                   ValidateMiddle(Middle) &&
+                   ValidateFirstOrLastName(Last));
+       }
 
         /// <summary>
         /// Check that the string parameter would represent a valid first name.
@@ -71,31 +69,6 @@ namespace Housing.Selection.Library.HousingModels
                 return true;
             }
             return middleName.Length <= MaxNameLength && middleName != "";
-        }
-
-        public Name ConvertFromServiceModel(ApiName apiName)
-        {
-            Name housingName = this;
-
-            NameId = apiName.NameId;
-            First = apiName.First;
-            Middle = apiName.Middle;
-            Last = apiName.Last;
-
-            return housingName;
-        }
-
-        public Name NewNameFromServiceModel(ApiName apiName)
-        {
-            Name housingName = new Name()
-            {
-                Id = Guid.NewGuid(),
-                NameId = apiName.NameId,
-                First = apiName.First,
-                Middle = apiName.Middle,
-                Last = apiName.Last,
-            };
-            return housingName;
         }
     }
 }

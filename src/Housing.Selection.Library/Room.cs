@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using Housing.Selection.Library.ServiceHubModels;
 
-namespace Housing.Selection.Library.HousingModels
+namespace Housing.Selection.Library
 {
     public class Room
     {
@@ -22,11 +19,11 @@ namespace Housing.Selection.Library.HousingModels
         public string Location { get; set; }
 
         public int Vacancy { get; set; }
-
+        
         public int Occupancy { get; set; }
 
         public string Gender { get; set; }
-
+        
         public Address Address { get; set; }
 
         public ICollection<User> Users { get; set; }
@@ -40,25 +37,6 @@ namespace Housing.Selection.Library.HousingModels
             if (Gender == null) { return false; }
 
             return true;
-        }
-
-        public Room ConvertFromServiceModel(ApiRoom apiRoom)
-        {
-            Room housingRoom = this;            
-            housingRoom.RoomId = apiRoom.RoomId;
-            housingRoom.Location = apiRoom.Location;
-            housingRoom.Address = apiRoom.Address.ConvertToAddress(housingRoom.Address);            
-            housingRoom.Vacancy = apiRoom.Vacancy;
-            housingRoom.Occupancy = apiRoom.Occupancy;
-            housingRoom.Gender = apiRoom.Gender;          
-            
-            return housingRoom;
-        }
-
-        public double BatchPercentage(string batchName)
-        {
-            var batchUsers = Users.Where(x => x.Batch.BatchName == batchName);
-            return batchUsers.Count() / Users.Count;
         }
     }
 }
