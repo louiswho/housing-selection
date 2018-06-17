@@ -1,12 +1,7 @@
 using System;
 using System.Collections.Generic;
-<<<<<<< HEAD:src/Housing.Selection.Library/HousingModels/Address.cs
-using System.ComponentModel.DataAnnotations;
 using Housing.Selection.Library.ServiceHubModels;
-=======
 using System.Globalization;
-using System.Text.RegularExpressions;
->>>>>>> backup-library:src/Housing.Selection.Library/Address.cs
 
 namespace Housing.Selection.Library.HousingModels
 {
@@ -37,7 +32,7 @@ namespace Housing.Selection.Library.HousingModels
         public ICollection<User> Users { get; set; }
         public ICollection<Room> Rooms { get; set; }
 
-<<<<<<< HEAD:src/Housing.Selection.Library/HousingModels/Address.cs
+
         public Address ConvertFromServiceModel(ApiAddress apiAddress)
         {
             var housingAddress = this;
@@ -50,7 +45,8 @@ namespace Housing.Selection.Library.HousingModels
             housingAddress.Country = apiAddress.Country;
 
             return housingAddress;
-=======
+        }
+
         /// <summary>
         /// Check whether the address is valid.
         /// </summary>
@@ -172,7 +168,6 @@ namespace Housing.Selection.Library.HousingModels
         {
             const int postalCodeLength = 5;
             return PostalCode.Length == postalCodeLength;
->>>>>>> backup-library:src/Housing.Selection.Library/Address.cs
         }
     }
 }
