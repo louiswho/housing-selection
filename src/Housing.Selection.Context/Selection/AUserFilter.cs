@@ -1,9 +1,7 @@
 ﻿using Housing.Selection.Library.HousingModels;
 using Housing.Selection.Library.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Housing.Selection.Context.Selection
 {
@@ -51,7 +49,7 @@ namespace Housing.Selection.Context.Selection
         {
             if(userSearchViewModel.Batch != null)
             {
-                var result = filterUsers.Where(x => x.Batch.BatchName == userSearchViewModel.Batch.BatchName);
+                var result = filterUsers.Where(x => x.Batch.BatchId == userSearchViewModel.Batch);
                 filterUsers = result.ToList();
             }
             Successor?.FilterRequest(ref filterUsers, userSearchViewModel);
