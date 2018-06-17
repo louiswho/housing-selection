@@ -5,11 +5,11 @@ using Housing.Selection.Library.ViewModels;
 
 namespace Housing.Selection.Context.Selection
 {
-    public abstract class AFilter
+    public abstract class ARoomFilter
     {
-        protected AFilter Successor;
+        protected ARoomFilter Successor;
         
-        public void SetSuccessor(AFilter successor)
+        public void SetSuccessor(ARoomFilter successor)
         {
             Successor = successor;
         }
@@ -17,7 +17,7 @@ namespace Housing.Selection.Context.Selection
         public abstract void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel);
     }
 
-    public class LocationFilter : AFilter
+    public class LocationFilter : ARoomFilter
     {
         public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
@@ -30,7 +30,7 @@ namespace Housing.Selection.Context.Selection
         }
     }
 
-    public class BatchFilter : AFilter
+    public class BatchFilter : ARoomFilter
     {
         public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
@@ -46,7 +46,7 @@ namespace Housing.Selection.Context.Selection
         }
     }
 
-    public class GenderFilter : AFilter
+    public class GenderFilter : ARoomFilter
     {
         public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
@@ -59,7 +59,7 @@ namespace Housing.Selection.Context.Selection
         }
     }
 
-    public class IsCompletelyUnassignedFilter : AFilter
+    public class IsCompletelyUnassignedFilter : ARoomFilter
     {
         public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
@@ -72,7 +72,7 @@ namespace Housing.Selection.Context.Selection
         }
     }
 
-    public class HasBedAvailableFilter : AFilter
+    public class HasBedAvailableFilter : ARoomFilter
     {
         public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
