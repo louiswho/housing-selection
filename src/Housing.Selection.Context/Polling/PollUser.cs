@@ -8,6 +8,12 @@ using Housing.Selection.Library.ServiceHubModels;
 
 namespace Housing.Selection.Context.Polling
 {
+    /// <summary> 
+    /// Polls the Service Hub User database, and updates our(housing) User database 
+    /// With the data returned to ensure that our DB is up to date with Service Hubs 
+    /// Sets the nav properties for batch and room under the assumption that Batch and
+    /// Room poll were run before UserPoll is run to ensure that our data exactly matches
+    /// </summary> 
     public class PollUser : IPollUser
     {
         private readonly IUserRepository _userRepository;
@@ -43,13 +49,13 @@ namespace Housing.Selection.Context.Polling
             var users = await _userRetrieval.RetrieveAllUsersAsync();
             var batches = await _batchRetrieval.RetrieveAllBatchesAsync();
             var rooms = await _roomRetrieval.RetrieveAllRoomsAsync();
-            if (users == null || batches == null || rooms == null)
+            if (users != null || batches != null || rooms != null)
             {
                 foreach (var user in users)
                 {
-                    UpdateAddress(user.Address);
-                    UpdateName(user.Name);
-                    userList.Add(UpdateUser(user, batches, rooms));
+                    await UpdateAddress(user.Address);
+                    await UpdateName(user.Name);
+                    userList.Add(await UpdateUser(user, batches, rooms));
                 }
             }
             return userList;
@@ -70,9 +76,9 @@ namespace Housing.Selection.Context.Polling
         /// <returns>
         /// Returns a User that contains the updated properties
         /// </returns>
-        public User UpdateUser(ApiUser apiUser, List<ApiBatch> batches, List<ApiRoom> rooms)
+        public async Task<User> UpdateUser(ApiUser apiUser, List<ApiBatch> batches, List<ApiRoom> rooms)
         {
-            var housingUser = _userRepository.GetUserByUserId(apiUser.UserId);
+            var housingUser = await _userRepository.GetUserByUserId(apiUser.UserId);
             if (housingUser == null)
             {
                 housingUser = housingUser.NewUserFromServiceModel(apiUser);
@@ -80,11 +86,11 @@ namespace Housing.Selection.Context.Polling
             else
             {
                 housingUser = housingUser.ConvertFromServiceModel(apiUser: apiUser);
-                housingUser.Batch = GetBatchId(apiUser, batches);
-                housingUser.Room = GetRoomId(apiUser, rooms);
+                housingUser.Batch = await GetBatchId(apiUser, batches);
+                housingUser.Room = await GetRoomId(apiUser, rooms);
                 housingUser.Address = housingUser.Room.Address;
             }
-            _userRepository.SaveChanges();
+            await _userRepository.SaveChanges();
             return housingUser;
         }
 
@@ -102,12 +108,12 @@ namespace Housing.Selection.Context.Polling
         /// <returns>
         /// Returns the Room that contains the apiUser
         /// </returns>
-        public Room GetRoomId(ApiUser apiUser, IEnumerable<ApiRoom> rooms)
+        public async Task<Room> GetRoomId(ApiUser apiUser, IEnumerable<ApiRoom> rooms)
         {
             var roomId = (from x in rooms
                           where x.Address.AddressId == apiUser.Address.AddressId
                           select x.RoomId).FirstOrDefault();
-            return _roomRepository.GetRoomByRoomId(roomId);
+            return await _roomRepository.GetRoomByRoomId(roomId);
         }
 
         /// <summary>
@@ -123,27 +129,27 @@ namespace Housing.Selection.Context.Polling
         /// </param>
         /// Returns a Batch that contains apiUser
         /// </returns>
-        public Batch GetBatchId(ApiUser apiUser, IEnumerable<ApiBatch> batches)
+        public async Task<Batch> GetBatchId(ApiUser apiUser, IEnumerable<ApiBatch> batches)
         {
             var batchId = (from x in batches
                            where x.UserIds.Any(y => y == apiUser.UserId)
                            select x).FirstOrDefault().BatchId;
 
-            return _batchRepository.GetBatchByBatchId(batchId);
+            return await _batchRepository.GetBatchByBatchId(batchId);
         }
-        public Address UpdateAddress(ApiAddress apiAddress)
+        public async Task<Address> UpdateAddress(ApiAddress apiAddress)
         {
-            var housingAddress = _addressRepository.GetAddressByAddressIdAsync(apiAddress.AddressId);
+            var housingAddress = await _addressRepository.GetAddressByAddressId(apiAddress.AddressId);
             housingAddress = housingAddress.ConvertFromServiceModel(apiAddress);
-            _addressRepository.SaveChanges();
+            await _addressRepository.SaveChanges();
             return housingAddress;
         }
 
-        public Name UpdateName(ApiName apiName)
+        public async Task<Name> UpdateName(ApiName apiName)
         {
-            var housingName = _nameRepository.GetNameByNameId(apiName.NameId);
+            var housingName = await _nameRepository.GetNameByNameId(apiName.NameId);
             housingName = housingName.ConvertFromServiceModel(apiName);
-            _nameRepository.SaveChanges();
+            await _nameRepository.SaveChanges();
             return housingName;
         }
 
