@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Housing.Selection.Library.HousingModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace Housing.Selection.Context.DataAccess
 {
@@ -19,14 +21,14 @@ namespace Housing.Selection.Context.DataAccess
             _housingSelectionDbContext.Users.Add(user);
         }
 
-        public User GetUserById(Guid id)
+        public async Task <User> GetUserById(Guid id)
         {
-            return _housingSelectionDbContext.Users.First(x => x.Id == id);
+            return await _housingSelectionDbContext.Users.FirstAsync(x => x.Id == id);
         }
 
-        public User GetUserByUserId(Guid userId)
+        public async Task<User> GetUserByUserId(Guid userId)
         {
-            return _housingSelectionDbContext.Users.First(x => x.UserId == userId);
+            return await _housingSelectionDbContext.Users.FirstAsync(x => x.UserId == userId);
         }
 
         public IEnumerable<User> GetUsers()
@@ -34,9 +36,9 @@ namespace Housing.Selection.Context.DataAccess
             return _housingSelectionDbContext.Users;
         }
         
-        public void SaveChanges()
+        public async Task SaveChanges()
         {
-            _housingSelectionDbContext.SaveChanges();
+          await _housingSelectionDbContext.SaveChangesAsync();
         }
     }
 }

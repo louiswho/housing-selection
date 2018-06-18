@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Housing.Selection.Library.HousingModels;
 
 namespace Housing.Selection.Context.DataAccess
@@ -7,9 +9,9 @@ namespace Housing.Selection.Context.DataAccess
     public interface IBatchRepository
     {
         IEnumerable<Batch> GetBatches();
-        Batch GetBatchById(Guid id);
-        Batch GetBatchByBatchId(Guid batchId);
+        Task<Batch> GetBatchById(Guid id);
+        Task<Batch> GetBatchByBatchId(Guid batchId);
         void AddBatch(Batch batch);
-        void SaveChanges();
+        Task SaveChanges();
     }
 }
