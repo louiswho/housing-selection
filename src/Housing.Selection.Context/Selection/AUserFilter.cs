@@ -3,6 +3,9 @@ using Housing.Selection.Library.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 
+/* Chain of responsibility for the user filter custom search. Will parse through a complex object, and filter out users based
+   on which feilds are populated (not null). This object is received from the angular API */
+
 namespace Housing.Selection.Context.Selection
 {
     public abstract class AUserFilter
