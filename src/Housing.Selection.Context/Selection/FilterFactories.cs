@@ -27,7 +27,7 @@
             return new IsCompletelyUnassignedFilter();
         }
 
-        public static AFilter ResolveAllFilters()
+        public static ARoomFilter ResolveAllFilters()
         {
             var gender = GenderFilterFactory();
             var location = LocationFilterFactory();

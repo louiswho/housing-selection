@@ -85,16 +85,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
                 BatchName = "Batch One",
                 BatchOccupancy = 1,
                 BatchSkill = "None",
-                Address = new Address()
-                {
-                    Id = Guid.NewGuid(),
-                    AddressId = Guid.NewGuid(),
-                    Address1 = "111 Batch1 St",
-                    City = "Tampa",
-                    State = "FL",
-                    PostalCode = "11111",
-                    Country = "US"
-                }
+                Location = "USF"
             };
             batch2 = new Batch()
             {
@@ -105,16 +96,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
                 BatchName = "Batch Two",
                 BatchOccupancy = 2,
                 BatchSkill = "None",
-                Address = new Address()
-                {
-                    Id = Guid.NewGuid(),
-                    AddressId = Guid.NewGuid(),
-                    Address1 = "222 Batch2 St",
-                    City = "Tampa",
-                    State = "FL",
-                    PostalCode = "22222",
-                    Country = "US"
-                }
+                Location = "Tampa"
             };
             apiBatch1 = new ApiBatch()
             {
@@ -124,15 +106,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
                 BatchName = "Batch One",
                 BatchOccupancy = 1,
                 BatchSkill = "None",
-                Address = new ApiAddress()
-                {
-                    AddressId = Guid.NewGuid(),
-                    Address1 = "111 Batch1 St",
-                    City = "Tampa",
-                    State = "FL",
-                    PostalCode = "11111",
-                    Country = "US"
-                }
+                Location = "Reston"
             };
             apiBatch2 = new ApiBatch()
             {
@@ -142,15 +116,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
                 BatchName = "Batch Two",
                 BatchOccupancy = 2,
                 BatchSkill = "None",
-                Address = new ApiAddress()
-                {
-                    AddressId = Guid.NewGuid(),
-                    Address1 = "222 Batch2 St",
-                    City = "Tampa",
-                    State = "FL",
-                    PostalCode = "22222",
-                    Country = "US"
-                }
+                Location = "Virginia"
             };
             mockBatchList = new List<Batch>();            
             List<ApiBatch> apiBatchList = new List<ApiBatch>();

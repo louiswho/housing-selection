@@ -3,22 +3,25 @@ using System.Collections.Generic;
 using Housing.Selection.Context.Selection;
 using Housing.Selection.Library.ViewModels;
 using Xunit;
+using System;
 
 namespace Housing.Selection.Testing.Context
 {
     public class ContextFilterTests
     {
-        private List<Room> _testRooms;
-        private RoomSearchViewModel _searchModel;
+        List<Room> TestRooms;
+        List<User> TestUsers;
+        RoomSearchViewModel RoomSearchModel;
+        UserSearchViewModel UserSearchModel;
 
         [Fact]
-        public void LocationFilter_Reston_TampaFilteredOut()
+        public void LocationFilter_Reston_TampARoomFilteredOut()
         {
-            _searchModel = new RoomSearchViewModel
+            RoomSearchModel = new RoomSearchViewModel
             {
                 Location = "Reston"
             };
-            _testRooms = new List<Room>();
+            TestRooms = new List<Room>();
 
             var room1 = new Room
             {
@@ -30,24 +33,24 @@ namespace Housing.Selection.Testing.Context
                 Location = "Tampa"
             };
 
-            _testRooms.Add(room1);
-            _testRooms.Add(room2);
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
 
-            AFilter locationFilterTest = new LocationFilter();
+            ARoomFilter locationFilterTest = new LocationFilter();
 
-            locationFilterTest.FilterRequest(ref _testRooms, _searchModel);
+            locationFilterTest.FilterRequest(ref TestRooms, RoomSearchModel);
 
-            Assert.Single(_testRooms);
+            Assert.Single(TestRooms);
         }
 
         [Fact]
         public void LocationFilter_Tampa_RestonFilteredOut()
         {
-            _searchModel = new RoomSearchViewModel
+            RoomSearchModel = new RoomSearchViewModel
             {
                 Location = "Tampa"
             };
-            _testRooms = new List<Room>();
+            TestRooms = new List<Room>();
 
             var room1 = new Room
             {
@@ -59,25 +62,25 @@ namespace Housing.Selection.Testing.Context
                 Location = "Tampa"
             };
 
-            _testRooms.Add(room1);
-            _testRooms.Add(room2);
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
 
-            AFilter locationFilterTest = new LocationFilter();
+            ARoomFilter locationFilterTest = new LocationFilter();
 
-            locationFilterTest.FilterRequest(ref _testRooms, _searchModel);
+            locationFilterTest.FilterRequest(ref TestRooms, RoomSearchModel);
 
-            Assert.Single(_testRooms);
+            Assert.Single(TestRooms);
         }
 
         [Fact]
         public void BatchFilter_Batch0_FiftyPercent_TestRoom1OnTop()
         {
-            _searchModel = new RoomSearchViewModel
+            RoomSearchModel = new RoomSearchViewModel
             {
                 Batch = "Batch0",
                 BatchMinimumPercentage = .25
             };
-            _testRooms = new List<Room>();
+            TestRooms = new List<Room>();
 
             Room room1 = new Room
             {
@@ -127,25 +130,25 @@ namespace Housing.Selection.Testing.Context
                     }
                 });
 
-            _testRooms.Add(room1);
-            _testRooms.Add(room2);
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
 
-            AFilter batchFilterTest = new BatchFilter();
+            ARoomFilter batchFilterTest = new BatchFilter();
 
-            batchFilterTest.FilterRequest(ref _testRooms, _searchModel);
+            batchFilterTest.FilterRequest(ref TestRooms, RoomSearchModel);
 
-            Assert.Single(_testRooms);
+            Assert.Single(TestRooms);
         }
 
         [Fact]
         public void BatchFilter_Batch1_OneHundredPercent_AllRoomsFilteredOut()
         {
-            _searchModel = new RoomSearchViewModel
+            RoomSearchModel = new RoomSearchViewModel
             {
                 Batch = "Batch1",
                 BatchMinimumPercentage = 1
             };
-            _testRooms = new List<Room>();
+            TestRooms = new List<Room>();
 
             Room room1 = new Room
             {
@@ -195,25 +198,25 @@ namespace Housing.Selection.Testing.Context
                     }
                 });
 
-            _testRooms.Add(room1);
-            _testRooms.Add(room2);
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
 
-            AFilter batchFilterTest = new BatchFilter();
+            ARoomFilter batchFilterTest = new BatchFilter();
 
-            batchFilterTest.FilterRequest(ref _testRooms, _searchModel);
+            batchFilterTest.FilterRequest(ref TestRooms, RoomSearchModel);
 
-            Assert.Empty(_testRooms);
+            Assert.Empty(TestRooms);
         }
 
         [Fact]
         public void GenderFilter_Female_MaleRoomsFilteredOut()
         {
-            _searchModel = new RoomSearchViewModel
+            RoomSearchModel = new RoomSearchViewModel
             {
                 Gender = "F"
             };
-            _testRooms = new List<Room>();
-            AFilter genderFilterTest = new GenderFilter();
+            TestRooms = new List<Room>();
+            ARoomFilter genderFilterTest = new GenderFilter();
 
             Room room1 = new Room
             {
@@ -224,165 +227,368 @@ namespace Housing.Selection.Testing.Context
                 Gender = "M"
             };
 
-            _testRooms.Add(room1);
-            _testRooms.Add(room2);
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
 
-            genderFilterTest.FilterRequest(ref _testRooms, _searchModel);
+            genderFilterTest.FilterRequest(ref TestRooms, RoomSearchModel);
 
-            Assert.Single(_testRooms);
+            Assert.Single(TestRooms);
         }
 
         [Fact]
         public void GenderFilter_Male_FemaleRoomsFilteredOut()
         {
-            _searchModel = new RoomSearchViewModel
+            RoomSearchModel = new RoomSearchViewModel
             {
                 Gender = "M"
             };
-            _testRooms = new List<Room>();
-            AFilter genderFilterTest = new GenderFilter();
+            TestRooms = new List<Room>();
+            ARoomFilter genderFilterTest = new GenderFilter();
 
-            var room1 = new Room
+            Room room1 = new Room
             {
                 Gender = "F"
             };
-            var room2 = new Room
+            Room room2 = new Room
             {
                 Gender = "M"
             };
 
-            _testRooms.Add(room1);
-            _testRooms.Add(room2);
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
 
-            genderFilterTest.FilterRequest(ref _testRooms, _searchModel);
+            genderFilterTest.FilterRequest(ref TestRooms, RoomSearchModel);
 
-            Assert.Single(_testRooms);
+            Assert.Single(TestRooms);
         }
 
         [Fact]
         public void HasBedAvailableFilter_True_FullRoomsFilteredOut()
         {
-            _searchModel = new RoomSearchViewModel
+            RoomSearchModel = new RoomSearchViewModel
             {
                 HasBedAvailable = true
             };
-            _testRooms = new List<Room>();
-            AFilter bedAvailableFilterTest = new HasBedAvailableFilter();
+            TestRooms = new List<Room>();
+            ARoomFilter bedAvailableFilterTest = new HasBedAvailableFilter();
 
-            var room1 = new Room
+            Room room1 = new Room
             {
                 Vacancy = 3
             };
 
-            var room2 = new Room
+            Room room2 = new Room
             {
                 Vacancy = 0
             };
 
-            _testRooms.Add(room1);
-            _testRooms.Add(room2);
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
 
-            bedAvailableFilterTest.FilterRequest(ref _testRooms, _searchModel);
+            bedAvailableFilterTest.FilterRequest(ref TestRooms, RoomSearchModel);
 
-            Assert.Single(_testRooms);
+            Assert.Single(TestRooms);
         }
 
         [Fact]
         public void HasBedAvailableFilter_False_EmptyRoomsFilteredOut()
         {
-            _searchModel = new RoomSearchViewModel
+            RoomSearchModel = new RoomSearchViewModel
             {
                 HasBedAvailable = false
             };
-            _testRooms = new List<Room>();
-            AFilter bedAvailableFilterTest = new HasBedAvailableFilter();
+            TestRooms = new List<Room>();
+            ARoomFilter bedAvailableFilterTest = new HasBedAvailableFilter();
 
-            var room1 = new Room
+            Room room1 = new Room
             {
                 Vacancy = 3
             };
 
-            var room2 = new Room
+            Room room2 = new Room
             {
                 Vacancy = 0
             };
 
-            _testRooms.Add(room1);
-            _testRooms.Add(room2);
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
 
-            bedAvailableFilterTest.FilterRequest(ref _testRooms, _searchModel);
+            bedAvailableFilterTest.FilterRequest(ref TestRooms, RoomSearchModel);
 
-            Assert.Single(_testRooms);
+            Assert.Single(TestRooms);
         }
 
         [Fact]
         public void IsCompletelyUnassignedFilter_True_TestRoom4Returned()
         {
-            _searchModel = new RoomSearchViewModel
+            RoomSearchModel = new RoomSearchViewModel
             {
                 IsCompletelyUnassigned = true
             };
-            _testRooms = new List<Room>();
-            AFilter unassignedFilterTest = new IsCompletelyUnassignedFilter();
+            TestRooms = new List<Room>();
+            ARoomFilter unassignedFilterTest = new IsCompletelyUnassignedFilter();
 
-            var room1 = new Room
+            Room room1 = new Room
             {
                 Vacancy = 4,
                 Occupancy = 4
             };
-            var room2 = new Room
+            Room room2 = new Room
             {
                 Vacancy = 2,
                 Occupancy = 4
             };
-            var room3 = new Room
+            Room room3 = new Room
             {
                 Vacancy = 0,
                 Occupancy = 4
             };
 
-            _testRooms.Add(room1);
-            _testRooms.Add(room2);
-            _testRooms.Add(room3);
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
+            TestRooms.Add(room3);
 
-            unassignedFilterTest.FilterRequest(ref _testRooms, _searchModel);
+            unassignedFilterTest.FilterRequest(ref TestRooms, RoomSearchModel);
 
-            Assert.Single(_testRooms);
+            Assert.Single(TestRooms);
         }
 
         [Fact]
         public void IsCompletelyUnassignedFilter_False_AllRoomsReturned()
         {
-            _searchModel = new RoomSearchViewModel
+            RoomSearchModel = new RoomSearchViewModel
             {
                 IsCompletelyUnassigned = false
             };
-            _testRooms = new List<Room>();
-            AFilter unassignedFilterTest = new IsCompletelyUnassignedFilter();
+            TestRooms = new List<Room>();
+            ARoomFilter unassignedFilterTest = new IsCompletelyUnassignedFilter();
 
-            var room1 = new Room
+            Room room1 = new Room
             {
                 Vacancy = 4,
                 Occupancy = 4
             };
-            var room2 = new Room
+            Room room2 = new Room
             {
                 Vacancy = 2,
                 Occupancy = 4
             };
-            var room3 = new Room
+            Room room3 = new Room
             {
                 Vacancy = 0,
                 Occupancy = 4
             };
 
-            _testRooms.Add(room1);
-            _testRooms.Add(room2);
-            _testRooms.Add(room3);
+            TestRooms.Add(room1);
+            TestRooms.Add(room2);
+            TestRooms.Add(room3);
 
-            unassignedFilterTest.FilterRequest(ref _testRooms, _searchModel);
+            unassignedFilterTest.FilterRequest(ref TestRooms, RoomSearchModel);
 
-            Assert.Equal(3, _testRooms.Count);
+            Assert.Equal(3, TestRooms.Count);
+        }
+
+        [Fact]
+        public void UserGenderFilter_Female_MaleUsersFilteredOut()
+        {
+            UserSearchModel = new UserSearchViewModel()
+            {
+                Gender = "F"
+            };
+            TestUsers = new List<User>();
+            AUserFilter userFilterTest = new UserGenderFilter();
+
+            User user1 = new User
+            {
+                Gender = "F"
+            };
+
+            User user2 = new User
+            {
+                Gender = "M"
+            };
+
+            TestUsers.Add(user1);
+            TestUsers.Add(user2);
+
+            userFilterTest.FilterRequest(ref TestUsers, UserSearchModel);
+
+            Assert.Single(TestUsers);
+        }
+
+        [Fact]
+        public void UserGenderFilter_Male_FemaleUsersFilteredOut()
+        {
+            UserSearchModel = new UserSearchViewModel()
+            {
+                Gender = "M"
+            };
+            TestUsers = new List<User>();
+            AUserFilter userFilterTest = new UserGenderFilter();
+
+            User user1 = new User
+            {
+                Gender = "F"
+            };
+
+            User user2 = new User
+            {
+                Gender = "M"
+            };
+
+            TestUsers.Add(user1);
+            TestUsers.Add(user2);
+
+            userFilterTest.FilterRequest(ref TestUsers, UserSearchModel);
+
+            Assert.Single(TestUsers);
+        }
+
+        [Fact]
+        public void UserLocationFilter_Tampa_RestonFilteredOut()
+        {
+            UserSearchModel = new UserSearchViewModel
+            {
+                Location = "Tampa"
+            };
+            TestUsers = new List<User>();
+            AUserFilter userFilterTest = new UserLocationFilter();
+
+            User user1 = new User
+            {
+                Location = "Tampa"
+            };
+
+            User user2 = new User
+            {
+                Location = "Reston"
+            };
+
+            TestUsers.Add(user1);
+            TestUsers.Add(user2);
+
+            userFilterTest.FilterRequest(ref TestUsers, UserSearchModel);
+
+            Assert.Single(TestUsers);
+        }
+
+        [Fact]
+        public void UserLocationFilter_Reston_TampaFilteredOut()
+        {
+            UserSearchModel = new UserSearchViewModel
+            {
+                Location = "Reston"
+            };
+            TestUsers = new List<User>();
+            AUserFilter userFilterTest = new UserLocationFilter();
+
+            User user1 = new User
+            {
+                Location = "Tampa"
+            };
+
+            User user2 = new User
+            {
+                Location = "Reston"
+            };
+
+            TestUsers.Add(user1);
+            TestUsers.Add(user2);
+
+            userFilterTest.FilterRequest(ref TestUsers, UserSearchModel);
+
+            Assert.Single(TestUsers);
+        }
+
+        [Fact]
+        public void UserBatchFilter_Batch1_Batch2FilteredOut()
+        {
+            var id = Guid.NewGuid();
+            UserSearchModel = new UserSearchViewModel
+            {
+                Batch = id
+            };
+            TestUsers = new List<User>();
+            AUserFilter userFilterTest = new UserBatchFilter();
+
+            User user1 = new User
+            {
+                Batch = new Batch
+                {
+                    BatchId = id
+                }
+            };
+
+            User user2 = new User
+            {
+                Batch = new Batch
+                {
+                    BatchId = Guid.NewGuid()
+                }
+            };
+
+            TestUsers.Add(user1);
+            TestUsers.Add(user2);
+
+            userFilterTest.FilterRequest(ref TestUsers, UserSearchModel);
+
+            Assert.Single(TestUsers);
+        }
+
+        [Fact]
+        public void UserAssignedFilter_True_UnassignedUsersFilteredOut()
+        {
+            UserSearchModel = new UserSearchViewModel
+            {
+                Assigned = true
+            };
+            TestUsers = new List<User>();
+            AUserFilter userFilterTest = new UserAssignedFilter();
+
+            User user1 = new User
+            {
+                Room = new Room()
+            };
+
+            User user2 = new User
+            {
+                Room = null
+            };
+
+            TestUsers.Add(user1);
+            TestUsers.Add(user2);
+
+            userFilterTest.FilterRequest(ref TestUsers, UserSearchModel);
+
+            Assert.Single(TestUsers);
+        }
+
+        [Fact]
+        public void UserAssignedFilter_False_AssignedUsersFilteredOut()
+        {
+            UserSearchModel = new UserSearchViewModel
+            {
+                Assigned = false
+            };
+            TestUsers = new List<User>();
+            AUserFilter userFilterTest = new UserAssignedFilter();
+
+            User user1 = new User
+            {
+                Room = new Room()
+            };
+
+            User user2 = new User
+            {
+                Room = null
+            };
+
+            TestUsers.Add(user1);
+            TestUsers.Add(user2);
+
+            userFilterTest.FilterRequest(ref TestUsers, UserSearchModel);
+
+            Assert.Single(TestUsers);
         }
     }
 }
