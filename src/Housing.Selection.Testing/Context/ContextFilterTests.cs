@@ -503,12 +503,10 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public void UserBatchFilter_Batch1_Batch2FilteredOut()
         {
+            var id = Guid.NewGuid();
             UserSearchModel = new UserSearchViewModel
             {
-                Batch = new Batch
-                {
-                    BatchName = "Batch1"
-                }
+                Batch = id
             };
             TestUsers = new List<User>();
             AUserFilter userFilterTest = new UserBatchFilter();
@@ -517,7 +515,7 @@ namespace Housing.Selection.Testing.Context
             {
                 Batch = new Batch
                 {
-                    BatchName = "Batch1"
+                    BatchId = id
                 }
             };
 
@@ -525,7 +523,7 @@ namespace Housing.Selection.Testing.Context
             {
                 Batch = new Batch
                 {
-                    BatchName = "Batch2"
+                    BatchId = Guid.NewGuid()
                 }
             };
 
