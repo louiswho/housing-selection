@@ -8,9 +8,7 @@ using Housing.Selection.Library.ServiceHubModels;
 using Housing.Selection.Library.ViewModels;
 
 namespace Housing.Selection.Context.Selection
-{
-
-
+{ 
     public class SelectionService : ISelectionService
     {
         private readonly IUserRepository _userRepository;
