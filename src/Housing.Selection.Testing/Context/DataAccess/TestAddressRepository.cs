@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Housing.Selection.Testing.Context.DataAccess
 {
-  public  class TestAddressRepository
+    public class TestAddressRepository
     {
         private readonly IDbContext _mockHousingContext;
         private readonly List<Address> _addressList = new List<Address>();
@@ -48,7 +48,7 @@ namespace Housing.Selection.Testing.Context.DataAccess
             var testAddress1 = new Address()
             {
                 Id = _guid,
-               AddressId = _guid
+                AddressId = _guid
 
             };
             var addressList = new List<Address>()
@@ -79,17 +79,17 @@ namespace Housing.Selection.Testing.Context.DataAccess
         }
 
         [Fact]
-        public void CanReturnAddressesById()
+        public async void CanReturnAddressesByIdAsync()
         {
             var addressRepository = new AddressRepository(_mockHousingContext);
 
-            var testAddress = addressRepository.GetAddressByIdAsync(_guid);
+            var testAddress = await addressRepository.GetAddressById(_guid);
 
             Assert.Equal(_guid1, testAddress.AddressId);
         }
 
         [Fact]
-        public void CanSaveChanges()
+        public async void CanSaveChangesAsync()
         {
             var mockHousingContext = new Mock<IDbContext>();
 
@@ -97,7 +97,7 @@ namespace Housing.Selection.Testing.Context.DataAccess
 
             var addressRepository = new AddressRepository(mockHousingContext.Object);
 
-            addressRepository.SaveChanges();
+            await addressRepository.SaveChanges();
 
             mockHousingContext.Verify(m => m.SaveChanges(), Times.Once());
         }
