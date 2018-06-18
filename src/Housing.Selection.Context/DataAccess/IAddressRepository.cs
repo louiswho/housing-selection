@@ -1,15 +1,17 @@
 ﻿using Housing.Selection.Library.HousingModels;
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Housing.Selection.Context.DataAccess
 {
    public interface IAddressRepository
     {
         IEnumerable<Address> GetAddresses();
-        Address GetAddressById(Guid id);
-        Address GetAddressByAddressId(Guid nameId);
+        Task <Address> GetAddressById(Guid id);
+        Task <Address> GetAddressByAddressId(Guid nameId);
         void AddAddress(Address address);
-        void SaveChanges();
+        Task SaveChanges();
     }
 }

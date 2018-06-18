@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Housing.Selection.Library.HousingModels;
+using System.Threading.Tasks;
 
 namespace Housing.Selection.Context.DataAccess
 {
@@ -15,5 +16,7 @@ namespace Housing.Selection.Context.DataAccess
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Batch> Batches { get; set; }
         public DbSet<Name> Names { get; set; }
+
+     
     }
 }

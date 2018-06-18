@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Housing.Selection.Library.HousingModels;
 
 namespace Housing.Selection.Context.DataAccess
@@ -7,9 +9,9 @@ namespace Housing.Selection.Context.DataAccess
     public interface IRoomRepository
     {
         IEnumerable<Room> GetRooms();
-        Room GetRoomById(Guid id);
-        Room GetRoomByRoomId(Guid roomId);
+        Task<Room> GetRoomById(Guid id);
+        Task<Room> GetRoomByRoomId(Guid roomId);
         void AddRoom(Room room);
-        void SaveChanges();
+        Task SaveChanges();
     }
 }

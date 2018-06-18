@@ -48,7 +48,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
             var mockBatchRetrieval = new Mock<IServiceBatchCalls>();
             mockBatchRetrieval.Setup(x => x.RetrieveAllBatchesAsync()).Returns(mockTaskApiBatchList);
             var mockAddressRepo = new Mock<IAddressRepository>();
-            mockAddressRepo.Setup(x => x.GetAddressByAddressId(It.IsAny<Guid>())).Returns(room1.Address);
+            mockAddressRepo.Setup(x => x.GetAddressByAddressIdAsync(It.IsAny<Guid>())).Returns(room1.Address);
             var mockNameRepo = new Mock<INameRepository>();
             mockNameRepo.Setup(x => x.GetNameByNameId(It.IsAny<Guid>())).Returns(user1.Name);            
 
