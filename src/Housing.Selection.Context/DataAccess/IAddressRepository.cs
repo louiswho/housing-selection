@@ -10,6 +10,6 @@ namespace Housing.Selection.Context.DataAccess
         Address GetAddressById(Guid id);
         Address GetAddressByAddressId(Guid nameId);
         void AddAddress(Address address);
-        void SaveChanges();
+        void SaveChangesAsync();
     }
 }

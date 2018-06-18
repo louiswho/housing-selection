@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Housing.Selection.Context.DataAccess
 {
@@ -34,9 +35,9 @@ namespace Housing.Selection.Context.DataAccess
             return _housingSelectionDbContext.Addresses.First(x => x.AddressId == addressId);
         }
 
-        public void SaveChanges()
+        public async Task  SaveChangesAsync()
         {
-            _housingSelectionDbContext.SaveChanges();
+            _housingSelectionDbContext.SaveChangesAsync();
         }
     }
 }

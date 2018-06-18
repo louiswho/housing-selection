@@ -10,6 +10,6 @@ namespace Housing.Selection.Context.DataAccess
         Name GetNameById(Guid id);
         Name GetNameByNameId(Guid nameId);
         void AddName(Name batch);
-        void SaveChanges();
+        void SaveChangesAsync();
     }
 }
