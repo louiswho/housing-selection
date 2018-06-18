@@ -1,15 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <Compile Remove="Interfaces\**" />
-    <Compile Remove="obj\bin\**" />
-    <EmbeddedResource Remove="Interfaces\**" />
-    <EmbeddedResource Remove="obj\bin\**" />
-    <None Remove="Interfaces\**" />
-    <None Remove="obj\bin\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Automapper" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.6" />
   </ItemGroup>
