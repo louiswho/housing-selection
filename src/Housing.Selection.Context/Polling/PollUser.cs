@@ -133,7 +133,7 @@ namespace Housing.Selection.Context.Polling
         }
         public Address UpdateAddress(ApiAddress apiAddress)
         {
-            var housingAddress = _addressRepository.GetAddressByAddressId(apiAddress.AddressId);
+            var housingAddress = _addressRepository.GetAddressByAddressIdAsync(apiAddress.AddressId);
             housingAddress = housingAddress.ConvertFromServiceModel(apiAddress);
             _addressRepository.SaveChanges();
             return housingAddress;

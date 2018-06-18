@@ -43,7 +43,7 @@ namespace Housing.Selection.Context.Polling
         /// Returns a Batch that contains the updated properties
         /// </returns>
         public Batch UpdateBatch(ApiBatch apiBatch)
-        {
+        {            
             var housingBatch = _batchRepository.GetBatchByBatchId(apiBatch.BatchId);
             housingBatch = housingBatch.ConvertFromServiceModel(apiBatch: apiBatch);
             _batchRepository.SaveChanges();

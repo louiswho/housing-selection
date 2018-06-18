@@ -11,9 +11,6 @@ namespace Housing.Selection.Context.HttpRequests
         private string RoomServicePath { get; set; }
         private string UserServicePath { get; set; }
 
-        /// <summary>
-        /// This is the constructor.  The paths to the services are wired into here.
-        /// </summary>
         public ApiPathBuilder()
         {
             BatchServicePath = "api/batch";
