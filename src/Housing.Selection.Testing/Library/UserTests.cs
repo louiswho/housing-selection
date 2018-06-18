@@ -1,5 +1,6 @@
 ﻿using System;
 using Housing.Selection.Library;
+using Housing.Selection.Library.HousingModels;
 using Xunit;
 
 namespace Housing.Selection.Testing.Library

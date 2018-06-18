@@ -9,15 +9,16 @@ namespace Housing.Selection.Context.ServiceHubProxies
 {
     public class ServiceBatchCallProxy : IServiceBatchCalls
     {
-        private readonly List<ApiBatch> _batches;
-        public readonly ServiceUserCallProxy ServiceUserRetrieval;
+        private List<ApiBatch> _batches;
+        public readonly ServiceUserCallProxy serviceUserRetrieval;
 
         public ServiceBatchCallProxy()
         {
-            ServiceUserRetrieval = new ServiceUserCallProxy();
-            _batches = new List<ApiBatch>
-            {
-                new ApiBatch
+            serviceUserRetrieval = new ServiceUserCallProxy();
+            _batches = new List<ApiBatch>();
+            _batches.Add
+                (
+                new ApiBatch()
                 {
                     BatchId = Guid.NewGuid(),
                     BatchName = "9001-Jan-01",
@@ -25,18 +26,13 @@ namespace Housing.Selection.Context.ServiceHubProxies
                     BatchSkill = ".NET",
                     StartDate = new DateTime(2020, 1, 1),
                     EndDate = new DateTime(2020, 5, 1),
-                    UserIds = ServiceUserRetrieval.RetrieveUserIds().ToList(),
-                    Address = new ApiAddress
-                    {
-                        AddressId = Guid.NewGuid(),
-                        Address1 = "123 1st Street",
-                        City = "City",
-                        State = "FL",
-                        Country = "US",
-                        PostalCode = "36984"
-                    }
-                },
-                new ApiBatch
+                    UserIds = serviceUserRetrieval.RetrieveUserIds().ToList(),
+                    Location = "USF"
+                }
+            );
+            _batches.Add
+                (
+                new ApiBatch()
                 {
                     BatchId = Guid.NewGuid(),
                     BatchName = "9002-Jan-01",
@@ -44,19 +40,13 @@ namespace Housing.Selection.Context.ServiceHubProxies
                     BatchSkill = "Java",
                     StartDate = new DateTime(2020, 1, 1),
                     EndDate = new DateTime(2020, 5, 1),
-                    UserIds = ServiceUserRetrieval.RetrieveUserIds().ToList(),
-                    Address = new ApiAddress
-                    {
-                        AddressId = Guid.NewGuid(),
-                        Address1 = "10837 2nd Street",
-                        Address2 = "Room 103",
-                        City = "City2",
-                        State = "FL",
-                        Country = "US",
-                        PostalCode = "36985"
-                    }
-                },
-                new ApiBatch
+                    UserIds = serviceUserRetrieval.RetrieveUserIds().ToList(),
+                    Location = "Tampa"
+                }
+            );
+            _batches.Add
+                (
+                new ApiBatch()
                 {
                     BatchId = Guid.NewGuid(),
                     BatchName = "9003-Feb-01",
@@ -64,18 +54,13 @@ namespace Housing.Selection.Context.ServiceHubProxies
                     BatchSkill = ".NET",
                     StartDate = new DateTime(2020, 2, 1),
                     EndDate = new DateTime(2020, 6, 1),
-                    UserIds = ServiceUserRetrieval.RetrieveUserIds().ToList(),
-                    Address = new ApiAddress
-                    {
-                        AddressId = Guid.NewGuid(),
-                        Address1 = "1st Street",
-                        City = "City",
-                        State = "FL",
-                        Country = "US",
-                        PostalCode = "36984"
-                    }
-                },
-                new ApiBatch
+                    UserIds = serviceUserRetrieval.RetrieveUserIds().ToList(),
+                    Location = "Reston"
+                }
+            );
+            _batches.Add
+                (
+                new ApiBatch()
                 {
                     BatchId = Guid.NewGuid(),
                     BatchName = "9004-Jan-01",
@@ -83,25 +68,16 @@ namespace Housing.Selection.Context.ServiceHubProxies
                     BatchSkill = "Java",
                     StartDate = new DateTime(2020, 3, 1),
                     EndDate = new DateTime(2020, 7, 1),
-                    UserIds = ServiceUserRetrieval.RetrieveUserIds().ToList(),
-                    Address = new ApiAddress
-                    {
-                        AddressId = Guid.NewGuid(),
-                        Address1 = "9632 1st Street",
-                        Address2 = "Revature Place",
-                        City = "CityCity",
-                        State = "VA",
-                        Country = "US",
-                        PostalCode = "36004"
-                    }
+                    UserIds = serviceUserRetrieval.RetrieveUserIds().ToList(),
+                    Location = "Virginia"
                 }
-            };
+            );
         }
 
         private List<Guid> MakeUserIds(int number)
         {
-            var ids = new List<Guid>();
-            for (var i = 0; i < number; i++)
+            List<Guid> ids = new List<Guid>();
+            for (int i = 0; i < number; i++)
             {
                 ids.Add(Guid.NewGuid());
             }
@@ -110,7 +86,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
      
         public async Task<List<ApiBatch>> RetrieveAllBatchesAsync()
         {
-            return await Task.Run<List<ApiBatch>>(() => _batches);
+            return  _batches;
         }
     }
 }

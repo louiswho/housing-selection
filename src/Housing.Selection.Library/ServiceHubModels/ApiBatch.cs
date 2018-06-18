@@ -17,8 +17,8 @@ namespace Housing.Selection.Library.ServiceHubModels
         public int? BatchOccupancy { get; set; }
         /// <value> Batch technology stack </value>
         public string BatchSkill { get; set; }
-        /// <value> Address where training takes place </value>
-        public ApiAddress Address { get; set; }
+        /// <value> Location where training takes place </value>
+        public string Location { get; set; }
         /// <value> List of associate ids in batch </value>
         public List<Guid> UserIds { get; set; }
     }
