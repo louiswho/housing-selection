@@ -8,6 +8,6 @@ namespace Housing.Selection.Context.Polling
     public interface IPollBatch
     {
         Task<List<Batch>> BatchPoll();
-        Batch UpdateBatch(ApiBatch batch);
+        Task<Batch> UpdateBatch(ApiBatch batch);
     }
 }

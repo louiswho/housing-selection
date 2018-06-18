@@ -7,6 +7,10 @@ using Housing.Selection.Library.ServiceHubModels;
 
 namespace Housing.Selection.Context.Polling
 {
+    /// <summary>
+    /// Polls the Service Hub Room database, and updates our(housing) Room database
+    /// With the data returned to ensure that our DB is up to date with Service Hubs
+    /// </summary>
     public class PollRoom : IPollRoom
     {
         private readonly IRoomRepository _roomRepository;
@@ -28,11 +32,11 @@ namespace Housing.Selection.Context.Polling
         {
             var roomList = new List<Room>();
             var rooms = await _roomRetrieval.RetrieveAllRoomsAsync();
-            if (rooms != null) //Invertable If Statement
+            if (rooms != null)
             {
                 foreach (var room in rooms)
                 {
-                    roomList.Add(UpdateRoom(room));
+                    roomList.Add(await UpdateRoom(room));
                 }
             }
             return roomList;
@@ -48,11 +52,11 @@ namespace Housing.Selection.Context.Polling
         /// <returns>
         /// Returns a Room that contains the updated properties
         /// </returns>
-        public Room UpdateRoom(ApiRoom apiRoom)
+        public async Task<Room> UpdateRoom(ApiRoom apiRoom)
         {
-            var housingRoom = _roomRepository.GetRoomByRoomId(apiRoom.RoomId);
+            var housingRoom = await _roomRepository.GetRoomByRoomId(apiRoom.RoomId);
             housingRoom = housingRoom.ConvertFromServiceModel(apiRoom: apiRoom);
-            _roomRepository.SaveChanges();
+            await _roomRepository.SaveChanges();
             return housingRoom;
         }
     }

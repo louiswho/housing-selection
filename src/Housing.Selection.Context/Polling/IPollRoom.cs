@@ -8,6 +8,6 @@ namespace Housing.Selection.Context.Polling
     public interface IPollRoom
     {
         Task<List<Room>> RoomPoll();
-        Room UpdateRoom(ApiRoom room);
+        Task<Room> UpdateRoom(ApiRoom room);
     }
 }
