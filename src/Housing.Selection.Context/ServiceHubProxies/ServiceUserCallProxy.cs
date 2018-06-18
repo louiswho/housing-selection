@@ -150,7 +150,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
         {
             if (user.UserId == Guid.Empty) throw new Exception("Update failed for user with UserId " + user.UserId);
 
-            var _user =_users.First(x => x.UserId == user.UserId);
+            var _user = await Task.Run<ApiUser>(() => _users.First(x => x.UserId == user.UserId));
             if (user == null) throw new Exception("Update failed for room with UserId " + user.UserId);
             if( user.Address != null)
             {
@@ -173,7 +173,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
 
        public async Task<List<ApiUser>> RetrieveAllUsersAsync()
         {
-            return _users;
+            return await Task.Run<List<ApiUser>>(() => _users);
         }
     }
 }
