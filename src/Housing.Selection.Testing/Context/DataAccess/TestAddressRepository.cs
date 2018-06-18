@@ -83,7 +83,7 @@ namespace Housing.Selection.Testing.Context.DataAccess
         {
             var addressRepository = new AddressRepository(_mockHousingContext);
 
-            var testAddress = addressRepository.GetAddressById(_guid);
+            var testAddress = addressRepository.GetAddressByIdAsync(_guid);
 
             Assert.Equal(_guid1, testAddress.AddressId);
         }
