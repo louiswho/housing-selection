@@ -1,12 +1,14 @@
 ﻿using Housing.Selection.Library.HousingModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Housing.Selection.Context.DataAccess
 {
-   public class AddressRepository : IAddressRepository
+    public class AddressRepository : IAddressRepository
     {
         private readonly IDbContext _housingSelectionDbContext;
 
@@ -25,19 +27,19 @@ namespace Housing.Selection.Context.DataAccess
             return _housingSelectionDbContext.Addresses;
         }
 
-        public Address GetAddressById(Guid id)
+        public async Task<Address> GetAddressById(Guid id)
         {
-            return _housingSelectionDbContext.Addresses.First(x => x.Id == id);
+            return await _housingSelectionDbContext.Addresses.FirstAsync(x => x.Id == id);
         }
 
-        public Address GetAddressByAddressId(Guid addressId)
+        public async Task<Address> GetAddressByAddressId(Guid addressId)
         {
-            return _housingSelectionDbContext.Addresses.First(x => x.AddressId == addressId);
+            return await _housingSelectionDbContext.Addresses.FirstAsync(x => x.AddressId == addressId);
         }
 
-        public async Task  SaveChangesAsync()
+        public async Task SaveChanges()
         {
-            _housingSelectionDbContext.SaveChangesAsync();
+            await _housingSelectionDbContext.SaveChangesAsync();
         }
     }
 }

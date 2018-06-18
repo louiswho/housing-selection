@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Housing.Selection.Library.HousingModels;
+using System;
 using System.Collections.Generic;
 
 namespace Housing.Selection.Library
