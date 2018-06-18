@@ -79,17 +79,17 @@ namespace Housing.Selection.Testing.Context.DataAccess
         }
 
         [Fact]
-        public void CanReturnNamesById()
+        public async void CanReturnNamesByIdAsync()
         {
             var nameRepository = new NameRepository(_mockHousingContext);
 
-            var testName = nameRepository.GetNameById(_guid);
+            var testName = await nameRepository.GetNameById(_guid);
 
             Assert.Equal(_guid1, testName.NameId);
         }
 
         [Fact]
-        public void CanSaveChanges()
+        public async void CanSaveChangesAsync()
         {
             var mockHousingContext = new Mock<IDbContext>();
 
@@ -97,7 +97,7 @@ namespace Housing.Selection.Testing.Context.DataAccess
 
             var nameRepository = new NameRepository(mockHousingContext.Object);
 
-            nameRepository.SaveChanges();
+            await nameRepository.SaveChanges();
 
             mockHousingContext.Verify(m => m.SaveChanges(), Times.Once());
         }
