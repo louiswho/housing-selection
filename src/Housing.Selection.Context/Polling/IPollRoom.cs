@@ -9,6 +9,5 @@ namespace Housing.Selection.Context.Polling
     {
         Task<List<Room>> RoomPoll();
         Room UpdateRoom(ApiRoom room);
-
     }
 }
