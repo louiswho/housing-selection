@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Housing.Selection.Library.HousingModels;
 
 namespace Housing.Selection.Context.DataAccess
 {
-    /// <summary>
-    /// Creates, reads and updates  Revature users from Housing-Selection database.
-    /// </summary>
-
     public interface IUserRepository
     {
         IEnumerable<User> GetUsers();
-        User GetUserById(Guid id);
-        User GetUserByUserId(Guid userId);
+        Task<User> GetUserById(Guid id);
+        Task<User> GetUserByUserId(Guid userId);
         void AddUser(User user);
-        int SaveChanges();
+        Task SaveChangesAsync();
     }
 }

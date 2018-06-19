@@ -1,62 +1,43 @@
-﻿using Housing.Selection.Library;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+using System.Threading.Tasks;
 using Housing.Selection.Library.HousingModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace Housing.Selection.Context.DataAccess
 {
-
-    /// <summary>
-    /// Create, read, update and get by Id Revature rooms from Housing-Selection database.
-    /// </summary>
-    /// 
-
-   public class RoomRepository : IRoomRepository
+    public class RoomRepository : IRoomRepository
     {
-        //Clean up space around class and remove unnecessary spacing.
-        private readonly IDbContext _HousingSelectionDbContext;
-        //Change name to _housingSelectionDbContext.
-        private List<User> users = new List<User>();
-        //Remove unnecessary list.
+        private readonly IDbContext _housingSelectionDbContext;
+
         public RoomRepository(IDbContext housingSelectionContext)
         {
-            _HousingSelectionDbContext = housingSelectionContext;
+            _housingSelectionDbContext = housingSelectionContext;
         }
 
-        //Remove default constructor.
-        public RoomRepository()
-        {
-           
-
-        }
-        //This comment isn't needed.
-        // Add room to Housing-Selection database 
         public void AddRoom(Room room)
         {
-            _HousingSelectionDbContext.Rooms.Add(room);
+            _housingSelectionDbContext.Rooms.Add(room);
         }
 
-        public Room GetRoomById(Guid id)
+        public async Task<Room> GetRoomById(Guid id)
         {
-            return _HousingSelectionDbContext.Rooms.First(x => x.Id == id);
+            return await _housingSelectionDbContext.Rooms.FirstAsync(x => x.Id == id);
         }
 
-        public Room GetRoomByRoomId(Guid roomId)
+        public async Task<Room> GetRoomByRoomId(Guid roomId)
         {
-            return  _HousingSelectionDbContext.Rooms.First(x => x.RoomId == roomId);
+            return await _housingSelectionDbContext.Rooms.FirstAsync(x => x.RoomId == roomId);
         }
 
         public IEnumerable<Room> GetRooms()
         {
-            return _HousingSelectionDbContext.Rooms;
+            return _housingSelectionDbContext.Rooms;
         }
 
-        //Return statement isn't needed. 
-        public int SaveChanges()
+        public async Task SaveChangesAsync()
         {
-          return _HousingSelectionDbContext.saveChanges();
+            await _housingSelectionDbContext.SaveChangesAsync();
         }
     }
 }

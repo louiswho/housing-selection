@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using Housing.Selection.Context.DataAccess;
 using Housing.Selection.Context.HttpRequests;
+using Housing.Selection.Context.Polling;
 using Housing.Selection.Library.HousingModels;
 using Housing.Selection.Library.ServiceHubModels;
 using Housing.Selection.Library.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace Housing.Selection.Context.Selection
-{
-
-
+{ 
     public class SelectionService : ISelectionService
     {
         private readonly IUserRepository _userRepository;
@@ -18,9 +19,13 @@ namespace Housing.Selection.Context.Selection
         private readonly IBatchRepository _batchRepository;
         private readonly IServiceRoomCalls _serviceRoomCalls;
         private readonly IServiceUserCalls _serviceUserCalls;
+        private readonly IPollBatch _pollBatch;
+        private readonly IPollRoom _pollRoom;
+        private readonly IPollUser _pollUser;
         private readonly IMapper _mapper;
 
-        public SelectionService(IUserRepository users, IRoomRepository rooms, IBatchRepository batches, IServiceRoomCalls roomCalls, IServiceUserCalls userCalls, IMapper mapper)
+        public SelectionService(IUserRepository users, IRoomRepository rooms, IBatchRepository batches, IServiceRoomCalls roomCalls, IServiceUserCalls userCalls, IMapper mapper,
+            IPollBatch pollBatch, IPollRoom pollRoom, IPollUser pollUser)
         {
             _userRepository = users;
             _roomRepository = rooms;
@@ -28,18 +33,28 @@ namespace Housing.Selection.Context.Selection
             _serviceRoomCalls = roomCalls;
             _serviceUserCalls = userCalls;
             _mapper = mapper;
+            _pollBatch = pollBatch;
+            _pollRoom = pollRoom;
+            _pollUser = pollUser;
         }
-        public async void AddUserToRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel)
+
+        private async Task UpdateFromServiceHub()
         {
-            var newUser = _userRepository.GetUserByUserId(addRemoveUserFromRoomModel.UserId);
-            var addRoom = _roomRepository.GetRoomByRoomId(addRemoveUserFromRoomModel.RoomId);
+            await _pollBatch.BatchPollAsync();
+            await _pollRoom.RoomPollAsync();
+            await _pollUser.UserPollAsync();
+        }
+        public async Task AddUserToRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel)
+        {
+            var newUser = await _userRepository.GetUserByUserId(addRemoveUserFromRoomModel.UserId);
+            var addRoom = await _roomRepository.GetRoomByRoomId(addRemoveUserFromRoomModel.RoomId);
 
             newUser.Room = addRoom;
             newUser.Address = addRoom.Address;
             addRoom.Vacancy--;
 
-            _userRepository.SaveChanges();
-            _roomRepository.SaveChanges();
+            await _userRepository.SaveChangesAsync();
+            await _roomRepository.SaveChangesAsync();
 
             var apiUser = _mapper.Map<ApiUser>(newUser);
             var apiRoom = _mapper.Map<ApiRoom>(addRoom);
@@ -48,9 +63,11 @@ namespace Housing.Selection.Context.Selection
             await _serviceRoomCalls.UpdateRoomAsync(apiRoom);
         }
 
-        public IEnumerable<Room> CustomSearch(RoomSearchViewModel roomSearchViewModel)
+        public async Task<IEnumerable<Room>> CustomSearch(RoomSearchViewModel roomSearchViewModel)
         {
-            var returnedRooms = _roomRepository.GetRooms().ToList();
+            await UpdateFromServiceHub();
+
+            var returnedRooms = await _roomRepository.GetRooms().AsQueryable().ToListAsync();
 
             var filters = FilterFactories.ResolveAllFilters();
 
@@ -59,32 +76,53 @@ namespace Housing.Selection.Context.Selection
             return returnedRooms;
         }
 
-        public List<Batch> GetBatches()
+        public async Task<IEnumerable<User>> CustomUserSearch(UserSearchViewModel userSearchViewModel)
         {
-            return _batchRepository.GetBatches().ToList();
+            await UpdateFromServiceHub();
+
+            var returnedUsers = await _userRepository.GetUsers().AsQueryable().ToListAsync();
+
+            var userFilters = UserFilterFactory.ResolveUserFilters();
+
+            userFilters.FilterRequest(ref returnedUsers, userSearchViewModel);
+
+            return returnedUsers;
         }
 
-        public List<Room> GetRooms()
+        public async Task<List<Batch>> GetBatches()
         {
-            return _roomRepository.GetRooms().ToList();
+            await UpdateFromServiceHub();
+
+            return await _batchRepository.GetBatches().AsQueryable().ToListAsync();
         }
 
-        public List<User> GetUsers()
+        public async Task<List<Room>> GetRooms()
         {
-            return _userRepository.GetUsers().ToList();
+            await UpdateFromServiceHub();
+
+            return await _roomRepository.GetRooms().AsQueryable().ToListAsync();
         }
 
-        public async void RemoveUserFromRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel)
+        public async Task<List<User>> GetUsers()
         {
-            var removeUser = _userRepository.GetUserByUserId(addRemoveUserFromRoomModel.UserId);
-            var emptiedRoom = _roomRepository.GetRoomByRoomId(addRemoveUserFromRoomModel.RoomId);
+            await UpdateFromServiceHub();
+
+            return await _userRepository.GetUsers().AsQueryable().ToListAsync();
+        }
+
+        public async Task RemoveUserFromRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel)
+        {
+            await UpdateFromServiceHub();
+
+            var removeUser = await _userRepository.GetUserByUserId(addRemoveUserFromRoomModel.UserId);
+            var emptiedRoom = await _roomRepository.GetRoomByRoomId(addRemoveUserFromRoomModel.RoomId);
 
             removeUser.Room = null;
             removeUser.Address = null;
             emptiedRoom.Vacancy++;
 
-            _userRepository.SaveChanges();
-            _roomRepository.SaveChanges();
+            await _userRepository.SaveChangesAsync();
+            await _roomRepository.SaveChangesAsync();
 
             var apiUser = _mapper.Map<ApiUser>(removeUser);
             var apiRoom = _mapper.Map<ApiRoom>(emptiedRoom);

@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Housing.Selection.Library;
+using System.Threading.Tasks;
 using Housing.Selection.Library.HousingModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace Housing.Selection.Context.DataAccess
 {
-    /// <summary>
-    /// Add, read, update and get by Id Revature batches from Housing-Selection database.
-    /// </summary>
     public class BatchRepository : IBatchRepository
     {
         private readonly IDbContext _housingSelectionDbContext;
-        
+
         public BatchRepository(IDbContext housingSelectionContext)
         {
             _housingSelectionDbContext = housingSelectionContext;
@@ -20,7 +17,7 @@ namespace Housing.Selection.Context.DataAccess
 
         public void AddBatch(Batch batch)
         {
-             _housingSelectionDbContext.Batches.Add(batch);
+            _housingSelectionDbContext.Batches.Add(batch);
         }
 
         public IEnumerable<Batch> GetBatches()
@@ -28,20 +25,19 @@ namespace Housing.Selection.Context.DataAccess
             return _housingSelectionDbContext.Batches;
         }
 
-        public Batch GetBatchById(Guid id)
+        public async Task<Batch> GetBatchById(Guid id)
         {
-            return _housingSelectionDbContext.Batches.First(x => x.Id == id);
+            return await _housingSelectionDbContext.Batches.FirstAsync(x => x.Id == id);
         }
 
-        public Batch GetBatchByBatchId(Guid batchId)
+        public async Task<Batch> GetBatchByBatchId(Guid batchId)
         {
-            return _housingSelectionDbContext.Batches.First(x => x.BatchId == batchId);
+            return await _housingSelectionDbContext.Batches.FirstAsync(x => x.BatchId == batchId);
         }
 
-
-        public void SaveChanges()
+        public async Task SaveChangesAsync()
         {
-            _housingSelectionDbContext.saveChanges();
+            await _housingSelectionDbContext.SaveChangesAsync();
         }
     }
 }

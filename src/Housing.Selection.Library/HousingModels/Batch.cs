@@ -28,6 +28,8 @@ namespace Housing.Selection.Library.HousingModels
 
         public string State { get; set; }
 
+        public string Location { get; set; }
+
         public ICollection<User> Users { get; set; }
 
         /// <summary>
@@ -45,33 +47,58 @@ namespace Housing.Selection.Library.HousingModels
             return true;
         }
 
+        /// <summary>
+        /// Use this method to convert from a 
+        /// service hub Batch, to a housing Batch
+        /// leaves nav properties the same
+        /// </summary>
+        /// <param name="apiBatch">An ApiBatch object is passed into this method.
+        /// Updates the housing Batch properties to match the ones grabbed from the
+        /// api call.
+        /// All other fields are ignored.
+        /// </param>
+        /// <returns>
+        /// Batch that has been updated with the ApiBatchs properties
+        /// </returns>
         public Batch ConvertFromServiceModel(ApiBatch apiBatch)
         {
-            Batch housingBatch = this;            
+            Batch housingBatch = this;
             housingBatch.BatchId = apiBatch.BatchId;
-            housingBatch.StartDate = (DateTime) apiBatch.StartDate;
-            housingBatch.EndDate = (DateTime) apiBatch.EndDate;            
+            housingBatch.StartDate = (DateTime)apiBatch.StartDate;
+            housingBatch.EndDate = (DateTime)apiBatch.EndDate;
             housingBatch.BatchName = apiBatch.BatchName;
-            housingBatch.BatchOccupancy = (int) apiBatch.BatchOccupancy;
+            housingBatch.BatchOccupancy = (int)apiBatch.BatchOccupancy;
             housingBatch.BatchSkill = apiBatch.BatchSkill;
-            housingBatch.Address = apiBatch.Address.ConvertToAddress(housingBatch.Address);
-            //TODO - Figure out how to handle apiBatch userIds
+            housingBatch.Location = apiBatch.Location;
             return housingBatch;
         }
 
+        /// <summary>
+        /// Use this method to create a new Batch in the instance
+        /// where housing is passed a service hub Batch that does not exist
+        /// in housings DB
+        /// </summary>
+        /// <param name="apiBatch">An ApiBatch object is passed into this method.
+        /// Creates a new housing Batch with properties to match the ones grabbed from the
+        /// api call.
+        /// All other fields are ignored.
+        /// </param>
+        /// <returns>
+        /// New instance of Batch that has been created with the ApiBatchs properties
+        /// </returns>
         public Batch CreateNewBatch(ApiBatch apiBatch)
         {
             Batch batch = new Batch()
             {
                 BatchId = apiBatch.BatchId,
-                StartDate = (DateTime) apiBatch.StartDate,
-                EndDate = (DateTime) apiBatch.EndDate,
+                StartDate = (DateTime)apiBatch.StartDate,
+                EndDate = (DateTime)apiBatch.EndDate,
                 BatchName = apiBatch.BatchName,
-                BatchOccupancy = (int) apiBatch.BatchOccupancy,
+                BatchOccupancy = (int)apiBatch.BatchOccupancy,
                 BatchSkill = apiBatch.BatchSkill,
-                Address = apiBatch.Address.CreateNewAddress()
+                Location = apiBatch.Location
             };
-            //TODO - Figure out how to handle apiBatch userIds
+
             return batch;
         }
     }

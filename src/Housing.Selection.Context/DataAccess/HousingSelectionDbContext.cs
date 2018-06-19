@@ -1,15 +1,10 @@
-﻿using Housing.Selection.Library;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Microsoft.EntityFrameworkCore;
 using Housing.Selection.Library.HousingModels;
 
 namespace Housing.Selection.Context.DataAccess
 {
-   public class HousingSelectionDbContext :    DbContext, IDbContext
+    public class HousingSelectionDbContext : DbContext, IDbContext
     {
-        //Clean up space around class.
         public HousingSelectionDbContext() : base()
         {
 
@@ -20,11 +15,5 @@ namespace Housing.Selection.Context.DataAccess
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Batch> Batches { get; set; }
         public DbSet<Name> Names { get; set; }
-
-        //Not needed, remove.
-        public int saveChanges()
-        {
-            return base.SaveChanges();
-        }
     }
 }

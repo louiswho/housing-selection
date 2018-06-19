@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Housing.Selection.Context.Selection
+﻿namespace Housing.Selection.Context.Selection
 {
     public class FilterFactories
     {
@@ -31,13 +27,13 @@ namespace Housing.Selection.Context.Selection
             return new IsCompletelyUnassignedFilter();
         }
 
-        public static AFilter ResolveAllFilters()
+        public static ARoomFilter ResolveAllFilters()
         {
-            GenderFilter gender = GenderFilterFactory();
-            LocationFilter location = LocationFilterFactory();
-            BatchFilter batch = BatchFilterFactory();
-            HasBedAvailableFilter bedAvailable = BedAvailableFilterFactory();
-            IsCompletelyUnassignedFilter unassigned = UnassignedFilterFactory();
+            var gender = GenderFilterFactory();
+            var location = LocationFilterFactory();
+            var batch = BatchFilterFactory();
+            var bedAvailable = BedAvailableFilterFactory();
+            var unassigned = UnassignedFilterFactory();
 
             gender.SetSuccessor(location);
             location.SetSuccessor(batch);

@@ -1,16 +1,16 @@
 ﻿using Housing.Selection.Library.HousingModels;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Threading.Tasks;
 
 namespace Housing.Selection.Context.DataAccess
 {
-   public interface INameRepository
+    public interface INameRepository
     {
         IEnumerable<Name> GetNames();
-        Name GetNameById(Guid id);
-        Name GetNameByNameId(Guid nameId);
+        Task<Name> GetNameById(Guid id);
+        Task<Name> GetNameByNameId(Guid nameId);
         void AddName(Name batch);
-        void SaveChanges();
+        Task SaveChangesAsync();
     }
 }

@@ -26,7 +26,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
             PollingSetupBatch();
             
             mockBatchRepo = new Mock<IBatchRepository>();
-            mockBatchRepo.Setup(x => x.GetBatchByBatchId(It.IsAny<Guid>())).Returns(batch1);
+            mockBatchRepo.Setup(x => x.GetBatchByBatchId(It.IsAny<Guid>())).Returns(Task.FromResult<Batch>(batch1));
             var mockBatchRetrieval = new Mock<IServiceBatchCalls>();
             mockBatchRetrieval.Setup(x => x.RetrieveAllBatchesAsync()).Returns(mockApiBatchList);
 
@@ -36,10 +36,11 @@ namespace Housing.Selection.Testing.Context.PollingTests
         [Fact]
         public async void Test_Batch_Poll()
         {
-            mockBatchList.Add(batch1);
-            mockBatchList.Add(batch1);
-            var expected = mockBatchList;
-            var result = await pollBatch.BatchPoll();
+            var mockTaskBatchList = new List<Batch>();
+            mockTaskBatchList.Add(batch1);
+            mockTaskBatchList.Add(batch1);
+            var expected = mockTaskBatchList;
+            var result = await pollBatch.BatchPollAsync();
 
             Assert.Equal(expected, result);
         }
@@ -51,25 +52,25 @@ namespace Housing.Selection.Testing.Context.PollingTests
             mockBatchList.Add(batch1);
             mockBatchList.Add(batch2);
             var expected = mockBatchList;
-            var result = await pollBatch.BatchPoll();
+            var result = await pollBatch.BatchPollAsync();
 
             Assert.NotEqual(expected, result);
         }
 
         [Fact]
-        public void Test_Batch_Update()
+        public async void Test_Batch_Update()
         {
             var expected = batch1;
-            var result = pollBatch.UpdateBatch(apiBatch1);
+            var result = await pollBatch.UpdateBatchAsync(apiBatch1);
 
             Assert.Equal(expected, result);
         }
 
         [Fact]
-        public void Test_Batch_Update_Fail()
+        public async void Test_Batch_Update_Fail()
         {
             var expected = batch2;
-            var result = pollBatch.UpdateBatch(apiBatch1);
+            var result = await pollBatch.UpdateBatchAsync(apiBatch1);
 
             Assert.NotEqual(expected, result);
         }
@@ -85,16 +86,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
                 BatchName = "Batch One",
                 BatchOccupancy = 1,
                 BatchSkill = "None",
-                Address = new Address()
-                {
-                    Id = Guid.NewGuid(),
-                    AddressId = Guid.NewGuid(),
-                    Address1 = "111 Batch1 St",
-                    City = "Tampa",
-                    State = "FL",
-                    PostalCode = "11111",
-                    Country = "US"
-                }
+                Location = "USF"
             };
             batch2 = new Batch()
             {
@@ -105,16 +97,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
                 BatchName = "Batch Two",
                 BatchOccupancy = 2,
                 BatchSkill = "None",
-                Address = new Address()
-                {
-                    Id = Guid.NewGuid(),
-                    AddressId = Guid.NewGuid(),
-                    Address1 = "222 Batch2 St",
-                    City = "Tampa",
-                    State = "FL",
-                    PostalCode = "22222",
-                    Country = "US"
-                }
+                Location = "Tampa"
             };
             apiBatch1 = new ApiBatch()
             {
@@ -124,15 +107,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
                 BatchName = "Batch One",
                 BatchOccupancy = 1,
                 BatchSkill = "None",
-                Address = new ApiAddress()
-                {
-                    AddressId = Guid.NewGuid(),
-                    Address1 = "111 Batch1 St",
-                    City = "Tampa",
-                    State = "FL",
-                    PostalCode = "11111",
-                    Country = "US"
-                }
+                Location = "Reston"
             };
             apiBatch2 = new ApiBatch()
             {
@@ -142,15 +117,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
                 BatchName = "Batch Two",
                 BatchOccupancy = 2,
                 BatchSkill = "None",
-                Address = new ApiAddress()
-                {
-                    AddressId = Guid.NewGuid(),
-                    Address1 = "222 Batch2 St",
-                    City = "Tampa",
-                    State = "FL",
-                    PostalCode = "22222",
-                    Country = "US"
-                }
+                Location = "Virginia"
             };
             mockBatchList = new List<Batch>();            
             List<ApiBatch> apiBatchList = new List<ApiBatch>();

@@ -27,15 +27,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                     StartDate = new DateTime(2020, 1, 1),
                     EndDate = new DateTime(2020, 5, 1),
                     UserIds = serviceUserRetrieval.RetrieveUserIds().ToList(),
-                    Address = new ApiAddress()
-                    {
-                        AddressId = Guid.NewGuid(),
-                        Address1 = "123 1st Street",
-                        City = "City",
-                        State = "FL",
-                        Country = "US",
-                        PostalCode = "36984"
-                    }
+                    Location = "USF"
                 }
             );
             _batches.Add
@@ -49,16 +41,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                     StartDate = new DateTime(2020, 1, 1),
                     EndDate = new DateTime(2020, 5, 1),
                     UserIds = serviceUserRetrieval.RetrieveUserIds().ToList(),
-                    Address = new ApiAddress()
-                    {
-                        AddressId = Guid.NewGuid(),
-                        Address1 = "10837 2nd Street",
-                        Address2 = "Room 103",
-                        City = "City2",
-                        State = "FL",
-                        Country = "US",
-                        PostalCode = "36985"
-                    }
+                    Location = "Tampa"
                 }
             );
             _batches.Add
@@ -72,15 +55,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                     StartDate = new DateTime(2020, 2, 1),
                     EndDate = new DateTime(2020, 6, 1),
                     UserIds = serviceUserRetrieval.RetrieveUserIds().ToList(),
-                    Address = new ApiAddress()
-                    {
-                        AddressId = Guid.NewGuid(),
-                        Address1 = "1st Street",
-                        City = "City",
-                        State = "FL",
-                        Country = "US",
-                        PostalCode = "36984"
-                    }
+                    Location = "Reston"
                 }
             );
             _batches.Add
@@ -94,16 +69,7 @@ namespace Housing.Selection.Context.ServiceHubProxies
                     StartDate = new DateTime(2020, 3, 1),
                     EndDate = new DateTime(2020, 7, 1),
                     UserIds = serviceUserRetrieval.RetrieveUserIds().ToList(),
-                    Address = new ApiAddress()
-                    {
-                        AddressId = Guid.NewGuid(),
-                        Address1 = "9632 1st Street",
-                        Address2 = "Revature Place",
-                        City = "CityCity",
-                        State = "VA",
-                        Country = "US",
-                        PostalCode = "36004"
-                    }
+                    Location = "Virginia"
                 }
             );
         }
@@ -118,9 +84,9 @@ namespace Housing.Selection.Context.ServiceHubProxies
             return ids;
         }
      
-        public async Task<List<ApiBatch>> RetrieveAllBatchesAsync()
+        public Task<List<ApiBatch>> RetrieveAllBatchesAsync()
         {
-            return  _batches;
+            return Task.FromResult<List<ApiBatch>>(_batches);
         }
     }
 }

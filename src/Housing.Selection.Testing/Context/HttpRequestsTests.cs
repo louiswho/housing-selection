@@ -16,19 +16,17 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public async Task GetAllBatches_StatusCodeSuccessBatchReturned_ReturnsApiBatches()
         {
-            List<ApiBatch> apibatchesexpected = new List<ApiBatch>();
-            apibatchesexpected.Add(new ApiBatch());
+            var apibatchesexpected = new List<ApiBatch> {new ApiBatch()};
 
-            var response = new HttpResponseMessage();
-            response.Content = new ObjectContent<List<ApiBatch>>(apibatchesexpected, new JsonMediaTypeFormatter(), "application/json");
+            var response = new HttpResponseMessage {Content = new ObjectContent<List<ApiBatch>>(apibatchesexpected, new JsonMediaTypeFormatter(), "application/json")};
 
             var mockHttpClientWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(response);
+            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetBatchServicePath()).Returns("string");
 
-            ServiceBatchCalls sbr = new ServiceBatchCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
+            var sbr = new ServiceBatchCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
 
             var actual = await sbr.RetrieveAllBatchesAsync();
 
@@ -39,18 +37,17 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public async Task GetAllBatches_StatusCodeSuccessNoBatches_ReturnsNull()
         {
-            List<ApiBatch> apibatchesexpected = new List<ApiBatch>();
+            var apibatchesexpected = new List<ApiBatch>();
 
-            var response = new HttpResponseMessage();
-            response.Content = new ObjectContent<List<ApiBatch>>(apibatchesexpected, new JsonMediaTypeFormatter(), "application/json");
+            var response = new HttpResponseMessage {Content = new ObjectContent<List<ApiBatch>>(apibatchesexpected, new JsonMediaTypeFormatter(), "application/json")};
 
             var mockHttpClientWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(response);
+            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetBatchServicePath()).Returns("string");
 
-            ServiceBatchCalls sbr = new ServiceBatchCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
+            var sbr = new ServiceBatchCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
 
             var actual = await sbr.RetrieveAllBatchesAsync();
 
@@ -60,20 +57,21 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public async Task GetAllBatches_StatusCodeFail_ReturnsNull()
         {
-            List<ApiBatch> apibatchesexpected = new List<ApiBatch>();
-            apibatchesexpected.Add(new ApiBatch());
+            var apibatchesexpected = new List<ApiBatch> {new ApiBatch()};
 
-            var response = new HttpResponseMessage();
-            response.Content = new ObjectContent<List<ApiBatch>>(apibatchesexpected, new JsonMediaTypeFormatter(), "application/json");
-            response.StatusCode = HttpStatusCode.NotFound;
+            var response = new HttpResponseMessage
+            {
+                Content = new ObjectContent<List<ApiBatch>>(apibatchesexpected, new JsonMediaTypeFormatter(), "application/json"),
+                StatusCode = HttpStatusCode.NotFound
+            };
 
             var mockHttpClientWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(response);
+            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetBatchServicePath()).Returns("string");
 
-            ServiceBatchCalls sbr = new ServiceBatchCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
+            var sbr = new ServiceBatchCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
 
             var actual = await sbr.RetrieveAllBatchesAsync();
 
@@ -83,19 +81,17 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public async Task GetAllRooms_StatusCodeSuccessReturnsRooms_ReturnsApiRooms()
         {
-            List<ApiRoom> apiroomsexpected = new List<ApiRoom>();
-            apiroomsexpected.Add(new ApiRoom());
+            var apiroomsexpected = new List<ApiRoom> {new ApiRoom()};
 
-            var response = new HttpResponseMessage();
-            response.Content = new ObjectContent<List<ApiRoom>>(apiroomsexpected, new JsonMediaTypeFormatter(), "application/json");
+            var response = new HttpResponseMessage {Content = new ObjectContent<List<ApiRoom>>(apiroomsexpected, new JsonMediaTypeFormatter(), "application/json")};
 
             var mockHttpClientWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(response);
+            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetRoomServicePath()).Returns("string");
 
-            ServiceRoomCalls sbr = new ServiceRoomCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
+            var sbr = new ServiceRoomCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
 
             var actual = await sbr.RetrieveAllRoomsAsync();
 
@@ -106,18 +102,17 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public async Task GetAllRooms_StatusCodeSuccessNoRooms_ReturnsNull()
         {
-            List<ApiRoom> apiroomsexpected = new List<ApiRoom>();
+            var apiroomsexpected = new List<ApiRoom>();
 
-            var response = new HttpResponseMessage();
-            response.Content = new ObjectContent<List<ApiRoom>>(apiroomsexpected, new JsonMediaTypeFormatter(), "application/json");
+            var response = new HttpResponseMessage {Content = new ObjectContent<List<ApiRoom>>(apiroomsexpected, new JsonMediaTypeFormatter(), "application/json")};
 
             var mockHttpClientWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(response);
+            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetRoomServicePath()).Returns("string");
 
-            ServiceRoomCalls srr = new ServiceRoomCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
+            var srr = new ServiceRoomCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
 
             var actual = await srr.RetrieveAllRoomsAsync();
 
@@ -127,20 +122,21 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public async Task GetAllRooms_StatusCodeFail_ReturnsNull()
         {
-            List<ApiRoom> apiroomsexpected = new List<ApiRoom>();
-            apiroomsexpected.Add(new ApiRoom());
+            var apiroomsexpected = new List<ApiRoom> {new ApiRoom()};
 
-            var response = new HttpResponseMessage();
-            response.Content = new ObjectContent<List<ApiRoom>>(apiroomsexpected, new JsonMediaTypeFormatter(), "application/json");
-            response.StatusCode = HttpStatusCode.NotFound;
+            var response = new HttpResponseMessage
+            {
+                Content = new ObjectContent<List<ApiRoom>>(apiroomsexpected, new JsonMediaTypeFormatter(), "application/json"),
+                StatusCode = HttpStatusCode.NotFound
+            };
 
             var mockHttpClientWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(response);
+            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetRoomServicePath()).Returns("string");
 
-            ServiceRoomCalls srr = new ServiceRoomCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
+            var srr = new ServiceRoomCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
 
             var actual = await srr.RetrieveAllRoomsAsync();
 
@@ -150,46 +146,44 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public async Task UpdateRoomAsync_UpdateRoomValid_PutIsCalledOnce()
         {
-            ApiRoom room = new ApiRoom()
+            var room = new ApiRoom()
             {
                 RoomId = Guid.NewGuid()
             };
 
-            HttpResponseMessage response = new HttpResponseMessage();
-            response.StatusCode = HttpStatusCode.OK;
+            var response = new HttpResponseMessage {StatusCode = HttpStatusCode.OK};
 
             var mockHttpWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpWrapper.Setup(x => x.PutAsync<ApiRoom>(It.IsAny<String>(), It.IsAny<ApiRoom>())).ReturnsAsync(response);
+            mockHttpWrapper.Setup(x => x.PutAsync(It.IsAny<string>(), It.IsAny<ApiRoom>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetRoomServicePath()).Returns("string");
 
-            ServiceRoomCalls src = new ServiceRoomCalls(mockHttpWrapper.Object, mockApiPath.Object);
+            var src = new ServiceRoomCalls(mockHttpWrapper.Object, mockApiPath.Object);
 
             await src.UpdateRoomAsync(room);
 
-            mockHttpWrapper.Verify(x => x.PutAsync<ApiRoom>(It.IsAny<String>(), It.IsAny<ApiRoom>()),
+            mockHttpWrapper.Verify(x => x.PutAsync(It.IsAny<string>(), It.IsAny<ApiRoom>()),
                 Times.Once);
         }
 
         [Fact]
         public async Task UpdateRoomAsync_UpdateRoomNotValid_ThrowException()
         {
-            ApiRoom room = new ApiRoom()
+            var room = new ApiRoom()
             {
                 RoomId = Guid.Empty
             };
 
-            HttpResponseMessage response = new HttpResponseMessage();
-            response.StatusCode = HttpStatusCode.OK;
+            var response = new HttpResponseMessage {StatusCode = HttpStatusCode.OK};
 
             var mockHttpWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpWrapper.Setup(x => x.PutAsync<ApiRoom>(It.IsAny<String>(), It.IsAny<ApiRoom>())).ReturnsAsync(response);
+            mockHttpWrapper.Setup(x => x.PutAsync(It.IsAny<string>(), It.IsAny<ApiRoom>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetRoomServicePath()).Returns("string");
 
-            ServiceRoomCalls src = new ServiceRoomCalls(mockHttpWrapper.Object, mockApiPath.Object);
+            var src = new ServiceRoomCalls(mockHttpWrapper.Object, mockApiPath.Object);
 
             await Assert.ThrowsAsync<Exception>(() => src.UpdateRoomAsync(room));
         }
@@ -197,21 +191,20 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public async Task UpdateRoomAsync_UpdateRoomFails_ThrowException()
         {
-            ApiRoom room = new ApiRoom()
+            var room = new ApiRoom()
             {
                 RoomId = Guid.NewGuid()
             };
 
-            HttpResponseMessage response = new HttpResponseMessage();
-            response.StatusCode = HttpStatusCode.BadRequest;
+            var response = new HttpResponseMessage {StatusCode = HttpStatusCode.BadRequest};
 
             var mockHttpWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpWrapper.Setup(x => x.PutAsync<ApiRoom>(It.IsAny<String>(), It.IsAny<ApiRoom>())).ReturnsAsync(response);
+            mockHttpWrapper.Setup(x => x.PutAsync(It.IsAny<string>(), It.IsAny<ApiRoom>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetRoomServicePath()).Returns("string");
 
-            ServiceRoomCalls src = new ServiceRoomCalls(mockHttpWrapper.Object, mockApiPath.Object);
+            var src = new ServiceRoomCalls(mockHttpWrapper.Object, mockApiPath.Object);
 
             await Assert.ThrowsAsync<Exception>(() => src.UpdateRoomAsync(room));
         }
@@ -219,19 +212,17 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public async Task GetAllUsers_StatusCodeSuccessReturnsUsers_ReturnsApiUsers()
         {
-            List<ApiUser> apiUsersexpected = new List<ApiUser>();
-            apiUsersexpected.Add(new ApiUser());
+            var apiUsersexpected = new List<ApiUser> {new ApiUser()};
 
-            var response = new HttpResponseMessage();
-            response.Content = new ObjectContent<List<ApiUser>>(apiUsersexpected, new JsonMediaTypeFormatter(), "application/json");
+            var response = new HttpResponseMessage {Content = new ObjectContent<List<ApiUser>>(apiUsersexpected, new JsonMediaTypeFormatter(), "application/json")};
 
             var mockHttpClientWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(response);
+            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetRoomServicePath()).Returns("string");
 
-            ServiceUserCalls sur = new ServiceUserCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
+            var sur = new ServiceUserCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
 
             var actual = await sur.RetrieveAllUsersAsync();
 
@@ -241,18 +232,17 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public async Task GetAllUsers_StatusCodeSuccessNoRooms_ReturnsNull()
         {
-            List<ApiUser> apiUsersexpected = new List<ApiUser>();
+            var apiUsersexpected = new List<ApiUser>();
 
-            var response = new HttpResponseMessage();
-            response.Content = new ObjectContent<List<ApiUser>>(apiUsersexpected, new JsonMediaTypeFormatter(), "application/json");
+            var response = new HttpResponseMessage {Content = new ObjectContent<List<ApiUser>>(apiUsersexpected, new JsonMediaTypeFormatter(), "application/json")};
 
             var mockHttpClientWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(response);
+            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetRoomServicePath()).Returns("string");
 
-            ServiceUserCalls sur = new ServiceUserCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
+            var sur = new ServiceUserCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
 
             var actual = await sur.RetrieveAllUsersAsync();
 
@@ -262,20 +252,21 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public async Task GetAllUsers_StatusCodeFail_ReturnsNull()
         {
-            List<ApiUser> apiUsersexpected = new List<ApiUser>();
-            apiUsersexpected.Add(new ApiUser());
+            var apiUsersexpected = new List<ApiUser> {new ApiUser()};
 
-            var response = new HttpResponseMessage();
-            response.Content = new ObjectContent<List<ApiUser>>(apiUsersexpected, new JsonMediaTypeFormatter(), "application/json");
-            response.StatusCode = HttpStatusCode.NotFound;
+            var response = new HttpResponseMessage
+            {
+                Content = new ObjectContent<List<ApiUser>>(apiUsersexpected, new JsonMediaTypeFormatter(), "application/json"),
+                StatusCode = HttpStatusCode.NotFound
+            };
 
             var mockHttpClientWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<String>())).ReturnsAsync(response);
+            mockHttpClientWrapper.Setup(x => x.GetAsync(It.IsAny<string>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetRoomServicePath()).Returns("string");
 
-            ServiceUserCalls sur = new ServiceUserCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
+            var sur = new ServiceUserCalls(mockHttpClientWrapper.Object, mockApiPath.Object);
 
             var actual = await sur.RetrieveAllUsersAsync();
 
@@ -285,11 +276,11 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public async Task UpdateUserAsync_UpdateUserValidAllInputs_PutIsCalledOnce()
         {
-            ApiUser user = new ApiUser()
+            var user = new ApiUser
             {
                 UserId = Guid.NewGuid(),
                 Location = "Earth",
-                Address = new ApiAddress()
+                Address = new ApiAddress
                 {
                     AddressId = Guid.NewGuid(),
                     Address1 = "123 1st street",
@@ -300,30 +291,29 @@ namespace Housing.Selection.Testing.Context
                 }
             };
 
-            HttpResponseMessage response = new HttpResponseMessage();
-            response.StatusCode = HttpStatusCode.OK;
+            var response = new HttpResponseMessage {StatusCode = HttpStatusCode.OK};
 
             var mockHttpWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpWrapper.Setup(x => x.PutAsync<ApiUser>(It.IsAny<String>(), It.IsAny<ApiUser>())).ReturnsAsync(response);
+            mockHttpWrapper.Setup(x => x.PutAsync(It.IsAny<string>(), It.IsAny<ApiUser>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetUserServicePath()).Returns("string");
 
-            ServiceUserCalls src = new ServiceUserCalls(mockHttpWrapper.Object, mockApiPath.Object);
+            var src = new ServiceUserCalls(mockHttpWrapper.Object, mockApiPath.Object);
 
             await src.UpdateUserAsync(user);
 
-            mockHttpWrapper.Verify(x => x.PutAsync<ApiUser>(It.IsAny<String>(), It.IsAny<ApiUser>()),
+            mockHttpWrapper.Verify(x => x.PutAsync(It.IsAny<string>(), It.IsAny<ApiUser>()),
                 Times.Once);
         }
 
         [Fact]
         public async Task UpdateUserAsync_UpdateUserValidNoLocation_PutIsCalledOnce()
         {
-            ApiUser user = new ApiUser()
+            var user = new ApiUser
             {
                 UserId = Guid.NewGuid(),
-                Address = new ApiAddress()
+                Address = new ApiAddress
                 {
                     AddressId = Guid.NewGuid(),
                     Address1 = "123 1st street",
@@ -334,57 +324,55 @@ namespace Housing.Selection.Testing.Context
                 }
             };
 
-            HttpResponseMessage response = new HttpResponseMessage();
-            response.StatusCode = HttpStatusCode.OK;
+            HttpResponseMessage response = new HttpResponseMessage {StatusCode = HttpStatusCode.OK};
 
             var mockHttpWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpWrapper.Setup(x => x.PutAsync<ApiUser>(It.IsAny<String>(), It.IsAny<ApiUser>())).ReturnsAsync(response);
+            mockHttpWrapper.Setup(x => x.PutAsync(It.IsAny<string>(), It.IsAny<ApiUser>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetUserServicePath()).Returns("string");
 
-            ServiceUserCalls src = new ServiceUserCalls(mockHttpWrapper.Object, mockApiPath.Object);
+            var src = new ServiceUserCalls(mockHttpWrapper.Object, mockApiPath.Object);
 
             await src.UpdateUserAsync(user);
 
-            mockHttpWrapper.Verify(x => x.PutAsync<ApiUser>(It.IsAny<String>(), It.IsAny<ApiUser>()),
+            mockHttpWrapper.Verify(x => x.PutAsync(It.IsAny<string>(), It.IsAny<ApiUser>()),
                 Times.Once);
         }
 
         [Fact]
         public async Task UpdateUserAsync_UpdateUserValidNullAddress_PutIsCalledOnce()
         {
-            ApiUser user = new ApiUser()
+            var user = new ApiUser()
             {
                 UserId = Guid.NewGuid(),
                 Location = "Earth",
             };
 
-            HttpResponseMessage response = new HttpResponseMessage();
-            response.StatusCode = HttpStatusCode.OK;
+            var response = new HttpResponseMessage {StatusCode = HttpStatusCode.OK};
 
             var mockHttpWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpWrapper.Setup(x => x.PutAsync<ApiUser>(It.IsAny<String>(), It.IsAny<ApiUser>())).ReturnsAsync(response);
+            mockHttpWrapper.Setup(x => x.PutAsync(It.IsAny<string>(), It.IsAny<ApiUser>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetUserServicePath()).Returns("string");
 
-            ServiceUserCalls src = new ServiceUserCalls(mockHttpWrapper.Object, mockApiPath.Object);
+            var src = new ServiceUserCalls(mockHttpWrapper.Object, mockApiPath.Object);
 
             await src.UpdateUserAsync(user);
 
-            mockHttpWrapper.Verify(x => x.PutAsync<ApiUser>(It.IsAny<String>(), It.IsAny<ApiUser>()),
+            mockHttpWrapper.Verify(x => x.PutAsync(It.IsAny<string>(), It.IsAny<ApiUser>()),
                 Times.Once);
         }
 
         [Fact]
         public async Task UpdateUserAsync_UpdateUserInvalidId_ThrowsException()
         {
-            ApiUser user = new ApiUser()
+            var user = new ApiUser
             {
                 UserId = Guid.Empty,
                 Location = "Earth",
-                Address = new ApiAddress()
+                Address = new ApiAddress
                 {
                     AddressId = Guid.NewGuid(),
                     Address1 = "123 1st street",
@@ -395,16 +383,15 @@ namespace Housing.Selection.Testing.Context
                 }
             };
 
-            HttpResponseMessage response = new HttpResponseMessage();
-            response.StatusCode = HttpStatusCode.OK;
+            var response = new HttpResponseMessage {StatusCode = HttpStatusCode.OK};
 
             var mockHttpWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpWrapper.Setup(x => x.PutAsync<ApiUser>(It.IsAny<String>(), It.IsAny<ApiUser>())).ReturnsAsync(response);
+            mockHttpWrapper.Setup(x => x.PutAsync(It.IsAny<string>(), It.IsAny<ApiUser>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetUserServicePath()).Returns("string");
 
-            ServiceUserCalls src = new ServiceUserCalls(mockHttpWrapper.Object, mockApiPath.Object);
+            var src = new ServiceUserCalls(mockHttpWrapper.Object, mockApiPath.Object);
 
             await Assert.ThrowsAsync<Exception>(() => src.UpdateUserAsync(user));
         }
@@ -412,11 +399,11 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public async Task UpdateUserAsync_UpdateUserInvalidLocation_ThrowsException()
         {
-            ApiUser user = new ApiUser()
+            var user = new ApiUser
             {
                 UserId = Guid.NewGuid(),
                 Location = "",
-                Address = new ApiAddress()
+                Address = new ApiAddress
                 {
                     AddressId = Guid.NewGuid(),
                     Address1 = "123 1st street",
@@ -427,16 +414,15 @@ namespace Housing.Selection.Testing.Context
                 }
             };
 
-            HttpResponseMessage response = new HttpResponseMessage();
-            response.StatusCode = HttpStatusCode.OK;
+            var response = new HttpResponseMessage {StatusCode = HttpStatusCode.OK};
 
             var mockHttpWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpWrapper.Setup(x => x.PutAsync<ApiUser>(It.IsAny<String>(), It.IsAny<ApiUser>())).ReturnsAsync(response);
+            mockHttpWrapper.Setup(x => x.PutAsync(It.IsAny<string>(), It.IsAny<ApiUser>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetUserServicePath()).Returns("string");
 
-            ServiceUserCalls src = new ServiceUserCalls(mockHttpWrapper.Object, mockApiPath.Object);
+            var src = new ServiceUserCalls(mockHttpWrapper.Object, mockApiPath.Object);
 
             await Assert.ThrowsAsync<Exception>(() => src.UpdateUserAsync(user));
         }
@@ -444,11 +430,11 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public async Task UpdateUserAsync_UpdateUserInvalidAddress_ThrowsException()
         {
-            ApiUser user = new ApiUser()
+            var user = new ApiUser
             {
                 UserId = Guid.NewGuid(),
                 Location = "Earth",
-                Address = new ApiAddress()
+                Address = new ApiAddress
                 {
                     AddressId = Guid.NewGuid(),
                     Address1 = "123 1st street",
@@ -458,16 +444,15 @@ namespace Housing.Selection.Testing.Context
                 }
             };
 
-            HttpResponseMessage response = new HttpResponseMessage();
-            response.StatusCode = HttpStatusCode.OK;
+            HttpResponseMessage response = new HttpResponseMessage {StatusCode = HttpStatusCode.OK};
 
             var mockHttpWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpWrapper.Setup(x => x.PutAsync<ApiUser>(It.IsAny<String>(), It.IsAny<ApiUser>())).ReturnsAsync(response);
+            mockHttpWrapper.Setup(x => x.PutAsync(It.IsAny<string>(), It.IsAny<ApiUser>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetUserServicePath()).Returns("string");
 
-            ServiceUserCalls src = new ServiceUserCalls(mockHttpWrapper.Object, mockApiPath.Object);
+            var src = new ServiceUserCalls(mockHttpWrapper.Object, mockApiPath.Object);
 
             await Assert.ThrowsAsync<Exception>(() => src.UpdateUserAsync(user));
         }
@@ -475,11 +460,11 @@ namespace Housing.Selection.Testing.Context
         [Fact]
         public async Task UpdateUserAsync_UpdateUserFailed_ThrowsException()
         {
-            ApiUser user = new ApiUser()
+            var user = new ApiUser
             {
                 UserId = Guid.NewGuid(),
                 Location = "Earth",
-                Address = new ApiAddress()
+                Address = new ApiAddress
                 {
                     AddressId = Guid.NewGuid(),
                     Address1 = "123 1st street",
@@ -490,16 +475,15 @@ namespace Housing.Selection.Testing.Context
                 }
             };
 
-            HttpResponseMessage response = new HttpResponseMessage();
-            response.StatusCode = HttpStatusCode.BadRequest;
+            var response = new HttpResponseMessage {StatusCode = HttpStatusCode.BadRequest};
 
             var mockHttpWrapper = new Mock<IHttpClientWrapper>();
-            mockHttpWrapper.Setup(x => x.PutAsync<ApiUser>(It.IsAny<String>(), It.IsAny<ApiUser>())).ReturnsAsync(response);
+            mockHttpWrapper.Setup(x => x.PutAsync(It.IsAny<string>(), It.IsAny<ApiUser>())).ReturnsAsync(response);
 
             var mockApiPath = new Mock<IApiPathBuilder>();
             mockApiPath.Setup(x => x.GetUserServicePath()).Returns("string");
 
-            ServiceUserCalls src = new ServiceUserCalls(mockHttpWrapper.Object, mockApiPath.Object);
+            var src = new ServiceUserCalls(mockHttpWrapper.Object, mockApiPath.Object);
 
             await Assert.ThrowsAsync<Exception>(() => src.UpdateUserAsync(user));
         }

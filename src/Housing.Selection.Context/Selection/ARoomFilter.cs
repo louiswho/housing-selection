@@ -3,13 +3,16 @@ using System.Linq;
 using Housing.Selection.Library.HousingModels;
 using Housing.Selection.Library.ViewModels;
 
+/* Chain of responsibility for the room filter custom search. Will parse through a complex object, and filter out rooms based
+   on which feilds are populated (not null). This object is received from the angular API */
+
 namespace Housing.Selection.Context.Selection
 {
-    public abstract class AFilter
+    public abstract class ARoomFilter
     {
-        protected AFilter Successor;
-        
-        public void SetSuccessor(AFilter successor)
+        protected ARoomFilter Successor;
+
+        public void SetSuccessor(ARoomFilter successor)
         {
             Successor = successor;
         }
@@ -17,11 +20,11 @@ namespace Housing.Selection.Context.Selection
         public abstract void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel);
     }
 
-    public class LocationFilter : AFilter
+    public class LocationFilter : ARoomFilter
     {
         public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
-            if(roomSearchViewModel.Location != null)
+            if (roomSearchViewModel.Location != null)
             {
                 var result = filterRooms.Where(x => x.Location == roomSearchViewModel.Location);
                 filterRooms = result.ToList();
@@ -30,27 +33,27 @@ namespace Housing.Selection.Context.Selection
         }
     }
 
-    public class BatchFilter : AFilter
+    public class BatchFilter : ARoomFilter
     {
         public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
-            if(roomSearchViewModel.Batch != null && roomSearchViewModel.BatchMinimumPercentage != 0)
+            if (roomSearchViewModel.Batch != null && roomSearchViewModel.BatchMinimumPercentage != 0)
             {
                 var result = from x in filterRooms
-                              where x.BatchPercentage(roomSearchViewModel.Batch) 
-                              >= roomSearchViewModel.BatchMinimumPercentage
-                              select x;
+                             where x.BatchPercentage(roomSearchViewModel.Batch)
+                             >= roomSearchViewModel.BatchMinimumPercentage
+                             select x;
                 filterRooms = result.ToList();
             }
             Successor?.FilterRequest(ref filterRooms, roomSearchViewModel);
         }
     }
 
-    public class GenderFilter : AFilter
+    public class GenderFilter : ARoomFilter
     {
         public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
-            if(roomSearchViewModel.Gender != null)
+            if (roomSearchViewModel.Gender != null)
             {
                 var result = filterRooms.Where(x => x.Gender.Equals(roomSearchViewModel.Gender));
                 filterRooms = result.ToList();
@@ -59,11 +62,11 @@ namespace Housing.Selection.Context.Selection
         }
     }
 
-    public class IsCompletelyUnassignedFilter : AFilter
+    public class IsCompletelyUnassignedFilter : ARoomFilter
     {
         public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
-            if(roomSearchViewModel.IsCompletelyUnassigned)
+            if (roomSearchViewModel.IsCompletelyUnassigned == true)
             {
                 var result = filterRooms.Where(x => x.Vacancy == x.Occupancy);
                 filterRooms = result.ToList();
@@ -72,11 +75,11 @@ namespace Housing.Selection.Context.Selection
         }
     }
 
-    public class HasBedAvailableFilter : AFilter
+    public class HasBedAvailableFilter : ARoomFilter
     {
         public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
-            if (roomSearchViewModel.HasBedAvailable)
+            if (roomSearchViewModel.HasBedAvailable == true)
             {
                 var result = filterRooms.Where(x => x.Vacancy > 0);
                 filterRooms = result.ToList();
