@@ -1,6 +1,6 @@
 ﻿using Xunit;
 using AutoMapper;
-using Housing.Selection.Library.ViewModels;
+using Housing.Selection.Context.Selection;
 
 namespace Housing.Selection.Testing.Library
 {

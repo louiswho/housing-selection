@@ -4,6 +4,7 @@ using Housing.Selection.Library.HousingModels;
 using Housing.Selection.Library.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Housing.Selection.Service.Controllers
 {
@@ -21,50 +22,70 @@ namespace Housing.Selection.Service.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetBatches()
+        public async Task<IActionResult> GetBatches()
         {
-            var batches = _selection.GetBatches();
+            var batches = await _selection.GetBatches();
             var viewModel = _mapper.Map<IEnumerable<BatchViewModel>>(batches);
 
             return Ok(viewModel);
         }
 
         [HttpGet]
-        public IActionResult GetRooms()
+        public async Task<IActionResult> GetRooms()
         {
-            var rooms = _selection.GetRooms();
+            var rooms = await _selection.GetRooms();
+            var viewModel = _mapper.Map<IEnumerable<RoomViewModel>>(rooms);
+
+            return Ok(viewModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = await _selection.GetUsers();
+            var viewModel = _mapper.Map<IEnumerable<UserViewModel>>(users);
+
+            return Ok(viewModel);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> CustomSearch(RoomSearchViewModel roomSearchViewModel)
+        {
+            if (!ModelState.IsValid) { return BadRequest(); };
+
+            var rooms = await _selection.CustomSearch(roomSearchViewModel);
             var viewModel = _mapper.Map<IEnumerable<RoomViewModel>>(rooms);
 
             return Ok(viewModel);
         }
 
         [HttpPut]
-        public IActionResult CustomSearch(RoomSearchViewModel roomSearchViewModel)
+        public async Task<IActionResult> CustomUserSearch(UserSearchViewModel userSearchViewModel)
         {
-            if(!ModelState.IsValid) { return BadRequest(); };
+            if (!ModelState.IsValid) { return BadRequest(); };
 
-            var rooms = _selection.CustomSearch(roomSearchViewModel);
-            var viewModel = _mapper.Map<IEnumerable<RoomViewModel>>(rooms);
+            var users = await _selection.CustomUserSearch(userSearchViewModel);
+            var viewModel = _mapper.Map<IEnumerable<UserSearchViewModel>>(users);
 
             return Ok(viewModel);
         }
 
         [HttpPut]
-        public IActionResult AddUserToRoom(AddRemoveUserFromRoomModel addUserToRoomModel)
+        public async Task<IActionResult> AddUserToRoom(AddRemoveUserFromRoomModel addUserToRoomModel)
         {
-            if(!ModelState.IsValid) { return BadRequest(); };
+            if (!ModelState.IsValid) { return BadRequest(); };
 
-            _selection.AddUserToRoom(addUserToRoomModel);
+            await _selection.AddUserToRoom(addUserToRoomModel);
 
             return Ok();
         }
 
         [HttpPut]
-        public IActionResult RemoveUserFromRoom(AddRemoveUserFromRoomModel removeUserFromRoomModel)
+        public async Task<IActionResult> RemoveUserFromRoom(AddRemoveUserFromRoomModel removeUserFromRoomModel)
         {
-            if(!ModelState.IsValid) { return BadRequest(); };
+            if (!ModelState.IsValid) { return BadRequest(); };
 
-            _selection.RemoveUserFromRoom(removeUserFromRoomModel);
+            await _selection.RemoveUserFromRoom(removeUserFromRoomModel);
 
             return Ok();
         }
