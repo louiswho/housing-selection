@@ -20,7 +20,7 @@ namespace Housing.Selection.Context.DataAccess
             _housingSelectionDbContext.Users.Add(user);
         }
 
-        public async Task <User> GetUserById(Guid id)
+        public async Task<User> GetUserById(Guid id)
         {
             return await _housingSelectionDbContext.Users.FirstAsync(x => x.Id == id);
         }
@@ -34,10 +34,10 @@ namespace Housing.Selection.Context.DataAccess
         {
             return _housingSelectionDbContext.Users;
         }
-        
-        public async Task SaveChanges()
+
+        public async Task SaveChangesAsync()
         {
-          await _housingSelectionDbContext.SaveChangesAsync();
+            await _housingSelectionDbContext.SaveChangesAsync();
         }
     }
 }

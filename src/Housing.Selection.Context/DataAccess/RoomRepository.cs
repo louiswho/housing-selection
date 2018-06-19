@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Housing.Selection.Context.DataAccess
 {
-   public class RoomRepository : IRoomRepository
+    public class RoomRepository : IRoomRepository
     {
         private readonly IDbContext _housingSelectionDbContext;
 
@@ -35,9 +35,9 @@ namespace Housing.Selection.Context.DataAccess
             return _housingSelectionDbContext.Rooms;
         }
 
-        public async Task SaveChanges()
+        public async Task SaveChangesAsync()
         {
-           await _housingSelectionDbContext.SaveChangesAsync();
+            await _housingSelectionDbContext.SaveChangesAsync();
         }
     }
 }
