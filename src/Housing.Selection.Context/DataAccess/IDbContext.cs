@@ -13,6 +13,6 @@ namespace Housing.Selection.Context.DataAccess
         DbSet<User> Users { get; set; }
         DbSet<Address> Addresses { get; set; }
         DbSet<Name> Names { get; set; }
-        Task<int> SaveChangesAsync( CancellationToken ct = default(CancellationToken));
+        Task<int> SaveChangesAsync(CancellationToken ct = default(CancellationToken));
     }
 }
