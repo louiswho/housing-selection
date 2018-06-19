@@ -94,9 +94,9 @@ namespace Housing.Selection.Context.ServiceHubProxies
 
         }
 
-        public async Task<List<ApiRoom>> RetrieveAllRoomsAsync()
+        public Task<List<ApiRoom>> RetrieveAllRoomsAsync()
         {
-            return await Task.Run<List<ApiRoom>>(() => _rooms);
+            return Task.FromResult<List<ApiRoom>>(_rooms);
         }
     }
 }

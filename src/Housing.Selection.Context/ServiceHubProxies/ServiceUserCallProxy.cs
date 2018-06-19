@@ -164,9 +164,9 @@ namespace Housing.Selection.Context.ServiceHubProxies
             user.Address = _user.Address;
         }
 
-       public async Task<List<ApiUser>> RetrieveAllUsersAsync()
+       public Task<List<ApiUser>> RetrieveAllUsersAsync()
         {
-            return await Task.Run<List<ApiUser>>(() => _users);
+            return Task.FromResult<List<ApiUser>>(_users);
         }
     }
 }
