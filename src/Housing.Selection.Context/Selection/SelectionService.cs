@@ -36,8 +36,8 @@ namespace Housing.Selection.Context.Selection
             newUser.Address = addRoom.Address;
             addRoom.Vacancy--;
 
-            await _userRepository.SaveChanges();
-            await _roomRepository.SaveChanges();
+            await _userRepository.SaveChangesAsync();
+            await _roomRepository.SaveChangesAsync();
 
             var apiUser = _mapper.Map<ApiUser>(newUser);
             var apiRoom = _mapper.Map<ApiRoom>(addRoom);
@@ -92,8 +92,8 @@ namespace Housing.Selection.Context.Selection
             removeUser.Address = null;
             emptiedRoom.Vacancy++;
 
-            await _userRepository.SaveChanges();
-            await _roomRepository.SaveChanges();
+            await _userRepository.SaveChangesAsync();
+            await _roomRepository.SaveChangesAsync();
 
             var apiUser = _mapper.Map<ApiUser>(removeUser);
             var apiRoom = _mapper.Map<ApiRoom>(emptiedRoom);

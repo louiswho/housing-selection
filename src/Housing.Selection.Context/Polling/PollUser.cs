@@ -90,7 +90,7 @@ namespace Housing.Selection.Context.Polling
                 housingUser.Room = await GetRoomId(apiUser, rooms);
                 housingUser.Address = housingUser.Room.Address;
             }
-            await _userRepository.SaveChanges();
+            await _userRepository.SaveChangesAsync();
             return housingUser;
         }
 
@@ -141,7 +141,7 @@ namespace Housing.Selection.Context.Polling
         {
             var housingAddress = await _addressRepository.GetAddressByAddressId(apiAddress.AddressId);
             housingAddress = housingAddress.ConvertFromServiceModel(apiAddress);
-            await _addressRepository.SaveChanges();
+            await _addressRepository.SaveChangesAsync();
             return housingAddress;
         }
 
@@ -149,7 +149,7 @@ namespace Housing.Selection.Context.Polling
         {
             var housingName = await _nameRepository.GetNameByNameId(apiName.NameId);
             housingName = housingName.ConvertFromServiceModel(apiName);
-            await _nameRepository.SaveChanges();
+            await _nameRepository.SaveChangesAsync();
             return housingName;
         }
 
