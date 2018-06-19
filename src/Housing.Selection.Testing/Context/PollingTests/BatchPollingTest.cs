@@ -40,7 +40,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
             mockTaskBatchList.Add(batch1);
             mockTaskBatchList.Add(batch1);
             var expected = mockTaskBatchList;
-            var result = await pollBatch.BatchPoll();
+            var result = await pollBatch.BatchPollAsync();
 
             Assert.Equal(expected, result);
         }
@@ -52,7 +52,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
             mockBatchList.Add(batch1);
             mockBatchList.Add(batch2);
             var expected = mockBatchList;
-            var result = await pollBatch.BatchPoll();
+            var result = await pollBatch.BatchPollAsync();
 
             Assert.NotEqual(expected, result);
         }
@@ -61,7 +61,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
         public async void Test_Batch_Update()
         {
             var expected = batch1;
-            var result = await pollBatch.UpdateBatch(apiBatch1);
+            var result = await pollBatch.UpdateBatchAsync(apiBatch1);
 
             Assert.Equal(expected, result);
         }
@@ -70,7 +70,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
         public async void Test_Batch_Update_Fail()
         {
             var expected = batch2;
-            var result = await pollBatch.UpdateBatch(apiBatch1);
+            var result = await pollBatch.UpdateBatchAsync(apiBatch1);
 
             Assert.NotEqual(expected, result);
         }
