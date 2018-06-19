@@ -35,7 +35,7 @@ namespace Housing.Selection.Context.DataAccess
             return _housingSelectionDbContext.Rooms;
         }
 
-        public async Task SaveChanges()
+        public async Task SaveChangesAsync()
         {
            await _housingSelectionDbContext.SaveChangesAsync();
         }

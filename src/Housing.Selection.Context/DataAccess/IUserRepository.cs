@@ -11,6 +11,6 @@ namespace Housing.Selection.Context.DataAccess
         Task<User> GetUserById(Guid id);
         Task<User> GetUserByUserId(Guid userId);
         void AddUser(User user);
-        Task SaveChanges();
+        Task SaveChangesAsync();
     }
 }
