@@ -12,6 +12,6 @@ namespace Housing.Selection.Context.DataAccess
         Task <Address> GetAddressById(Guid id);
         Task <Address> GetAddressByAddressId(Guid nameId);
         void AddAddress(Address address);
-        Task SaveChanges();
+        Task SaveChangesAsync();
     }
 }

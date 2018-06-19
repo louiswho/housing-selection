@@ -37,7 +37,7 @@ namespace Housing.Selection.Context.DataAccess
             return await _housingSelectionDbContext.Batches.FirstAsync(x => x.BatchId == batchId);
         }
 
-        public async Task SaveChanges()
+        public async Task SaveChangesAsync()
         {
             await _housingSelectionDbContext.SaveChangesAsync();
         }
