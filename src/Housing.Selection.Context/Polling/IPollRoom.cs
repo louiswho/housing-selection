@@ -7,7 +7,7 @@ namespace Housing.Selection.Context.Polling
 {
     public interface IPollRoom
     {
-        Task<List<Room>> RoomPoll();
-        Task<Room> UpdateRoom(ApiRoom room);
+        Task<List<Room>> RoomPollAsync();
+        Task<Room> UpdateRoomAsync(ApiRoom room);
     }
 }
