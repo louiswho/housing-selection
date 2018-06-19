@@ -56,7 +56,7 @@ namespace Housing.Selection.Context.Polling
         {
             var housingRoom = await _roomRepository.GetRoomByRoomId(apiRoom.RoomId);
             housingRoom = housingRoom.ConvertFromServiceModel(apiRoom: apiRoom);
-            await _roomRepository.SaveChanges();
+            await _roomRepository.SaveChangesAsync();
             return housingRoom;
         }
     }

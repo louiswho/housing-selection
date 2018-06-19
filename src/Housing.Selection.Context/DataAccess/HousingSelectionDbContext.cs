@@ -3,7 +3,7 @@ using Housing.Selection.Library.HousingModels;
 
 namespace Housing.Selection.Context.DataAccess
 {
-   public class HousingSelectionDbContext : DbContext, IDbContext
+    public class HousingSelectionDbContext : DbContext, IDbContext
     {
         public HousingSelectionDbContext() : base()
         {

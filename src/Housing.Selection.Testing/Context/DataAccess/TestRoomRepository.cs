@@ -60,7 +60,7 @@ namespace Housing.Selection.Testing.Context.DataAccess
 
             var roomRepository = new RoomRepository(mockHousingContext.Object);
 
-            await roomRepository.SaveChanges();
+            await roomRepository.SaveChangesAsync();
 
             mockHousingContext.Verify(m => m.SaveChangesAsync(CancellationToken.None), Times.Once());
 

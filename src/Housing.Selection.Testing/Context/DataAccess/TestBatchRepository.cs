@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using Housing.Selection.Context.DataAccess;
 using Housing.Selection.Library.HousingModels;
@@ -16,13 +15,13 @@ namespace Housing.Selection.Testing.Context.DataAccess
         private readonly Batch _testBatch1 = new Batch();
         private readonly Batch _testBatch2 = new Batch();
         private readonly Guid _guid;
-        private readonly Guid _guid1;        
+        private readonly Guid _guid1;
 
         public TestBatchRepository()
-        {           
-            var  mockHousingContext = new Mock<IDbContext>();
-            
-            _guid =  Guid.NewGuid(); 
+        {
+            var mockHousingContext = new Mock<IDbContext>();
+
+            _guid = Guid.NewGuid();
             _guid1 = Guid.NewGuid();
 
             _testBatch1.Id = _guid;
@@ -53,7 +52,7 @@ namespace Housing.Selection.Testing.Context.DataAccess
                 BatchId = _guid
 
             };
-            var  batchList = new List<Batch>()
+            var batchList = new List<Batch>()
             {
                   testBatch1
             };
@@ -72,26 +71,36 @@ namespace Housing.Selection.Testing.Context.DataAccess
 
         [Fact]
         public void CanReturnBatches()
-        {     
+        {
             var batchRepository = new BatchRepository(_mockHousingContext);
 
             var testBatches = batchRepository.GetBatches();
 
-            Assert.NotNull(testBatches); 
+            Assert.NotNull(testBatches);
+        }
+
+        [Fact]
+        public async Task CanReturnBatchesById()
+        {
+            var batchRepository = new BatchRepository(_mockHousingContext);
+
+            var testBatch = await batchRepository.GetBatchByBatchId(_guid);
+
+            Assert.Equal(_guid1, testBatch.Id);
         }
 
         [Fact]
         public async void CanSaveChanges()
-        {                    
-            var  mockHousingContext = new Mock<IDbContext>();
+        {
+            var mockHousingContext = new Mock<IDbContext>();
 
             mockHousingContext.Setup(x => x.SaveChanges()).Returns(1);
 
             var roomRepository = new UserRepository(mockHousingContext.Object);
 
-             await roomRepository.SaveChanges();
+            await roomRepository.SaveChangesAsync();
 
-            mockHousingContext.Verify(m => m.SaveChangesAsync(CancellationToken.None), Times.Once());
+            mockHousingContext.Verify(m => m.SaveChanges(), Times.Once());
         }
     }
 }

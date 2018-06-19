@@ -50,7 +50,7 @@ namespace Housing.Selection.Context.Polling
         {
             var housingBatch = await _batchRepository.GetBatchByBatchId(apiBatch.BatchId);
             housingBatch = housingBatch.ConvertFromServiceModel(apiBatch: apiBatch);
-            await _batchRepository.SaveChanges();
+            await _batchRepository.SaveChangesAsync();
             return housingBatch;
         }
     }

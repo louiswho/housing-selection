@@ -11,6 +11,6 @@ namespace Housing.Selection.Context.DataAccess
         Task<Room> GetRoomById(Guid id);
         Task<Room> GetRoomByRoomId(Guid roomId);
         void AddRoom(Room room);
-        Task SaveChanges();
+        Task SaveChangesAsync();
     }
 }
