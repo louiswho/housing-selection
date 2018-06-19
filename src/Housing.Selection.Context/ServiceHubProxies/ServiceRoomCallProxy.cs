@@ -83,15 +83,20 @@ namespace Housing.Selection.Context.ServiceHubProxies
 
         }
 
-        public async Task UpdateRoomAsync(ApiRoom room)
+        public Task UpdateRoomAsync(ApiRoom room)
         {
-            if(room.RoomId == Guid.Empty ) throw new Exception("Update failed for room with RoomId " + room.RoomId);
-            
-            var _room = await Task.Run<ApiRoom>(() => _rooms.First(x => x.RoomId == room.RoomId));
+            return Task.Run(() => this.UpdateRoomPrivate(room));
+
+        }
+
+        private void UpdateRoomPrivate(ApiRoom room)
+        {
+            if (room.RoomId == Guid.Empty) throw new Exception("Update failed for room with RoomId " + room.RoomId);
+
+            var _room = _rooms.First(x => x.RoomId == room.RoomId);
             if (room == null) throw new Exception("Update failed for room with RoomId " + room.RoomId);
 
             _room.Vacancy = room.Vacancy;
-
         }
 
         public Task<List<ApiRoom>> RetrieveAllRoomsAsync()

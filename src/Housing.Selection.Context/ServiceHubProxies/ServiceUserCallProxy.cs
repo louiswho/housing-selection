@@ -139,11 +139,17 @@ namespace Housing.Selection.Context.ServiceHubProxies
             return userIds;
         }
 
-        public async Task UpdateUserAsync(ApiUser user)
+
+        public Task UpdateUserAsync(ApiUser user)
+        {
+            return Task.Run(() => this.UpdateUserPrivate(user));
+        }
+
+        private void UpdateUserPrivate(ApiUser user)
         {
             if (user.UserId == Guid.Empty) throw new Exception("Update failed for user with UserId " + user.UserId);
 
-            var _user = await Task.Run<ApiUser>(() => _users.First(x => x.UserId == user.UserId));
+            var _user = _users.First(x => x.UserId == user.UserId);
             if (user == null) throw new Exception("Update failed for room with UserId " + user.UserId);
             if( user.Address != null)
             {
