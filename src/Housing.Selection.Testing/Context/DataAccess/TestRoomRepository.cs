@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using Housing.Selection.Context.DataAccess;
 using Housing.Selection.Library.HousingModels;
 using Moq;
@@ -51,16 +52,6 @@ namespace Housing.Selection.Testing.Context.DataAccess
         }
 
         [Fact]
-        public async void CanReturnRoomsByIdAsync()
-        {
-            var roomRepository = new RoomRepository(_mockHousingContext);
-
-            var testRoom = await roomRepository.GetRoomById(_guid);
-
-            Assert.Equal(_guid1, testRoom.RoomId);
-        }
-
-        [Fact]
         public async void CanSaveChangesAsync()
         {
             var mockHousingContext = new Mock<IDbContext>();
@@ -71,7 +62,7 @@ namespace Housing.Selection.Testing.Context.DataAccess
 
             await roomRepository.SaveChanges();
 
-            mockHousingContext.Verify(m => m.SaveChanges(), Times.Once());
+            mockHousingContext.Verify(m => m.SaveChangesAsync(CancellationToken.None), Times.Once());
 
         }
 
