@@ -36,7 +36,7 @@ namespace Housing.Selection.Context.DataAccess
             return await _housingSelectionDbContext.Names.FirstAsync(x => x.NameId == nameId);
         }
 
-        public async Task  SaveChanges()
+        public async Task SaveChangesAsync()
         {
             await _housingSelectionDbContext.SaveChangesAsync();
         }

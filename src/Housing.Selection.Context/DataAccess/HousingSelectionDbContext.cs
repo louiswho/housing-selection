@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace Housing.Selection.Context.DataAccess
 {
-   public class HousingSelectionDbContext : DbContext, IDbContext
+    public class HousingSelectionDbContext : DbContext, IDbContext
     {
         public HousingSelectionDbContext() : base()
         {
@@ -17,6 +17,6 @@ namespace Housing.Selection.Context.DataAccess
         public DbSet<Batch> Batches { get; set; }
         public DbSet<Name> Names { get; set; }
 
-     
+
     }
 }
