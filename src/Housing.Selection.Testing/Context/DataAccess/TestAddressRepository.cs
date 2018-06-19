@@ -97,7 +97,7 @@ namespace Housing.Selection.Testing.Context.DataAccess
 
             var addressRepository = new AddressRepository(mockHousingContext.Object);
 
-            await addressRepository.SaveChanges();
+            await addressRepository.SaveChangesAsync();
 
             mockHousingContext.Verify(m => m.SaveChanges(), Times.Once());
         }

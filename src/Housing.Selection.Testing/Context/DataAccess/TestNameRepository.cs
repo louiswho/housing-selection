@@ -97,7 +97,7 @@ namespace Housing.Selection.Testing.Context.DataAccess
 
             var nameRepository = new NameRepository(mockHousingContext.Object);
 
-            await nameRepository.SaveChanges();
+            await nameRepository.SaveChangesAsync();
 
             mockHousingContext.Verify(m => m.SaveChanges(), Times.Once());
         }
