@@ -34,7 +34,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
         public async void Test_Room_Poll()
         {
             var expected = mockRoomList;
-            var result = await pollRoom.RoomPoll();
+            var result = await pollRoom.RoomPollAsync();
 
             Assert.Equal(expected, result);
         }
@@ -44,7 +44,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
         {
             mockRoomList.Add(room2);
             var expected = mockRoomList;
-            var result = await pollRoom.RoomPoll();
+            var result = await pollRoom.RoomPollAsync();
 
             Assert.NotEqual(expected, result);
         }
@@ -53,7 +53,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
         public void Test_Room_Update()
         {
             var expected = room1;
-            var result = pollRoom.UpdateRoom(apiRoom1).Result;
+            var result = pollRoom.UpdateRoomAsync(apiRoom1).Result;
 
             Assert.Equal(expected, result);
         }
@@ -62,7 +62,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
         public void Test_Room_Update_Fail()
         {
             var expected = room2;
-            var result = pollRoom.UpdateRoom(apiRoom1).Result;
+            var result = pollRoom.UpdateRoomAsync(apiRoom1).Result;
 
             Assert.NotEqual(expected, result);
         }
