@@ -24,7 +24,7 @@ namespace Housing.Selection.Context.Selection
     {
         public override void FilterRequest(ref List<User> filterUsers, UserSearchViewModel userSearchViewModel)
         {
-            if(userSearchViewModel.Gender != null)
+            if (userSearchViewModel.Gender != null)
             {
                 var result = filterUsers.Where(x => x.Gender == userSearchViewModel.Gender);
                 filterUsers = result.ToList();
@@ -37,7 +37,7 @@ namespace Housing.Selection.Context.Selection
     {
         public override void FilterRequest(ref List<User> filterUsers, UserSearchViewModel userSearchViewModel)
         {
-            if(userSearchViewModel.Location != null)
+            if (userSearchViewModel.Location != null)
             {
                 var result = filterUsers.Where(x => x.Location == userSearchViewModel.Location);
                 filterUsers = result.ToList();
@@ -50,7 +50,7 @@ namespace Housing.Selection.Context.Selection
     {
         public override void FilterRequest(ref List<User> filterUsers, UserSearchViewModel userSearchViewModel)
         {
-            if(userSearchViewModel.Batch != null)
+            if (userSearchViewModel.Batch != null)
             {
                 var result = filterUsers.Where(x => x.Batch.BatchId == userSearchViewModel.Batch);
                 filterUsers = result.ToList();
@@ -63,7 +63,7 @@ namespace Housing.Selection.Context.Selection
     {
         public override void FilterRequest(ref List<User> filterUsers, UserSearchViewModel userSearchViewModel)
         {
-            if (userSearchViewModel.Assigned)
+            if (userSearchViewModel.Assigned == true)
             {
                 var result = filterUsers.Where(x => x.Room != null);
                 filterUsers = result.ToList();
