@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Housing.Selection.Context.DataAccess;
 using Housing.Selection.Library.HousingModels;
@@ -80,16 +81,6 @@ namespace Housing.Selection.Testing.Context.DataAccess
         }
 
         [Fact]
-        public async Task CanReturnBatchesById()
-        {
-            var batchRepository = new BatchRepository(_mockHousingContext);
-
-            var testBatch = await batchRepository.GetBatchByBatchId(_guid);
-
-            Assert.Equal(_guid1, testBatch.Id);
-        }
-
-        [Fact]
         public async void CanSaveChanges()
         {
             var mockHousingContext = new Mock<IDbContext>();
@@ -100,7 +91,7 @@ namespace Housing.Selection.Testing.Context.DataAccess
 
             await roomRepository.SaveChangesAsync();
 
-            mockHousingContext.Verify(m => m.SaveChanges(), Times.Once());
+            mockHousingContext.Verify(m => m.SaveChangesAsync(CancellationToken.None), Times.Once());
         }
     }
 }
