@@ -43,7 +43,7 @@ namespace Housing.Selection.Context.Polling
         /// <returns>
         /// Returns a Task<List<User>> that contains the updated user list
         /// </returns>
-        public async Task<List<User>> UserPoll()
+        public async Task<List<User>> UserPollAsync()
         {
             var userList = new List<User>();
             var users = await _userRetrieval.RetrieveAllUsersAsync();
@@ -53,9 +53,9 @@ namespace Housing.Selection.Context.Polling
             {
                 foreach (var user in users)
                 {
-                    await UpdateAddress(user.Address);
-                    await UpdateName(user.Name);
-                    userList.Add(await UpdateUser(user, batches, rooms));
+                    await UpdateAddressAsync(user.Address);
+                    await UpdateNameAsync(user.Name);
+                    userList.Add(await UpdateUserAsync(user, batches, rooms));
                 }
             }
             return userList;
@@ -76,7 +76,7 @@ namespace Housing.Selection.Context.Polling
         /// <returns>
         /// Returns a User that contains the updated properties
         /// </returns>
-        public async Task<User> UpdateUser(ApiUser apiUser, List<ApiBatch> batches, List<ApiRoom> rooms)
+        public async Task<User> UpdateUserAsync(ApiUser apiUser, List<ApiBatch> batches, List<ApiRoom> rooms)
         {
             var housingUser = await _userRepository.GetUserByUserId(apiUser.UserId);
             if (housingUser == null)
@@ -86,8 +86,8 @@ namespace Housing.Selection.Context.Polling
             else
             {
                 housingUser = housingUser.ConvertFromServiceModel(apiUser: apiUser);
-                housingUser.Batch = await GetBatchId(apiUser, batches);
-                housingUser.Room = await GetRoomId(apiUser, rooms);
+                housingUser.Batch = await GetBatchIdAsync(apiUser, batches);
+                housingUser.Room = await GetRoomIdAsync(apiUser, rooms);
                 housingUser.Address = housingUser.Room.Address;
             }
             await _userRepository.SaveChanges();
@@ -108,7 +108,7 @@ namespace Housing.Selection.Context.Polling
         /// <returns>
         /// Returns the Room that contains the apiUser
         /// </returns>
-        public async Task<Room> GetRoomId(ApiUser apiUser, IEnumerable<ApiRoom> rooms)
+        public async Task<Room> GetRoomIdAsync(ApiUser apiUser, IEnumerable<ApiRoom> rooms)
         {
             var roomId = (from x in rooms
                           where x.Address.AddressId == apiUser.Address.AddressId
@@ -129,7 +129,7 @@ namespace Housing.Selection.Context.Polling
         /// </param>
         /// Returns a Batch that contains apiUser
         /// </returns>
-        public async Task<Batch> GetBatchId(ApiUser apiUser, IEnumerable<ApiBatch> batches)
+        public async Task<Batch> GetBatchIdAsync(ApiUser apiUser, IEnumerable<ApiBatch> batches)
         {
             var batchId = (from x in batches
                            where x.UserIds.Any(y => y == apiUser.UserId)
@@ -137,7 +137,7 @@ namespace Housing.Selection.Context.Polling
 
             return await _batchRepository.GetBatchByBatchId(batchId);
         }
-        public async Task<Address> UpdateAddress(ApiAddress apiAddress)
+        public async Task<Address> UpdateAddressAsync(ApiAddress apiAddress)
         {
             var housingAddress = await _addressRepository.GetAddressByAddressId(apiAddress.AddressId);
             housingAddress = housingAddress.ConvertFromServiceModel(apiAddress);
@@ -145,7 +145,7 @@ namespace Housing.Selection.Context.Polling
             return housingAddress;
         }
 
-        public async Task<Name> UpdateName(ApiName apiName)
+        public async Task<Name> UpdateNameAsync(ApiName apiName)
         {
             var housingName = await _nameRepository.GetNameByNameId(apiName.NameId);
             housingName = housingName.ConvertFromServiceModel(apiName);

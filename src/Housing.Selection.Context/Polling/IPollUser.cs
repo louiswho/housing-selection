@@ -7,7 +7,7 @@ namespace Housing.Selection.Context.Polling
 {
     public interface IPollUser
     {
-        Task<List<User>> UserPoll();
-        Task<User> UpdateUser(ApiUser user, List<ApiBatch> batches, List<ApiRoom> rooms);
+        Task<List<User>> UserPollAsync();
+        Task<User> UpdateUserAsync(ApiUser user, List<ApiBatch> batches, List<ApiRoom> rooms);
     }
 }

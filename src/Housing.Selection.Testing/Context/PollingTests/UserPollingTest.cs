@@ -63,7 +63,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
             mockUserList.Add(user1);
             mockUserList.Add(user1);
             var expected = mockUserList;
-            var result = await pollUser.UserPoll();
+            var result = await pollUser.UserPollAsync();
 
             Assert.Equal(expected, result);
         }
@@ -74,7 +74,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
             mockUserList.Add(user1);
             mockUserList.Add(user2);            
             var expected = mockUserList;
-            var result = await pollUser.UserPoll();
+            var result = await pollUser.UserPollAsync();
 
             Assert.NotEqual(expected, result);
         }
@@ -82,7 +82,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
         public async void Test_User_Update()
         {
             var expected = user1;
-            var result = await pollUser.UpdateUser(apiUser1, mockApiBatchList, mockApiRoomList);
+            var result = await pollUser.UpdateUserAsync(apiUser1, mockApiBatchList, mockApiRoomList);
 
             Assert.Equal(expected, result);
         }
@@ -91,7 +91,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
         public async void Test_User_Update_Fail()
         {
             var expected = user2;
-            var result = await pollUser.UpdateUser(apiUser1, mockApiBatchList, mockApiRoomList);
+            var result = await pollUser.UpdateUserAsync(apiUser1, mockApiBatchList, mockApiRoomList);
 
             Assert.NotEqual(expected, result);
         }
@@ -100,7 +100,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
         public async void Test_GetBatchId()
         {            
             var expected = batch1;
-            var result = await pollUser.GetBatchId(apiUser1, mockApiBatchList);
+            var result = await pollUser.GetBatchIdAsync(apiUser1, mockApiBatchList);
 
             Assert.Equal(expected, result);
         }
@@ -120,7 +120,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
                 Location = "USF"
             };
             var expected = batch2;
-            var result = await pollUser.GetBatchId(apiUser1, mockApiBatchList);
+            var result = await pollUser.GetBatchIdAsync(apiUser1, mockApiBatchList);
 
             Assert.NotEqual(expected, result);
         }
@@ -129,7 +129,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
         public async void Test_GetRoomId()
         {
             var expected = room1;
-            var result = await pollUser.GetRoomId(apiUser1, mockApiRoomList);
+            var result = await pollUser.GetRoomIdAsync(apiUser1, mockApiRoomList);
 
             Assert.Equal(expected, result);
         }
@@ -157,7 +157,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
                 }
             };
             var expected = room2;
-            var result = await pollUser.GetRoomId(apiUser1, mockApiRoomList);
+            var result = await pollUser.GetRoomIdAsync(apiUser1, mockApiRoomList);
 
             Assert.NotEqual(expected, result);
         }

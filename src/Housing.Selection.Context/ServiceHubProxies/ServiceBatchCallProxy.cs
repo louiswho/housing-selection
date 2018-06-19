@@ -84,9 +84,9 @@ namespace Housing.Selection.Context.ServiceHubProxies
             return ids;
         }
      
-        public async Task<List<ApiBatch>> RetrieveAllBatchesAsync()
+        public Task<List<ApiBatch>> RetrieveAllBatchesAsync()
         {
-            return  await Task.Run<List<ApiBatch>>(() => _batches);
+            return Task.FromResult<List<ApiBatch>>(_batches);
         }
     }
 }
