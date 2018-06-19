@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Housing.Selection.Context.Selection;
-using Housing.Selection.Library.HousingModels;
 using Housing.Selection.Library.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -8,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Housing.Selection.Service.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/Selection")]
+    [Route("api/[controller]")]
     public class SelectionController : Controller
     {
         private readonly ISelectionService _selection;
@@ -22,6 +20,7 @@ namespace Housing.Selection.Service.Controllers
         }
 
         [HttpGet]
+        [Route("/batches")]
         public async Task<IActionResult> GetBatches()
         {
             var batches = await _selection.GetBatches();
@@ -31,6 +30,7 @@ namespace Housing.Selection.Service.Controllers
         }
 
         [HttpGet]
+        [Route("/rooms")]
         public async Task<IActionResult> GetRooms()
         {
             var rooms = await _selection.GetRooms();
@@ -40,6 +40,7 @@ namespace Housing.Selection.Service.Controllers
         }
 
         [HttpGet]
+        [Route("/users")]
         public async Task<IActionResult> GetUsers()
         {
             var users = await _selection.GetUsers();
@@ -49,6 +50,7 @@ namespace Housing.Selection.Service.Controllers
         }
 
         [HttpPut]
+        [Route("/rooms")]
         public async Task<IActionResult> CustomSearch(RoomSearchViewModel roomSearchViewModel)
         {
             if (!ModelState.IsValid) { return BadRequest(); };
@@ -60,6 +62,7 @@ namespace Housing.Selection.Service.Controllers
         }
 
         [HttpPut]
+        [Route("/users")]
         public async Task<IActionResult> CustomUserSearch(UserSearchViewModel userSearchViewModel)
         {
             if (!ModelState.IsValid) { return BadRequest(); };
@@ -71,6 +74,7 @@ namespace Housing.Selection.Service.Controllers
         }
 
         [HttpPut]
+        [Route("/room/add")]
         public async Task<IActionResult> AddUserToRoom(AddRemoveUserFromRoomModel addUserToRoomModel)
         {
             if (!ModelState.IsValid) { return BadRequest(); };
@@ -81,6 +85,7 @@ namespace Housing.Selection.Service.Controllers
         }
 
         [HttpPut]
+        [Route("/room/remove")]
         public async Task<IActionResult> RemoveUserFromRoom(AddRemoveUserFromRoomModel removeUserFromRoomModel)
         {
             if (!ModelState.IsValid) { return BadRequest(); };
