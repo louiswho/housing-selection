@@ -7,6 +7,10 @@ using Housing.Selection.Library.ServiceHubModels;
 
 namespace Housing.Selection.Context.Polling
 {
+    /// <summary>
+    /// Polls the Service Hub Batch database, and updates our(housing) Batch database
+    /// With the data returned to ensure that our DB is up to date with Service Hubs
+    /// </summary>
     public class PollBatch : IPollBatch
     {
         private readonly IBatchRepository _batchRepository;
@@ -21,14 +25,15 @@ namespace Housing.Selection.Context.Polling
         {
             var batchList = new List<Batch>();
             var batches = await _batchRetrieval.RetrieveAllBatchesAsync();
-            if (batches != null) //You can invert this if statement. IE. if(batches == null) return batchList; then the foreach loop
+            if (batches == null)
+                return batchList;
+
+            foreach (var batch in batches)
             {
-                foreach (var batch in batches)
-                {
-                    batchList.Add(UpdateBatch(batch));
-                }
+                batchList.Add(await UpdateBatch(batch));
             }
             return batchList;
+
         }
 
         /// <summary>
@@ -41,11 +46,11 @@ namespace Housing.Selection.Context.Polling
         /// <returns>
         /// Returns a Batch that contains the updated properties
         /// </returns>
-        public Batch UpdateBatch(ApiBatch apiBatch)
-        {            
-            var housingBatch = _batchRepository.GetBatchByBatchId(apiBatch.BatchId);
+        public async Task<Batch> UpdateBatch(ApiBatch apiBatch)
+        {
+            var housingBatch = await _batchRepository.GetBatchByBatchId(apiBatch.BatchId);
             housingBatch = housingBatch.ConvertFromServiceModel(apiBatch: apiBatch);
-            _batchRepository.SaveChanges();
+            await _batchRepository.SaveChanges();
             return housingBatch;
         }
     }
