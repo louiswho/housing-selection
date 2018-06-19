@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Housing.Selection.Library.ServiceHubModels;
 using System.Globalization;
-using System.Text.RegularExpressions;
 
-namespace Housing.Selection.Library
+namespace Housing.Selection.Library.HousingModels
 {
     public class Address
     {
@@ -31,6 +31,33 @@ namespace Housing.Selection.Library
 
         public ICollection<User> Users { get; set; }
         public ICollection<Room> Rooms { get; set; }
+
+        /// <summary>
+        /// Use this method to convert from a 
+        /// service hub Address, to a housing Address
+        /// leaves nav properties the same
+        /// </summary>
+        /// <param name="apiAddress">An ApiAddress object is passed into this method.
+        /// Updates the housing Address properties to match the ones grabbed from the
+        /// api call.
+        /// All other fields are ignored.
+        /// </param>
+        /// <returns>
+        /// Address that has been updated with the ApiAddresss properties
+        /// </returns>
+        public Address ConvertFromServiceModel(ApiAddress apiAddress)
+        {
+            var housingAddress = this;
+            housingAddress.AddressId = apiAddress.AddressId;
+            housingAddress.Address1 = apiAddress.Address1;
+            housingAddress.Address2 = apiAddress.Address2;
+            housingAddress.City = apiAddress.City;
+            housingAddress.State = apiAddress.State;
+            housingAddress.PostalCode = apiAddress.PostalCode;
+            housingAddress.Country = apiAddress.Country;
+
+            return housingAddress;
+        }
 
         /// <summary>
         /// Check whether the address is valid.
