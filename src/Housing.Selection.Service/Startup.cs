@@ -1,4 +1,5 @@
-﻿using Housing.Selection.Context.DataAccess;
+﻿using AutoMapper;
+using Housing.Selection.Context.DataAccess;
 using Housing.Selection.Context.HttpRequests;
 using Housing.Selection.Context.Polling;
 using Housing.Selection.Context.Selection;
@@ -8,7 +9,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace Housing.Selection.Service
 {
@@ -21,6 +21,7 @@ namespace Housing.Selection.Service
 
         public IConfiguration Configuration { get; }
 
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<HousingSelectionDbContext>(options =>
@@ -28,7 +29,9 @@ namespace Housing.Selection.Service
 
 
             services.AddMvc();
-            
+
+            services.AddAutoMapper();
+
 
             services.AddTransient<IDbContext, HousingSelectionDbContext>();
 
@@ -56,10 +59,8 @@ namespace Housing.Selection.Service
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            loggerFactory.AddApplicationInsights(app.ApplicationServices);
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

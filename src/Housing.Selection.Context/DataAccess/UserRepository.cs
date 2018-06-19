@@ -22,17 +22,31 @@ namespace Housing.Selection.Context.DataAccess
 
         public async Task<User> GetUserById(Guid id)
         {
-            return await _housingSelectionDbContext.Users.FirstAsync(x => x.Id == id);
+            return await _housingSelectionDbContext.Users
+                .Include(x => x.Batch)
+                .Include(y => y.Room)
+                .Include(z => z.Name)
+                .Include(k => k.Address)
+                .FirstAsync(x => x.Id == id);
         }
 
         public async Task<User> GetUserByUserId(Guid userId)
         {
-            return await _housingSelectionDbContext.Users.FirstAsync(x => x.UserId == userId);
+            return await _housingSelectionDbContext.Users
+                .Include(x => x.Batch)
+                .Include(y => y.Room)
+                .Include(z => z.Name)
+                .Include(k => k.Address)
+                .FirstAsync(x => x.UserId == userId);
         }
 
         public IEnumerable<User> GetUsers()
         {
-            return _housingSelectionDbContext.Users;
+            return _housingSelectionDbContext.Users
+                .Include(x => x.Batch)
+                .Include(y => y.Room)
+                .Include(z => z.Name)
+                .Include(k => k.Address);
         }
 
         public async Task SaveChangesAsync()

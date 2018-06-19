@@ -22,17 +22,22 @@ namespace Housing.Selection.Context.DataAccess
 
         public IEnumerable<Batch> GetBatches()
         {
-            return _housingSelectionDbContext.Batches;
+            return _housingSelectionDbContext.Batches
+                .Include(x => x.Users);
         }
 
         public async Task<Batch> GetBatchById(Guid id)
         {
-            return await _housingSelectionDbContext.Batches.FirstAsync(x => x.Id == id);
+            return await _housingSelectionDbContext.Batches
+                .Include(x => x.Users)
+                .FirstAsync(x => x.Id == id);
         }
 
         public async Task<Batch> GetBatchByBatchId(Guid batchId)
         {
-            return await _housingSelectionDbContext.Batches.FirstAsync(x => x.BatchId == batchId);
+            return await _housingSelectionDbContext.Batches
+                .Include(x => x.Users)
+                .FirstAsync(x => x.BatchId == batchId);
         }
 
         public async Task SaveChangesAsync()
