@@ -26,7 +26,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
             PollingSetupBatch();
             
             mockBatchRepo = new Mock<IBatchRepository>();
-            mockBatchRepo.Setup(x => x.GetBatchByBatchId(It.IsAny<Guid>())).Returns(batch1);
+            mockBatchRepo.Setup(x => x.GetBatchByBatchId(It.IsAny<Guid>())).Returns(Task.FromResult<Batch>(batch1));
             var mockBatchRetrieval = new Mock<IServiceBatchCalls>();
             mockBatchRetrieval.Setup(x => x.RetrieveAllBatchesAsync()).Returns(mockApiBatchList);
 
@@ -36,9 +36,10 @@ namespace Housing.Selection.Testing.Context.PollingTests
         [Fact]
         public async void Test_Batch_Poll()
         {
-            mockBatchList.Add(batch1);
-            mockBatchList.Add(batch1);
-            var expected = mockBatchList;
+            var mockTaskBatchList = new List<Batch>();
+            mockTaskBatchList.Add(batch1);
+            mockTaskBatchList.Add(batch1);
+            var expected = mockTaskBatchList;
             var result = await pollBatch.BatchPoll();
 
             Assert.Equal(expected, result);
@@ -57,19 +58,19 @@ namespace Housing.Selection.Testing.Context.PollingTests
         }
 
         [Fact]
-        public void Test_Batch_Update()
+        public async void Test_Batch_Update()
         {
             var expected = batch1;
-            var result = pollBatch.UpdateBatch(apiBatch1);
+            var result = await pollBatch.UpdateBatch(apiBatch1);
 
             Assert.Equal(expected, result);
         }
 
         [Fact]
-        public void Test_Batch_Update_Fail()
+        public async void Test_Batch_Update_Fail()
         {
             var expected = batch2;
-            var result = pollBatch.UpdateBatch(apiBatch1);
+            var result = await pollBatch.UpdateBatch(apiBatch1);
 
             Assert.NotEqual(expected, result);
         }

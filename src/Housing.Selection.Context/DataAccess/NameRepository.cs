@@ -1,11 +1,12 @@
 ﻿using Housing.Selection.Library.HousingModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace Housing.Selection.Context.DataAccess
 {
-   public class NameRepository : INameRepository
+    public class NameRepository : INameRepository
     {
         private readonly IDbContext _housingSelectionDbContext;
 
@@ -24,22 +25,19 @@ namespace Housing.Selection.Context.DataAccess
             return _housingSelectionDbContext.Names;
         }
 
-        public Name GetNameById(Guid id)
+        public async Task<Name> GetNameById(Guid id)
         {
-            return _housingSelectionDbContext.Names.First(x => x.Id == id);
+            return await _housingSelectionDbContext.Names.FirstAsync(x => x.Id == id);
         }
 
-        public Name GetNameByNameId(Guid nameId)
+        public async Task<Name> GetNameByNameId(Guid nameId)
         {
-            return _housingSelectionDbContext.Names.First(x => x.NameId == nameId);
+            return await _housingSelectionDbContext.Names.FirstAsync(x => x.NameId == nameId);
         }
 
-
-        public void SaveChanges()
+        public async Task  SaveChanges()
         {
-            _housingSelectionDbContext.saveChanges();
+            await _housingSelectionDbContext.SaveChangesAsync();
         }
-
-
     }
 }

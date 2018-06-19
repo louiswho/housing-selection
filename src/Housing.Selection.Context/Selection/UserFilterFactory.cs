@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Housing.Selection.Context.Selection
+﻿namespace Housing.Selection.Context.Selection
 {
     class UserFilterFactory
     {

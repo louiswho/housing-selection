@@ -8,7 +8,6 @@ namespace Housing.Selection.Context.Polling
     public interface IPollUser
     {
         Task<List<User>> UserPoll();
-        User UpdateUser(ApiUser user, List<ApiBatch> batches, List<ApiRoom> rooms);
-
+        Task<User> UpdateUser(ApiUser user, List<ApiBatch> batches, List<ApiRoom> rooms);
     }
 }

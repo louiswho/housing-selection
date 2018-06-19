@@ -8,9 +8,7 @@ using Housing.Selection.Library.ServiceHubModels;
 using Housing.Selection.Library.ViewModels;
 
 namespace Housing.Selection.Context.Selection
-{
-
-
+{ 
     public class SelectionService : ISelectionService
     {
         private readonly IUserRepository _userRepository;
@@ -31,15 +29,15 @@ namespace Housing.Selection.Context.Selection
         }
         public async void AddUserToRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel)
         {
-            var newUser = _userRepository.GetUserByUserId(addRemoveUserFromRoomModel.UserId);
-            var addRoom = _roomRepository.GetRoomByRoomId(addRemoveUserFromRoomModel.RoomId);
+            var newUser = await _userRepository.GetUserByUserId(addRemoveUserFromRoomModel.UserId);
+            var addRoom = await _roomRepository.GetRoomByRoomId(addRemoveUserFromRoomModel.RoomId);
 
             newUser.Room = addRoom;
             newUser.Address = addRoom.Address;
             addRoom.Vacancy--;
 
-            _userRepository.SaveChanges();
-            _roomRepository.SaveChanges();
+            await _userRepository.SaveChanges();
+            await _roomRepository.SaveChanges();
 
             var apiUser = _mapper.Map<ApiUser>(newUser);
             var apiRoom = _mapper.Map<ApiRoom>(addRoom);
@@ -87,15 +85,15 @@ namespace Housing.Selection.Context.Selection
 
         public async void RemoveUserFromRoom(AddRemoveUserFromRoomModel addRemoveUserFromRoomModel)
         {
-            var removeUser = _userRepository.GetUserByUserId(addRemoveUserFromRoomModel.UserId);
-            var emptiedRoom = _roomRepository.GetRoomByRoomId(addRemoveUserFromRoomModel.RoomId);
+            var removeUser = await _userRepository.GetUserByUserId(addRemoveUserFromRoomModel.UserId);
+            var emptiedRoom = await _roomRepository.GetRoomByRoomId(addRemoveUserFromRoomModel.RoomId);
 
             removeUser.Room = null;
             removeUser.Address = null;
             emptiedRoom.Vacancy++;
 
-            _userRepository.SaveChanges();
-            _roomRepository.SaveChanges();
+            await _userRepository.SaveChanges();
+            await _roomRepository.SaveChanges();
 
             var apiUser = _mapper.Map<ApiUser>(removeUser);
             var apiRoom = _mapper.Map<ApiRoom>(emptiedRoom);

@@ -1,109 +1,155 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 using Housing.Selection.Context.DataAccess;
 using Housing.Selection.Context.HttpRequests;
 using Housing.Selection.Library.HousingModels;
 using Housing.Selection.Library.ServiceHubModels;
-using System;
 
 namespace Housing.Selection.Context.Polling
 {
+    /// <summary> 
+    /// Polls the Service Hub User database, and updates our(housing) User database 
+    /// With the data returned to ensure that our DB is up to date with Service Hubs 
+    /// Sets the nav properties for batch and room under the assumption that Batch and
+    /// Room poll were run before UserPoll is run to ensure that our data exactly matches
+    /// </summary> 
     public class PollUser : IPollUser
     {
-        private IUserRepository userRepository;
-        private IServiceUserCalls userRetrieval;
-
-        private readonly IBatchRepository batchRepository;
-        private readonly IServiceBatchCalls batchRetrieval;
-
-        private readonly IRoomRepository roomRepository;
-        private readonly IServiceRoomCalls roomRetrieval;
-
-        private IAddressRepository addressRepository;
-        private INameRepository nameRepository;
+        private readonly IUserRepository _userRepository;
+        private readonly IServiceUserCalls _userRetrieval;
+        private readonly IBatchRepository _batchRepository;
+        private readonly IServiceBatchCalls _batchRetrieval;
+        private readonly IRoomRepository _roomRepository;
+        private readonly IServiceRoomCalls _roomRetrieval;
+        private readonly IAddressRepository _addressRepository;
+        private readonly INameRepository _nameRepository;
 
         public PollUser(IUserRepository userRepository, IServiceUserCalls userRetrieval, IAddressRepository addressRepository, INameRepository nameRepository, IBatchRepository batchRepository, IServiceBatchCalls batchRetrieval, IRoomRepository roomRepository, IServiceRoomCalls roomRetrieval)
         {
-            this.userRepository = userRepository;
-            this.userRetrieval = userRetrieval;
-            this.addressRepository = addressRepository;
-            this.nameRepository = nameRepository;
-            this.batchRepository = batchRepository;
-            this.batchRetrieval = batchRetrieval;
-            this.roomRepository = roomRepository;
-            this.roomRetrieval = roomRetrieval;
+            _userRepository = userRepository;
+            _userRetrieval = userRetrieval;
+            _addressRepository = addressRepository;
+            _nameRepository = nameRepository;
+            _batchRepository = batchRepository;
+            _batchRetrieval = batchRetrieval;
+            _roomRepository = roomRepository;
+            _roomRetrieval = roomRetrieval;
         }
+
+        /// <summary>
+        /// Updates the users in the housing user database based on the data retrieved from the service hub database
+        /// </summary>
+        /// <returns>
+        /// Returns a Task<List<User>> that contains the updated user list
+        /// </returns>
         public async Task<List<User>> UserPoll()
         {
             var userList = new List<User>();
-            var users = await userRetrieval.RetrieveAllUsersAsync();
-            var batches = await batchRetrieval.RetrieveAllBatchesAsync();
-            var rooms = await roomRetrieval.RetrieveAllRoomsAsync();
-            if (users != null)
+            var users = await _userRetrieval.RetrieveAllUsersAsync();
+            var batches = await _batchRetrieval.RetrieveAllBatchesAsync();
+            var rooms = await _roomRetrieval.RetrieveAllRoomsAsync();
+            if (users != null || batches != null || rooms != null)
             {
                 foreach (var user in users)
                 {
-                    UpdateAddress(user.Address);
-                    UpdateName(user.Name);
-                    userList.Add(UpdateUser(user, batches, rooms));
+                    await UpdateAddress(user.Address);
+                    await UpdateName(user.Name);
+                    userList.Add(await UpdateUser(user, batches, rooms));
                 }
             }
             return userList;
         }
 
-        public User UpdateUser(ApiUser user, List<ApiBatch> batches, List<ApiRoom> rooms)
+        /// <summary>
+        /// Updates a single user in the housing user database based on the user data retrieved from the service hub database
+        /// </summary>
+        /// <param name="apiUser">
+        /// The ApiUser object retrieved from the userRetireval
+        /// Contains the properties to update housing's matching user with
+        /// </param>        
+        /// <param name="rooms">
+        /// A list of batches, the apiUser.UserId should map to one of the rooms.Users.UserId
+        /// But the room has to be retrieved from our database first because ApiRoom doesnt have nav properties
+        /// Used to determine which room the user belongs to
+        /// </param>
+        /// <returns>
+        /// Returns a User that contains the updated properties
+        /// </returns>
+        public async Task<User> UpdateUser(ApiUser apiUser, List<ApiBatch> batches, List<ApiRoom> rooms)
         {
-            var housingUser = userRepository.GetUserByUserId(user.UserId);
+            var housingUser = await _userRepository.GetUserByUserId(apiUser.UserId);
             if (housingUser == null)
             {
-                housingUser = housingUser.NewUserFromServiceModel(user);
+                housingUser = housingUser.NewUserFromServiceModel(apiUser);
             }
             else
             {
-                housingUser = housingUser.ConvertFromServiceModel(apiUser: user);
-                housingUser.Batch = GetBatchId(user, batches);
-                housingUser.Room = GetRoomId(user, rooms);
+                housingUser = housingUser.ConvertFromServiceModel(apiUser: apiUser);
+                housingUser.Batch = await GetBatchId(apiUser, batches);
+                housingUser.Room = await GetRoomId(apiUser, rooms);
                 housingUser.Address = housingUser.Room.Address;
             }
-            userRepository.SaveChanges();
+            await _userRepository.SaveChanges();
             return housingUser;
         }
 
-        public Room GetRoomId(ApiUser user, List<ApiRoom> rooms)
+        /// <summary>
+        /// Gets the RoomId from the roomRepository
+        /// </summary>
+        /// <param name="apiUser">
+        /// The ApiUser object retrieved from the userRetireval
+        /// Contains the properties to update housing's matching user with
+        /// </param>        
+        /// <param name="rooms">
+        /// A list of batches, the apiUser.UserId should map to one of the rooms.Users.UserId
+        /// But the room has to be retrieved from our database first because ApiRoom doesnt have nav properties
+        /// Used to determine which room the user belongs to
+        /// <returns>
+        /// Returns the Room that contains the apiUser
+        /// </returns>
+        public async Task<Room> GetRoomId(ApiUser apiUser, IEnumerable<ApiRoom> rooms)
         {
             var roomId = (from x in rooms
-                          where x.Address.AddressId == user.Address.AddressId
+                          where x.Address.AddressId == apiUser.Address.AddressId
                           select x.RoomId).FirstOrDefault();
-            if(roomId != null)
-                return roomRepository.GetRoomByRoomId(roomId);
-            else
-                return null;
+            return await _roomRepository.GetRoomByRoomId(roomId);
         }
 
-        public Batch GetBatchId(ApiUser user, List<ApiBatch> batches)
+        /// <summary>
+        /// Gets the RoomId from the roomRepository
+        /// </summary>
+        /// <param name="apiUser">
+        /// The ApiUser object retrieved from the userRetireval
+        /// Contains the properties to update housing's matching user with
+        /// </param>        
+        /// <param name="batches">
+        /// A list of batches, the apiUser.UserId should map to one of the batches.UserIds
+        /// Used to determine which batch the user belongs to
+        /// </param>
+        /// Returns a Batch that contains apiUser
+        /// </returns>
+        public async Task<Batch> GetBatchId(ApiUser apiUser, IEnumerable<ApiBatch> batches)
         {
             var batchId = (from x in batches
-                           where x.UserIds.Any(y => y == user.UserId)
+                           where x.UserIds.Any(y => y == apiUser.UserId)
                            select x).FirstOrDefault().BatchId;
-            if (batchId != null)
-                return batchRepository.GetBatchByBatchId(batchId);
-            else
-                return null;
+
+            return await _batchRepository.GetBatchByBatchId(batchId);
         }
-        public Address UpdateAddress(ApiAddress apiAddress)
+        public async Task<Address> UpdateAddress(ApiAddress apiAddress)
         {
-            var housingAddress = addressRepository.GetAddressByAddressId(apiAddress.AddressId);
+            var housingAddress = await _addressRepository.GetAddressByAddressId(apiAddress.AddressId);
             housingAddress = housingAddress.ConvertFromServiceModel(apiAddress);
-            addressRepository.SaveChanges();
+            await _addressRepository.SaveChanges();
             return housingAddress;
         }
 
-        public Name UpdateName(ApiName apiName)
+        public async Task<Name> UpdateName(ApiName apiName)
         {
-            var housingName = nameRepository.GetNameByNameId(apiName.NameId);
+            var housingName = await _nameRepository.GetNameByNameId(apiName.NameId);
             housingName = housingName.ConvertFromServiceModel(apiName);
-            nameRepository.SaveChanges();
+            await _nameRepository.SaveChanges();
             return housingName;
         }
 

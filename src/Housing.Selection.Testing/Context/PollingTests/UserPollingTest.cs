@@ -36,21 +36,21 @@ namespace Housing.Selection.Testing.Context.PollingTests
             PollingSetupBatch();
 
             var mockUserRepo = new Mock<IUserRepository>();
-            mockUserRepo.Setup(x => x.GetUserByUserId(It.IsAny<Guid>())).Returns(user1);
+            mockUserRepo.Setup(x => x.GetUserByUserId(It.IsAny<Guid>())).Returns(Task.FromResult<User>(user1));
             var mockUserRetrieval = new Mock<IServiceUserCalls>();
             mockUserRetrieval.Setup(x => x.RetrieveAllUsersAsync()).Returns(mockTaskApiUserList);
             var mockRoomRepo = new Mock<IRoomRepository>();
-            mockRoomRepo.Setup(x => x.GetRoomByRoomId(It.IsAny<Guid>())).Returns(room1);
+            mockRoomRepo.Setup(x => x.GetRoomByRoomId(It.IsAny<Guid>())).Returns(Task.FromResult<Room>(room1));
             var mockRoomRetrieval = new Mock<IServiceRoomCalls>();
             mockRoomRetrieval.Setup(x => x.RetrieveAllRoomsAsync()).Returns(mockTaskApiRoomList);
             var mockBatchRepo = new Mock<IBatchRepository>();
-            mockBatchRepo.Setup(x => x.GetBatchByBatchId(It.IsAny<Guid>())).Returns(batch1);
+            mockBatchRepo.Setup(x => x.GetBatchByBatchId(It.IsAny<Guid>())).Returns(Task.FromResult<Batch>(batch1));
             var mockBatchRetrieval = new Mock<IServiceBatchCalls>();
             mockBatchRetrieval.Setup(x => x.RetrieveAllBatchesAsync()).Returns(mockTaskApiBatchList);
             var mockAddressRepo = new Mock<IAddressRepository>();
-            mockAddressRepo.Setup(x => x.GetAddressByAddressId(It.IsAny<Guid>())).Returns(room1.Address);
+            mockAddressRepo.Setup(x => x.GetAddressByAddressId(It.IsAny<Guid>())).Returns(Task.FromResult<Address>(room1.Address));
             var mockNameRepo = new Mock<INameRepository>();
-            mockNameRepo.Setup(x => x.GetNameByNameId(It.IsAny<Guid>())).Returns(user1.Name);            
+            mockNameRepo.Setup(x => x.GetNameByNameId(It.IsAny<Guid>())).Returns(Task.FromResult<Name>(user1.Name));            
 
             pollUser = new PollUser(mockUserRepo.Object, mockUserRetrieval.Object, mockAddressRepo.Object,
                                     mockNameRepo.Object, mockBatchRepo.Object, mockBatchRetrieval.Object, 
@@ -79,34 +79,34 @@ namespace Housing.Selection.Testing.Context.PollingTests
             Assert.NotEqual(expected, result);
         }
         [Fact]
-        public void Test_User_Update()
+        public async void Test_User_Update()
         {
             var expected = user1;
-            var result = pollUser.UpdateUser(apiUser1, mockApiBatchList, mockApiRoomList);
+            var result = await pollUser.UpdateUser(apiUser1, mockApiBatchList, mockApiRoomList);
 
             Assert.Equal(expected, result);
         }
 
         [Fact]
-        public void Test_User_Update_Fail()
+        public async void Test_User_Update_Fail()
         {
             var expected = user2;
-            var result = pollUser.UpdateUser(apiUser1, mockApiBatchList, mockApiRoomList);
+            var result = await pollUser.UpdateUser(apiUser1, mockApiBatchList, mockApiRoomList);
 
             Assert.NotEqual(expected, result);
         }
 
         [Fact]
-        public void Test_GetBatchId()
+        public async void Test_GetBatchId()
         {            
             var expected = batch1;
-            var result = pollUser.GetBatchId(apiUser1, mockApiBatchList);
+            var result = await pollUser.GetBatchId(apiUser1, mockApiBatchList);
 
             Assert.Equal(expected, result);
         }
 
         [Fact]
-        public void Test_GetBatchId_Fail()
+        public async void Test_GetBatchId_Fail()
         {
             Batch batch2 = new Batch()
             {
@@ -120,22 +120,22 @@ namespace Housing.Selection.Testing.Context.PollingTests
                 Location = "USF"
             };
             var expected = batch2;
-            var result = pollUser.GetBatchId(apiUser1, mockApiBatchList);
+            var result = await pollUser.GetBatchId(apiUser1, mockApiBatchList);
 
             Assert.NotEqual(expected, result);
         }
 
         [Fact]
-        public void Test_GetRoomId()
+        public async void Test_GetRoomId()
         {
             var expected = room1;
-            var result = pollUser.GetRoomId(apiUser1, mockApiRoomList);
+            var result = await pollUser.GetRoomId(apiUser1, mockApiRoomList);
 
             Assert.Equal(expected, result);
         }
 
         [Fact]
-        public void Test_GetRoomId_Fail()
+        public async void Test_GetRoomId_Fail()
         {
             Room room2 = new Room()
             {
@@ -157,7 +157,7 @@ namespace Housing.Selection.Testing.Context.PollingTests
                 }
             };
             var expected = room2;
-            var result = pollUser.GetRoomId(apiUser1, mockApiRoomList);
+            var result = await pollUser.GetRoomId(apiUser1, mockApiRoomList);
 
             Assert.NotEqual(expected, result);
         }
