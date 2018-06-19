@@ -86,7 +86,7 @@ namespace Housing.Selection.Testing.Context.DataAccess
 
             var userRepository = new UserRepository(mockHousingContext.Object);
 
-            await userRepository.SaveChanges();
+            await userRepository.SaveChangesAsync();
 
             mockHousingContext.Verify(m => m.SaveChanges(), Times.Once());
         }

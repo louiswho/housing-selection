@@ -72,7 +72,7 @@ namespace Housing.Selection.Context.Selection
 
         public List<Batch> GetBatches()
         {
-            return _batchRepository.GetBatches().ToList();
+             return _batchRepository.GetBatches().ToList();
         }
 
         public List<Room> GetRooms()
