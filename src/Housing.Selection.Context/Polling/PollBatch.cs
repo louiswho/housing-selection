@@ -49,6 +49,16 @@ namespace Housing.Selection.Context.Polling
         public async Task<Batch> UpdateBatchAsync(ApiBatch apiBatch)
         {
             var housingBatch = await _batchRepository.GetBatchByBatchId(apiBatch.BatchId);
+
+            //IDK if this is needed
+            if (housingBatch == null)
+            {
+                var batch = new Batch();
+                _batchRepository.AddBatch(batch.ConvertFromServiceModel(apiBatch));
+                return batch;
+            }
+            //IDK
+
             housingBatch = housingBatch.ConvertFromServiceModel(apiBatch: apiBatch);
             await _batchRepository.SaveChangesAsync();
             return housingBatch;

@@ -18,6 +18,7 @@ namespace Housing.Selection.Context.DataAccess
         public void AddName(Name name)
         {
             _housingSelectionDbContext.Names.Add(name);
+            _housingSelectionDbContext.SaveChanges();
         }
 
         public IEnumerable<Name> GetNames()

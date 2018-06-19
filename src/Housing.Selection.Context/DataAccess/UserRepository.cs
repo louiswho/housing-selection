@@ -18,6 +18,7 @@ namespace Housing.Selection.Context.DataAccess
         public void AddUser(User user)
         {
             _housingSelectionDbContext.Users.Add(user);
+            _housingSelectionDbContext.SaveChanges();
         }
 
         public async Task<User> GetUserById(Guid id)

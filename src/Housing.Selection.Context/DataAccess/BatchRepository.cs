@@ -18,6 +18,7 @@ namespace Housing.Selection.Context.DataAccess
         public void AddBatch(Batch batch)
         {
             _housingSelectionDbContext.Batches.Add(batch);
+            _housingSelectionDbContext.SaveChanges();
         }
 
         public IEnumerable<Batch> GetBatches()

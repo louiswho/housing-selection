@@ -18,6 +18,7 @@ namespace Housing.Selection.Context.DataAccess
         public void AddRoom(Room room)
         {
             _housingSelectionDbContext.Rooms.Add(room);
+            _housingSelectionDbContext.SaveChanges();
         }
 
         public async Task<Room> GetRoomById(Guid id)

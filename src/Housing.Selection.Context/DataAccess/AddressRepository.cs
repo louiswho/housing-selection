@@ -18,6 +18,7 @@ namespace Housing.Selection.Context.DataAccess
         public void AddAddress(Address address)
         {
             _housingSelectionDbContext.Addresses.Add(address);
+            _housingSelectionDbContext.SaveChanges();
         }
 
         public IEnumerable<Address> GetAddresses()
