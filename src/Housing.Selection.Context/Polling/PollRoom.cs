@@ -28,7 +28,7 @@ namespace Housing.Selection.Context.Polling
         /// <returns>
         /// Returns a Task<List<Room>> that contains the updated Room list
         /// </returns>
-        public async Task<List<Room>> RoomPoll()
+        public async Task<List<Room>> RoomPollAsync()
         {
             var roomList = new List<Room>();
             var rooms = await _roomRetrieval.RetrieveAllRoomsAsync();
@@ -36,7 +36,7 @@ namespace Housing.Selection.Context.Polling
             {
                 foreach (var room in rooms)
                 {
-                    roomList.Add(await UpdateRoom(room));
+                    roomList.Add(await UpdateRoomAsync(room));
                 }
             }
             return roomList;
@@ -52,7 +52,7 @@ namespace Housing.Selection.Context.Polling
         /// <returns>
         /// Returns a Room that contains the updated properties
         /// </returns>
-        public async Task<Room> UpdateRoom(ApiRoom apiRoom)
+        public async Task<Room> UpdateRoomAsync(ApiRoom apiRoom)
         {
             var housingRoom = await _roomRepository.GetRoomByRoomId(apiRoom.RoomId);
             housingRoom = housingRoom.ConvertFromServiceModel(apiRoom: apiRoom);

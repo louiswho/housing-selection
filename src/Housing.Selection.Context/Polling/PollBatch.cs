@@ -21,7 +21,7 @@ namespace Housing.Selection.Context.Polling
             _batchRepository = batchRepository;
             _batchRetrieval = batchRetrieval;
         }
-        public async Task<List<Batch>> BatchPoll()
+        public async Task<List<Batch>> BatchPollAsync()
         {
             var batchList = new List<Batch>();
             var batches = await _batchRetrieval.RetrieveAllBatchesAsync();
@@ -30,7 +30,7 @@ namespace Housing.Selection.Context.Polling
 
             foreach (var batch in batches)
             {
-                batchList.Add(await UpdateBatch(batch));
+                batchList.Add(await UpdateBatchAsync(batch));
             }
             return batchList;
 
@@ -46,7 +46,7 @@ namespace Housing.Selection.Context.Polling
         /// <returns>
         /// Returns a Batch that contains the updated properties
         /// </returns>
-        public async Task<Batch> UpdateBatch(ApiBatch apiBatch)
+        public async Task<Batch> UpdateBatchAsync(ApiBatch apiBatch)
         {
             var housingBatch = await _batchRepository.GetBatchByBatchId(apiBatch.BatchId);
             housingBatch = housingBatch.ConvertFromServiceModel(apiBatch: apiBatch);

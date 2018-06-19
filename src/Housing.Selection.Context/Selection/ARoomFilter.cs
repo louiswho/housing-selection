@@ -11,7 +11,7 @@ namespace Housing.Selection.Context.Selection
     public abstract class ARoomFilter
     {
         protected ARoomFilter Successor;
-        
+
         public void SetSuccessor(ARoomFilter successor)
         {
             Successor = successor;
@@ -24,7 +24,7 @@ namespace Housing.Selection.Context.Selection
     {
         public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
-            if(roomSearchViewModel.Location != null)
+            if (roomSearchViewModel.Location != null)
             {
                 var result = filterRooms.Where(x => x.Location == roomSearchViewModel.Location);
                 filterRooms = result.ToList();
@@ -37,12 +37,12 @@ namespace Housing.Selection.Context.Selection
     {
         public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
-            if(roomSearchViewModel.Batch != null && roomSearchViewModel.BatchMinimumPercentage != 0)
+            if (roomSearchViewModel.Batch != null && roomSearchViewModel.BatchMinimumPercentage != 0)
             {
                 var result = from x in filterRooms
-                              where x.BatchPercentage(roomSearchViewModel.Batch) 
-                              >= roomSearchViewModel.BatchMinimumPercentage
-                              select x;
+                             where x.BatchPercentage(roomSearchViewModel.Batch)
+                             >= roomSearchViewModel.BatchMinimumPercentage
+                             select x;
                 filterRooms = result.ToList();
             }
             Successor?.FilterRequest(ref filterRooms, roomSearchViewModel);
@@ -53,7 +53,7 @@ namespace Housing.Selection.Context.Selection
     {
         public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
-            if(roomSearchViewModel.Gender != null)
+            if (roomSearchViewModel.Gender != null)
             {
                 var result = filterRooms.Where(x => x.Gender.Equals(roomSearchViewModel.Gender));
                 filterRooms = result.ToList();
@@ -66,7 +66,7 @@ namespace Housing.Selection.Context.Selection
     {
         public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
-            if(roomSearchViewModel.IsCompletelyUnassigned)
+            if (roomSearchViewModel.IsCompletelyUnassigned == true)
             {
                 var result = filterRooms.Where(x => x.Vacancy == x.Occupancy);
                 filterRooms = result.ToList();
@@ -79,7 +79,7 @@ namespace Housing.Selection.Context.Selection
     {
         public override void FilterRequest(ref List<Room> filterRooms, RoomSearchViewModel roomSearchViewModel)
         {
-            if (roomSearchViewModel.HasBedAvailable)
+            if (roomSearchViewModel.HasBedAvailable == true)
             {
                 var result = filterRooms.Where(x => x.Vacancy > 0);
                 filterRooms = result.ToList();
