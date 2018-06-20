@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -23,12 +23,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Housing.Selection.Context\Housing.Selection.Context.csproj" />
     <ProjectReference Include="..\Housing.Selection.Library\Housing.Selection.Library.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="AutoMapper">
-      <HintPath>..\..\..\..\..\.nuget\packages\automapper\7.0.0\lib\netstandard2.0\AutoMapper.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
