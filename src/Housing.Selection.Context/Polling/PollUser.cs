@@ -81,7 +81,10 @@ namespace Housing.Selection.Context.Polling
             var housingUser = await _userRepository.GetUserByUserId(apiUser.UserId);
             if (housingUser == null)
             {
-                housingUser = housingUser.NewUserFromServiceModel(apiUser);
+                var user = new User{Address = new Address(), Name = new Name()};
+                user = user.NewUserFromServiceModel(apiUser);
+                //_userRepository.AddUser(user);
+                return user;
             }
             else
             {
@@ -140,6 +143,14 @@ namespace Housing.Selection.Context.Polling
         public async Task<Address> UpdateAddressAsync(ApiAddress apiAddress)
         {
             var housingAddress = await _addressRepository.GetAddressByAddressId(apiAddress.AddressId);
+
+            if (housingAddress == null)
+            {
+                var address = new Address();
+                _addressRepository.AddAddress(address.ConvertFromServiceModel(apiAddress));
+                return address;
+            }
+
             housingAddress = housingAddress.ConvertFromServiceModel(apiAddress);
             await _addressRepository.SaveChangesAsync();
             return housingAddress;
@@ -148,6 +159,14 @@ namespace Housing.Selection.Context.Polling
         public async Task<Name> UpdateNameAsync(ApiName apiName)
         {
             var housingName = await _nameRepository.GetNameByNameId(apiName.NameId);
+
+            if (housingName == null)
+            {
+                var name = new Name();
+                _nameRepository.AddName(name.ConvertFromServiceModel(apiName));
+                return name;
+            }
+
             housingName = housingName.ConvertFromServiceModel(apiName);
             await _nameRepository.SaveChangesAsync();
             return housingName;
