@@ -26,7 +26,7 @@ namespace Housing.Selection.Context.DataAccess
             return await _housingSelectionDbContext.Rooms
                 .Include(x => x.Address)
                 .Include(y => y.Users)
-                .FirstAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Room> GetRoomByRoomId(Guid roomId)
@@ -34,7 +34,7 @@ namespace Housing.Selection.Context.DataAccess
             return await _housingSelectionDbContext.Rooms
                 .Include(x => x.Address)
                 .Include(y => y.Users)
-                .FirstAsync(x => x.RoomId == roomId);
+                .FirstOrDefaultAsync(x => x.RoomId == roomId);
         }
 
         public IEnumerable<Room> GetRooms()

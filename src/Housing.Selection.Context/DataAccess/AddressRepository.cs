@@ -31,9 +31,9 @@ namespace Housing.Selection.Context.DataAccess
         public async Task<Address> GetAddressById(Guid id)
         {
             return await _housingSelectionDbContext.Addresses
-                    .Include(x => x.Rooms)
-                    .Include(y => y.Users)
-                    .FirstAsync(x => x.Id == id);
+                .Include(x => x.Rooms)
+                .Include(y => y.Users)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Address> GetAddressByAddressId(Guid addressId)
@@ -41,7 +41,7 @@ namespace Housing.Selection.Context.DataAccess
             return await _housingSelectionDbContext.Addresses
                 .Include(x => x.Rooms)
                 .Include(y => y.Users)
-                .FirstAsync(x => x.AddressId == addressId);
+                .FirstOrDefaultAsync(x => x.AddressId == addressId);
         }
 
         public async Task SaveChangesAsync()

@@ -31,14 +31,14 @@ namespace Housing.Selection.Context.DataAccess
         {
             return await _housingSelectionDbContext.Names
                 .Include(x => x.Users)
-                .FirstAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Name> GetNameByNameId(Guid nameId)
         {
             return await _housingSelectionDbContext.Names
                 .Include(x => x.Users)
-                .FirstAsync(x => x.NameId == nameId);
+                .FirstOrDefaultAsync(x => x.NameId == nameId);
         }
 
         public async Task SaveChangesAsync()
