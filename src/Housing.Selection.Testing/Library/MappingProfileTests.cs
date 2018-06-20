@@ -1,9 +1,10 @@
-﻿using AutoMapper;
-using Xunit;
+﻿using Xunit;
+using AutoMapper;
+using Housing.Selection.Context.Selection;
 
-namespace Housing.Selection.Testing.Context
+namespace Housing.Selection.Testing.Library
 {
-    public class TempMappingProfileTests
+    public class MappingProfileTests
     {
         [Fact]
         public void MappingProfile_MapsAreValid()

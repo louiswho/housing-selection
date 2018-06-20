@@ -13,14 +13,14 @@ namespace Housing.Selection.Context.HttpRequests
 
         public ApiPathBuilder()
         {
-            BatchServicePath = "api/batch";
-            RoomServicePath = "api/room";
-            UserServicePath = "api/service";
+            BatchServicePath = "http://ec2-13-57-218-138.us-west-1.compute.amazonaws.com:9040/";
+            RoomServicePath = "http://ec2-13-57-218-138.us-west-1.compute.amazonaws.com:9030/";
+            UserServicePath = "http://ec2-13-57-218-138.us-west-1.compute.amazonaws.com:9050/";
         }
 
         public string GetBatchServicePath()
         {
-            return BatchServicePath;
+            return BatchServicePath + "api/Batches";
         }
 
         public string GetBatchServicePath(Guid id)
@@ -30,7 +30,7 @@ namespace Housing.Selection.Context.HttpRequests
 
         public string GetRoomServicePath()
         {
-            return RoomServicePath;
+            return RoomServicePath + "api/Rooms";
         }
 
         public string GetRoomServicePath(Guid id)
@@ -40,7 +40,7 @@ namespace Housing.Selection.Context.HttpRequests
 
         public string GetUserServicePath()
         {
-            return UserServicePath;
+            return UserServicePath + "api/Users";
         }
 
         public string GetUserServicePath(Guid id)

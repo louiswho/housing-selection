@@ -5,7 +5,7 @@ namespace Housing.Selection.Context.DataAccess
 {
     public class HousingSelectionDbContext : DbContext, IDbContext
     {
-        public HousingSelectionDbContext() : base()
+        public HousingSelectionDbContext(DbContextOptions options) : base(options)
         {
 
         }
