@@ -18,21 +18,27 @@ namespace Housing.Selection.Context.DataAccess
         public void AddName(Name name)
         {
             _housingSelectionDbContext.Names.Add(name);
+            _housingSelectionDbContext.SaveChanges();
         }
 
         public IEnumerable<Name> GetNames()
         {
-            return _housingSelectionDbContext.Names;
+            return _housingSelectionDbContext.Names
+                .Include(x => x.Users);
         }
 
         public async Task<Name> GetNameById(Guid id)
         {
-            return await _housingSelectionDbContext.Names.FirstAsync(x => x.Id == id);
+            return await _housingSelectionDbContext.Names
+                .Include(x => x.Users)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Name> GetNameByNameId(Guid nameId)
         {
-            return await _housingSelectionDbContext.Names.FirstAsync(x => x.NameId == nameId);
+            return await _housingSelectionDbContext.Names
+                .Include(x => x.Users)
+                .FirstOrDefaultAsync(x => x.NameId == nameId);
         }
 
         public async Task SaveChangesAsync()

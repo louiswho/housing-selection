@@ -18,21 +18,30 @@ namespace Housing.Selection.Context.DataAccess
         public void AddAddress(Address address)
         {
             _housingSelectionDbContext.Addresses.Add(address);
+            _housingSelectionDbContext.SaveChanges();
         }
 
         public IEnumerable<Address> GetAddresses()
         {
-            return _housingSelectionDbContext.Addresses;
+            return _housingSelectionDbContext.Addresses
+                .Include(x => x.Rooms)
+                .Include(y => y.Users);
         }
 
         public async Task<Address> GetAddressById(Guid id)
         {
-            return await _housingSelectionDbContext.Addresses.FirstAsync(x => x.Id == id);
+            return await _housingSelectionDbContext.Addresses
+                .Include(x => x.Rooms)
+                .Include(y => y.Users)
+                .FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Address> GetAddressByAddressId(Guid addressId)
         {
-            return await _housingSelectionDbContext.Addresses.FirstAsync(x => x.AddressId == addressId);
+            return await _housingSelectionDbContext.Addresses
+                .Include(x => x.Rooms)
+                .Include(y => y.Users)
+                .FirstOrDefaultAsync(x => x.AddressId == addressId);
         }
 
         public async Task SaveChangesAsync()

@@ -55,6 +55,14 @@ namespace Housing.Selection.Context.Polling
         public async Task<Room> UpdateRoomAsync(ApiRoom apiRoom)
         {
             var housingRoom = await _roomRepository.GetRoomByRoomId(apiRoom.RoomId);
+
+            if (housingRoom == null)
+            {
+                var room = new Room{Address = new Address()};
+                _roomRepository.AddRoom(room.ConvertFromServiceModel(apiRoom));
+                return room;
+            }
+
             housingRoom = housingRoom.ConvertFromServiceModel(apiRoom: apiRoom);
             await _roomRepository.SaveChangesAsync();
             return housingRoom;
